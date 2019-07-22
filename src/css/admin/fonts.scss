@@ -1,0 +1,296 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.comet-fonts.comet-dashboard .comet-boxed.comet-content {
+
+	> .comet-header > .comet-column {
+
+		.comet-button {
+			padding: 10px;
+			@include border_radius( 30em );
+
+			> .cico { display: block; }
+
+		}
+
+		&:first-child {
+			flex-wrap: wrap;
+
+			> h4 { width: 100%; }
+
+			> .comet-gauge {
+				padding: 5px;
+				margin-top: 5px;
+				font-size: 13px;
+				color: white;
+				@include border_radius( 30em );
+
+				&.is-fast { background: #52B952; }
+
+				&.is-moderate { background: #F9AB36; }
+
+				&.is-slow { background: #EC4A4A; }
+
+			}
+
+		}
+	}
+
+	> .comet-body.comet-fontslist {
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+
+		> .comet-font.comet-card {
+			width: calc( 33.33% - 20px );
+			margin-right: 30px;
+			margin-top: 30px;
+			overflow: hidden;
+			border: 1px solid $daLight;
+			@include border_radius( 3px );
+
+			&:nth-of-type(3n) { margin-right: 0; }
+
+			&:hover { @include box_shadow( 0 0 10px 0 $daLight ); }
+
+			> .comet-previewbox.comet-sampletext {
+				background: white;
+				color: black;
+				padding: 10px;
+				height: 150px;
+				font-size: 23px;
+				overflow: hidden;
+				border-bottom: 1px solid $daLight;
+			}
+
+			> .comet-info.comet-wrapper {
+				padding: 10px;
+				display: flex;
+				justify-content: space-between;
+				background: #EBF3F9;
+
+				.comet-fontname {
+					font-weight: 600;
+					display: block;
+				}
+
+				.comet-fontstyle {
+					font-size: 14px;
+					display: block;
+				}
+
+				.comet-button {
+					padding: 0;
+
+					> .cico { display: block; }
+
+					&:hover > .cico.cico-trash { color: red; }
+
+				}
+
+
+			}
+
+		}
+
+		> .comet-introduction.comet-tutorial {
+			width: 100%;
+			margin-top: 30px;
+			text-align: center;
+
+			.comet-column {
+				width: calc( 33.33% - 20px );
+				margin-top: 30px;
+				margin-right: 30px;
+				text-align: left;
+
+				&:nth-of-type(3n) { margin-right: 0; }
+				
+			}
+		}
+	}
+}
+
+.comet-modal.comet-fontbox > .comet-inner > .comet-body > .comet-savebox.comet-wrapper {
+	max-width: 500px;
+	margin: 0 auto;
+	padding: 20px;
+
+	> .comet-saveform {
+		margin-top: 20px;
+
+		label {
+			margin-bottom: 20px;
+
+			> p { margin-bottom: 5px; }
+
+		}
+	}
+
+}
+
+/*.comet-fontsbox{
+
+	> .comet-inner{
+
+		> .comet-header{
+
+			.col3 { text-align: right; }
+
+			.col3, .col1 { width: 25%; }
+
+			.col2 { width: 50%; }
+
+		}
+
+		> .comet-body > div {
+			display: flex;
+			flex-wrap: wrap;
+			padding: 30px;
+
+			> .comet-message { width: 100%; }
+
+			.comet-font.comet-item {
+				width: 25%;
+				padding: 30px;
+
+				.comet-preview {
+					border-top: 2px solid $liLight;
+					font-size: 35px;
+					line-height: 1.1;
+					padding-top: 10px;
+					margin-top: 10px;
+				}
+
+				.comet-controls {
+					display: flex;
+					align-items: center;
+
+					.comet-button {
+						margin-left: 5px;
+						font-size: 21px;
+						line-height: 1;
+						padding: 7px 15px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.comet-fontsBasket {
+	position: relative;
+	display: inline-block;
+
+	> .comet-header {
+		background: $liDark;
+		width: auto;
+		display: inline-block;
+		padding: 5px 10px;
+		color: white;
+		cursor: pointer;
+		position: relative;
+		z-index: 1;
+		@include border_radius( 5px );
+
+		> .comet-count {  margin-right: 5px; }
+
+	}
+
+	.comet-fontsList {
+		overflow-y: auto;
+		height: 250px;
+
+		> div {
+			width: 100%;
+			background: $liLight;
+			margin: 5px 0;
+			padding: 5px 10px;
+			font-size: 13px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			@include border_radius( 5px );
+
+			&:hover { font-size: 15px; }
+
+			.comet-button {
+				padding: 0;
+				margin-left: 5px;
+				font-size: 11px;
+				line-height: 1;
+				width: auto;
+				height: auto;
+
+				&:hover { color: red; }
+
+			}
+
+		}
+
+	}
+
+	> div {
+		position: absolute;
+		right: 99999em;
+		top: 100%;
+		background: white;
+		width: 250px;
+		height: 310px;
+		z-index: 1;
+		margin-top: 5px;
+		@include border_radius( 5px );
+		@include box_shadow( 0 0 5px 0 $daLight );
+
+		&:before {
+			content: '';
+			width: 0;
+			height: 0;
+			position: absolute;
+			bottom: 100%;
+			right: 20px;
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			border-bottom: 5px solid white;
+		}
+
+		> div {
+			padding: 10px;
+
+			&:nth-of-type(2){
+				border-top: 1px solid $liLight;
+				text-align: center;
+			}
+		}
+
+	}
+
+	&:hover > div { right: 0; }
+
+}
+
+
+#comet-mapFonts li {
+	margin: 20px 0;
+	background: white;
+	padding: 20px;
+	border: 1px solid $daLight;
+	@include border_radius( 5px );
+
+	p {
+		font-size: 30px;
+		line-height: 1.5;
+	}
+}
+
+#comet-dashboard #comet-addFont {
+	color: white;
+	text-decoration: none;
+}
+
+#comet-addFontsFromCollection .cico {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+}*/

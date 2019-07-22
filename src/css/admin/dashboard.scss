@@ -1,0 +1,363 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+
+
+.comet-tooltip {
+    position: relative;
+
+    &.comet-active{
+
+        > .comet-innerTooltip { display: block; }
+
+        &:after {
+            content: '';
+            width: 0; 
+            height: 0; 
+            border-top: 10px solid transparent;
+            border-right:10px solid $daDark;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin: -9px auto auto -9px;
+
+        }
+
+    }
+
+    .comet-innerTooltip {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: $daDark;
+        width: 280px;
+        text-align: center;
+        z-index: 1;
+        color: white;
+        overflow: hidden;
+        display: none;
+        @include border_radius( 5px );
+        @include box_shadow( 0 3px 5px 0 $daLight );
+
+        * { color: white; }
+
+        .comet-blockTooltip {
+            display: block;
+            padding: 10px;
+
+            &.comet-footerTooltip {
+                padding: 0;
+
+                a {
+                    display: block;
+                    padding: 10px 34px 10px 10px;
+                    margin: 0;
+                    border: 0;
+                    text-align: left;
+                    color: white;
+                    text-decoration: none;
+                    position: relative;
+                    background: $liDark;
+
+                    &:hover, &:active {
+                        background: $daAccent;
+                        @include bg_linear_gradient( 225deg, $liAccent 0%, $daAccent 74% );
+                    }
+
+                    .cico {
+                        position: absolute;
+                        top: 50%;
+                        right: 10px;
+                        margin-top: -7px;
+                        color: rgba( 255, 255, 255, .5 );
+                        font-size: 14px;
+                        height: 14px;
+                        width: 14px;
+                    }
+                }
+
+            }
+
+            &.comet-mainTooltip {
+                max-height: 280px;
+                overflow: auto;
+
+                a {
+                    color: white;
+                    font-weight: 500;
+                    text-decoration: underline;
+                }
+
+            }
+        }
+
+    }
+}
+
+
+
+.comet-dashboard.comet-admin {
+    padding-top: 50px;
+
+    > .comet-header {
+        position: fixed;
+        width: 100%;
+        background: white;
+        height: 50px;
+        border-bottom: 1px solid #DAE5EE;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: auto;
+        z-index: 99999;
+        display: flex;
+
+        > .comet-column {
+            width: 33.333%;
+            display: flex;
+
+            &.col2 { justify-content: center; }
+
+            &.col3 { justify-content: flex-end; }
+
+        }
+
+        h1 {
+            color: #006AFE;
+            font-size: 20px;
+            line-height: 50px;
+            text-align: center;
+        }
+
+    }
+
+    > .comet-content {
+        padding: 30px;
+        position: relative;
+
+        .comet-content.comet-boxed {
+            max-width: 800px;
+            margin: 0 auto;
+
+            > .comet-header.comet-top {
+                display: flex;
+                justify-content: space-between;
+
+                > .comet-column {
+                    display: flex;
+                    align-items: center;
+                }
+
+            }
+
+        }
+
+    }
+}
+
+.comet-dashTopBarMenuPop { position: relative; }
+
+.comet-dashTopBarItem {
+
+    &, .comet-icon {
+        line-height: 50px;
+        color: #404146;
+        width: auto;
+        height: 50px;
+        text-decoration: none;
+        text-align: center;
+        font: 500 16px/50px sans-serif;
+        text-transform: uppercase;
+        display: block;
+    }
+
+    .comet-icon { width: 50px; }
+
+    &:hover{
+
+        &, .comet-icon {
+            text-decoration: none;
+            color: #006AFE;
+        }
+    }
+}
+
+#comet-doSidebarOpen .comet-icon { font-size: 30px; }
+
+#comet-dashboardSidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    background: rgba( 0, 0, 0, .5 );
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: none;
+
+    > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 300px;
+        background: #2C2D31;
+        padding: 20px;
+        line-height: 20px;
+    }
+}
+
+#comet-doSidebarClose .comet-icon {
+    line-height: 20px;
+    font-size: 13px;
+    margin-right: 10px;
+}
+
+#comet-dashboardSidebarMenu {
+    margin: 20px 0;
+
+    li a {
+        line-height: 20px;
+        color: #D6D7DB;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        padding: 10px 0;
+
+        &:hover { color: white; }
+
+    }
+}
+
+/* Row / Column */
+
+.comet-row {
+    display: flex;
+    flex-wrap: wrap;
+
+    &.col2 .comet-column { width: 50%; }
+
+    &.col3 .comet-column{
+        width: 30%;
+
+        &.col2 { width: 40%; }
+    }
+}
+
+.comet-middleIb {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* main */
+
+.comet-dashboard.comet-main .comet-content.comet-boxed > .comet-row{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    > .comet-column {
+        width: 50%;
+
+        &.col1 {
+            width: 100%;
+            padding-bottom: 30px;
+
+            .comet-button { margin-top: 10px; }
+        }
+
+        &.col2 { padding-right: 20px; }
+
+    }
+}
+
+.comet-dashboardWidget {
+    display: block;
+    margin-bottom: 20px;
+}
+
+#comet-dashboardLearn li {
+    background: white;
+    margin: 0 0 10px;
+    border: 1px solid white;
+
+    &:hover, &:active {
+        border-color: $daLight;
+        @include box_shadow( 0 0 5px 0 $daLight );
+    }
+
+    a {
+        display: block;
+        text-decoration: none;
+        padding: 10px;
+
+        &, &:hover, &:active {
+            color: $liDark;
+            font-weight: 300;
+        }
+    }
+}
+
+#comet-dashboardReadDoc {
+    background: url('../img/comet-dashboard-img1.jpeg') repeat center center;
+    background-size: cover;
+
+    a {
+        padding: 100px 20px;
+        background: rgba( 0, 106, 254, .8);
+        display: block;
+        font-size: 30px;
+        font-weight: 300;
+        text-decoration: none;
+        color: white;
+
+        &:hover, &:active {
+            background: rgba( 0,106,254, .4 );
+            @include transition( background-color ease-in-out .5s );
+        }
+    }
+}
+
+.comet-dashboardSlideCount > span {
+	background: rgba( 255, 255, 255, .5 );
+	display: inline-block;
+	padding: 5px 10px;
+	font: 500 13px/14px sans-serif;
+    @include border_radius( 5px );
+}
+
+.comet-dashboardSlide {
+    padding: 40px;
+    background: $daAccent;
+    @include bg_linear_gradient( 225deg, $liAccent 0%, $daAccent 74% );
+    display: none;
+
+    &:first-child{ display: block; }
+
+    > * {
+        margin: 0 0 120px;
+        color: white;
+
+        &:last-child { margin: 0; }
+
+    }
+
+    > h4 { margin-bottom: 10px; }
+
+    &.comet-dashboardSlideStart h4 {
+        font-size: 30px;
+        margin-bottom: 120px;
+    }
+
+    .comet-button {
+        color: white;
+        padding: 0;
+        margin-right: 10px;
+
+        &.comet-next {
+            color: $daAccent;
+            background: white;
+            padding: 10px 20px;
+            margin: 0;
+        }
+    }
+}

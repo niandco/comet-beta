@@ -1,0 +1,31 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.comet-modal > .comet-inner > .comet-body > .comet-icons.comet-set {
+	padding: 10px;
+	display: flex;
+	flex-wrap: wrap;
+
+	> .comet-scope {
+		min-width: 6.25%;
+		padding: 10px;
+		cursor: pointer;
+		text-align: center;
+		color: $liDark;
+		@include border_radius( 5px );
+
+		svg {
+			width: auto;
+			height: 40px;
+			display: inline-block;
+			fill: currentColor;
+		}
+
+		&:hover{
+			background: $liLight;
+			color: $daAccent;
+		}
+
+	}
+
+}

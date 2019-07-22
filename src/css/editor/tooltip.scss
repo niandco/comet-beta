@@ -1,0 +1,33 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.comet-tooltip{
+    display: inline-block;
+    vertical-align: middle;
+
+    > .comet-inner{
+        background: $liDark;
+        color: white;
+        font: 300 12px/1.2 sans-serif;
+        left: -9999em;
+        padding: 5px;
+        position: absolute;
+        @include border_radius( 5px );
+        @include box_shadow( 0 0 10px 0 rgba( 0, 0, 0, .3 ) );
+
+    }
+
+    &.comet-active, &:hover > .comet-inner {
+        left: auto;
+        z-index: 9999999999999;
+    }
+
+    &.comet-active {
+        bottom: auto;
+        top: 100%;
+        left: 50%;
+        margin-top: 6px;
+        @include transform( translateX(-50%) );
+    }
+
+}

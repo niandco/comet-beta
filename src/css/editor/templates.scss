@@ -1,0 +1,100 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.comet-mytemplates {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 10px;
+
+	&__template {
+		width: 16.66%;
+		padding: 10px;
+		color: $liDark;
+		text-align: center;
+		padding-bottom: 20px;
+
+		&__figure {
+			height: 150px;
+			background: $liLight;
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			margin-bottom: 10px;
+			overflow: hidden;
+			@include border_radius( 3px );
+
+		}
+
+		&__buttonset{
+			position: absolute;
+			top: 100%;
+			left: -99999em;
+			background: rgba( 0, 0, 0, .7 );
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			@include transition( top .1s ease-in-out );
+
+
+
+			&__preview,
+			&__insert {
+				padding: 10px;
+				background: rgba( 0, 0, 0, .7 );
+				color: white;
+				opacity: .7;
+				margin: 5px;
+				height: auto;
+				border: 0;
+				cursor: pointer;
+				@include border_radius( 5px );
+
+				.cico {
+					height: 20px;
+					display: block;
+				}
+
+				&:hover { opacity: 1; }
+
+			}
+
+
+		}
+
+		&:hover &__buttonset {
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+
+		}
+
+	}
+
+}
+
+.comet-modal.comet-save-template > .comet-inner > .comet-body > .comet-savebox {
+	max-width: 500px;
+	margin: 0 auto;
+	padding: 20px;
+
+	> .comet-saveform {
+		display: flex;
+		align-items: center;
+		padding: 10px 0;
+
+		> .comet-button {
+			margin-left: 10px;
+			padding: 10px 15px;
+			height: auto;
+			line-height: 1;
+
+			> .cico { height: 20px; }
+
+			.comet-waitwhile { padding: 7px 15px; }
+		}
+	}
+
+}

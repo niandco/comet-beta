@@ -1,0 +1,159 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+%sort {
+    padding: 20px;
+    background: rgba( 0, 106, 254, .3 );
+}
+
+.comet-frame.comet-frame--main {
+    width: 100%;
+    background: whitesmoke;
+    z-index: 0;
+    position: relative;
+    order: 3;
+    overflow: auto;
+
+    .cpb-element {
+        min-height: 30px;
+
+        &:hover { outline: 2px solid $daAccent; }
+
+    }
+
+    .cpb-column {
+
+        &, .cpb-columnContent { min-height: 30px; }
+
+        &:hover { outline: 2px dotted #969696; }
+
+    }
+
+}
+
+.comet-sort--sorting {
+    cursor: url( '../img/comet-grabbing-cursor.png'), move;
+
+    .comet-frame.comet-frame--main {
+
+        .cpb-row { @extend %sort; }
+
+        .cpb-element {
+            @extend %sort;
+
+            &:hover { outline: 0; }
+
+            .comet-editable.comet-ui { background: none; }
+
+        }
+
+        .cpb-column {
+            @extend %sort;
+            @include box_shadow( 0 0 0 2px $daAccent );
+
+            &:hover { outline: 0; }
+
+        }
+
+        .cpb-section {
+            @extend %sort;
+
+            .cpb-row .cpb-rowContent { align-items: stretch; }
+
+        }
+
+        .cpb-backgroundComponents { display: none; }
+
+        .cpb-rowContent > .comet-sort--placeholder {
+            display: inline-block;
+            width: 20px;
+            height: auto;
+        }
+    }
+}
+
+.comet-sort--placeholder {
+    height: 20px;
+    width: 100%;
+    background: $daAccent;
+    display: block;
+    flex-basis: 100%;
+}
+
+.comet-frameset {
+    color: $liDark;
+    background: $liDark;
+    z-index: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.comet-preloader {
+    background: $daDark;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > div {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+
+}
+
+.comet-preloader__icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+    background: $liDark;
+    @include border_radius( 5px );
+    @include animation( cometanimate 3s infinite );
+}
+
+.comet-preloader__text {
+    display: block;
+    margin: 30px 0 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+@keyframes cometanimate {
+    10% { @include border_radius( 10px 5px 80px 10px ); } 
+    20% { @include border_radius( 5px 80px 5px 10px ); }
+    30% { @include border_radius( 80px 10px 5px 5px ); }
+    40% { @include border_radius( 5px 5px 80px 10px ); }
+    50% { @include border_radius( 5px 10px 5px 80px ); }
+    60% { @include border_radius( 5px 80px 80px 10px ); }
+    70% { @include border_radius( 80px ); }
+    80% { @include transform( rotate(0deg) ); }
+    85% {
+        @include transform( rotate(-45deg) );
+        @include border_radius( 5px 80px 80px 10px );
+    }
+    90% {
+        @include transform( rotate(0deg) );
+        @include border_radius( 80px 10px 5px 80px );
+    }
+    95% {
+        @include transform( rotate(-45deg) );
+        @include border_radius( 5px 5px 10px 5px );
+    }
+    100% {
+        @include transform( rotate(0deg) ); 
+        @include border_radius( 5px );
+    }
+}

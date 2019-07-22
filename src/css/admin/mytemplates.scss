@@ -1,0 +1,163 @@
+@import '../utils/variables';
+@import '../utils/mixins'; 
+
+.comet-mytemplates.comet-dashboard .comet-content.comet-main{
+
+    .comet-button {
+        width: 30px;
+        margin: 0 5px;
+        padding: 0;
+        text-align: center;
+        text-decoration: none;
+        font-size: 18px;
+
+        &.comet-templateEdit {
+            padding: 5px 10px;
+            font-size: 15px;
+            color: white;
+        }
+    }
+
+    #comet-newTemplate {
+        width: 40px;
+        height: 40px;
+        color: white;
+        line-height: 40px;
+        font-size: 20px;
+        @include border_radius( 100% );
+    }
+
+}
+
+#comet-map-templates {
+
+    .comet-template {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border: 1px solid $daLight;
+        padding: 20px;
+        margin: 20px 0;
+        position: relative;
+        background: white;
+        justify-content: space-between;
+        @include border_radius( 5px );
+        @include box_sizing( border-box );
+
+        &:hover { @include box_shadow( 0 0 10px 0 $daLight ); }
+
+        .comet-title { color: $daAccent; }
+
+        .comet-informations > p {
+            font: 300 13px/1.2 sans-serif;
+            color: #AAA;
+
+            > span {
+                margin: 0 5px;
+                color: $liDark;
+
+                &:first-child { margin-left: 0; }
+
+            }
+        }
+    }
+
+    > li .comet-action { text-align: left; }
+
+}
+
+#comet-importTemplateFile {
+    display: none;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.comet-modal.comet-newtemplatebox > .comet-inner > .comet-body > .comet-savebox.comet-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+
+    > .comet-saveform {
+        display: flex;
+        width: 100%;
+
+        > .comet-button {
+            margin-left: 10px;
+            line-height: 1;
+            padding: 10px 15px;
+
+            &.comet-waitwhile { padding: 7px 15px; }
+
+        }
+    }
+}
+
+.comet-previewbox .comet-body > div {
+    position: relative;
+    height: 100%;
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        display: block;
+
+    }
+
+}
+
+/* Export */
+
+.comet-modal.comet-exportbox > .comet-inner > .comet-body .comet-savebox.comet-wrapper {
+    max-width: 500px;
+    padding: 20px;
+    margin: 0 auto;
+
+    > .comet-saveform {
+        display: flex;
+        width: 100%;
+
+        > .comet-button {
+            margin-left: 10px;
+            line-height: 1;
+            padding: 10px 15px;
+
+            &.comet-waitwhile { padding: 7px 15px; }
+
+        }
+    }
+
+}
+
+/* import */
+
+.comet-modal.comet-importbox > .comet-inner > .comet-body .comet-savebox.comet-wrapper {
+    max-width: 500px;
+    padding: 20px;
+    margin: 0 auto;
+    text-align: center;
+
+    .comet-import.comet-items {
+        padding: 20px 0;
+
+        .comet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 2px 0;
+            background: $liLight;
+
+            > .cico {
+                margin: 5px;
+
+                &.cico-check { color: green; }
+
+                &.cico-x { color: red; }
+            }
+
+        }
+
+    } 
+
+}

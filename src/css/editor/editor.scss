@@ -1,0 +1,87 @@
+@charset "UTF-8";
+@import '../utils/variables';
+@import '../utils/mixins';
+@import '../utils/reset';
+
+@include form_fields( '.comet-editor' );
+
+body {
+	background: $liDark;
+	color: white;
+	overflow: hidden;
+	display: block;
+	height: 100%;
+	width: 100%;
+	
+}
+
+@import '../utils/button';
+@import '../utils/message';
+@import '../utils/dialog';
+@import '../utils/modal';
+
+@import 'general';
+@import 'tooltip';
+@import 'menu';
+@import 'toolbar';
+@import 'notifications';
+@import 'cockpit';
+@import 'settings';
+@import 'panel/index';
+@import 'icons';
+@import 'templates';
+
+/* Responsive */
+
+.cpb-devicetype-mobile .cpb-row .cpb-rowContent {
+	flex-wrap: wrap;
+
+	.cpb-column { width: 100%; }
+
+}
+
+.cpb-devicetype-tablet .cpb-row .cpb-rowContent {
+	flex-wrap: wrap;
+
+	&[data-ncol="4"] .cpb-column { width: 50%; }
+
+	&[data-ncol="5"] .cpb-column{
+		width: 33.33%;
+
+		&:nth-child(n+4) { width: 50%; }
+
+	}
+
+	&[data-ncol="6"] .cpb-column { width: 33.33%; }
+
+}
+
+@media screen and (max-width: 1300px) {
+	.comet-modal > .comet-inner > .comet-body {
+
+		> .comet-icons.comet-set > .comet-scope { min-width: 10%; }
+
+		> .comet-mytemplates > .comet-scope { width: 25%; }
+
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.comet-modal > .comet-inner > .comet-body {
+
+		> .comet-icons.comet-set > .comet-scope { min-width: 16.66%; }
+
+		> .comet-mytemplates > .comet-scope { width: 50%; }
+
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.comet-modal > .comet-inner > .comet-body {
+
+		> .comet-icons.comet-set > .comet-scope { min-width: 33.33%; }
+
+		> .comet-mytemplates > .comet-scope { width: 100%; }
+
+	}
+}

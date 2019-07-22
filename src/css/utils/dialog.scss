@@ -1,0 +1,41 @@
+@import 'variables';
+
+.comet-dialog.comet-alertbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999;
+    background: rgba( 0, 0, 0, .7 );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    > .comet-inner {
+        background: white;
+        color: $liDark;
+        height: 150px;
+        width: 500px;
+        border-radius: 3px;
+        overflow: hidden;
+        max-height: 100%;
+        max-width: 100%;
+
+        > .comet-textbox {
+            position: relative;
+            height: calc( 100% - 70px );
+            overflow: auto;
+            padding: 20px;
+        }
+
+        > .comet-buttonset {
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+    }
+
+}

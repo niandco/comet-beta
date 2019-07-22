@@ -1,0 +1,34 @@
+@import 'variables';
+@import 'mixins';
+
+.comet-button {
+    border: 0;
+    margin: 0;
+    padding: 10px 20px;
+    display: inline-block;
+    vertical-align: middle;
+    background: none;
+    text-decoration: none;
+    font: 300 15px/1.3 sans-serif;
+    height: auto;
+    width: auto;
+    cursor: pointer;
+    color: $liDark;
+    outline: 0;
+    @include border_radius( 5px );
+    @include box_shadow( none );
+
+    &.comet-buttonPrimary {
+        background: $daAccent;
+        color: white;
+
+    } 
+
+    &:hover {
+        text-decoration: none;
+        @include transform( scale( 1.03, 1.03 ) );
+    }
+
+    &.cico { font-family: 'cico' }
+
+}

@@ -1,0 +1,143 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+$className: '.comet-notifications';
+
+#{$className} {
+	position: fixed;
+	top: 0;
+	left: -9999em;
+	width: 250px;
+	height: 100%;
+	background: $daDark;
+	@include transition( left .1s ease-in-out );
+
+	&#{$className + '--open'} {
+		left: 0;
+		z-index: 2;
+	}
+
+	#{$className + '__header'} {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		padding: 10px;
+		align-items: center;
+		color: white;
+
+		> p {
+			text-align: center;
+			width: 100%;
+			padding: 5px 0;
+
+			button { font: 300 13px/1.2 sans-serif; }
+
+		}
+
+		button {
+			padding: 0;
+			margin: 0;
+			border: 0;
+			color: white;
+			opacity: .7;
+			background: none;
+			cursor: pointer;
+
+			&:hover { opacity: 1; }
+
+		}
+
+		#{$className + '__close'} {
+			position: relative;
+			padding: 5px;
+
+			#{$className + '__close__icon'} {
+				width: 15px;
+				height: 15px;
+				line-height: 15px;
+				font-size: 15px;
+				padding: 0;
+				display: block;
+
+			}
+
+			#{$className + '__close__tooltip'} { @include tooltip(); }
+
+			&:hover { 
+
+				&:after {
+					content: '';
+					@include arrow();
+
+				}
+
+				#{$className + '__close__tooltip'} { left: 50%; }
+			}
+
+		}
+
+	}
+
+	#{$className + '__list'} {
+		padding: 7px;
+		height: calc( 100% - 77px );
+		overflow-x: hidden;
+		overflow-y: auto;
+
+	}
+
+	#{$className + '__list__note'} {
+		background: $liDark;
+		padding: 10px;
+		margin-bottom: 10px;
+		position: relative;
+
+		&:hover #{$className + '__list__note__remove'} { right: 4px; }
+
+		> p { color: white; }
+
+		&#{$className + '__list__note--success'} > p { color: #ADE995; }
+
+		&#{$className + '__list__note--error'} > p { color: #E36F6A; }
+
+		&#{$className + '__list__note--warning'} > p  { color: #F3D567; }
+
+	}
+
+	#{$className + '__list__note__remove'} {
+		padding: 0;
+		position: absolute;
+		top: 4px;
+		right: 999999em;
+		margin: 0;
+		background: none;
+		cursor: pointer;
+		opacity: .8;
+
+		#{$className + '__list__note__remove__icon'} {
+			width: 11px;
+			height: 11px;
+			font-size: 11px;
+			color: white;
+			padding: 5px;
+
+		}
+
+		#{$className + '__list__note__remove__tooltip'} { @include tooltip( left, white, $liDark ); }
+
+		&:hover {
+			opacity: 1;
+
+			&:after {
+				content: '';
+				@include arrow( left, white );
+
+			}
+
+			#{$className + '__list__note__remove__tooltip'} { right: 100%; }
+
+		}
+
+	}
+
+}

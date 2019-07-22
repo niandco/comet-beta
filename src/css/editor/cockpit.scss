@@ -1,0 +1,314 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+%baseTooltip {
+    position: absolute;
+    visibility: hidden;
+}
+
+%tooltip {
+    @include tooltip( right, $daAccent, white, relative, none );
+
+}
+
+%arrow {
+    @include arrow( right, $daAccent );
+    content: '';
+    right: 100%;
+
+}
+
+$className: '.comet-cockpit';
+
+#{$className} {
+    height: 100%;
+    width: 50px;
+    flex: 0 0 50px;
+    background: $daDark;
+    overflow: visible;
+    z-index: 1;
+    color: white;
+    text-align: left;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-content: space-between;
+    order: 1;
+
+    #{$className + '__expand'} { 
+        visibility: hidden;
+        height: 0;
+        width: 0;
+        overflow: hidden;
+    }
+
+    &#{$className + '--open'} {
+        width: 250px;
+        flex: 0 0 250px;
+
+        #{$className + '__expand'} {
+            visibility: visible;
+            height: auto;
+            width: auto;
+            overflow: visible;
+
+        }
+
+        #{$className + '__elements'} {
+            margin: 7px;
+
+            #{$className + '__elements__list'} {
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                #{$className + '__elements__list__element'} { width: 33.33%; }
+
+            }
+        }
+
+        #{$className + '__exmenu'} {
+            width: 100%;
+            padding: 7px;
+        }
+
+        #{$className + '__footer'} {
+            padding: 7px;
+
+            #{$className + '__footer__button'} {
+
+                &, &#{$className + '__expand'} {
+                    width: 33.33%;
+                    padding: 10px;
+                }
+                
+            }
+
+        }
+
+    }
+
+    #{$className + '__header'} {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 7px;
+
+        > h4 { padding-left: 7px; }
+
+        #{$className + '__header__switch'} {
+            padding: 0;
+            margin: 0;
+            background: none;
+            cursor: pointer;
+
+            #{$className + '__header__switch__icon'} {
+                width: 25px;
+                height: 25px;
+                font-size: 25px;
+                background: $daAccent;
+                padding: 5px;
+                color: white;
+                @include border_radius( 40px );
+
+            }
+
+            #{$className + '__header__switch__tooltip'} {
+                @extend %baseTooltip;
+
+                > span {
+                    @extend %tooltip;
+
+                    &:before { @extend %arrow; }
+
+                }
+
+            }
+
+            &:hover #{$className + '__header__switch__tooltip'} {
+                visibility: visible;
+
+                > span { left: 10px; }
+
+            }
+
+        }
+
+    }
+
+    #{$className + '__elements'} {
+
+        #{$className + '__elements__searchbox'} {
+            position: relative;
+
+            #{$className + '__elements__searchbox__bar'} {
+                background: $liDark;
+                border-color: $liDark;
+                color: white;
+                opacity: .8;
+                padding: 10px 10px 10px 40px;
+                height: auto;
+                line-height: 1.2;
+
+                &:hover {
+                    opacity: 1;
+                    border-color: $liDark;
+                    @include box_shadow( none );
+                }
+
+                &:focus {
+                    border-color: white;
+                    background: white;
+                    color: $liDark;
+                    opacity: 1;
+                    @include box_shadow( none );
+
+                    + #{$className + '__elements__searchbox__icon'} { color: $liDark; }
+
+                }
+
+            }
+
+            #{$className + '__elements__searchbox__icon'} {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                color: white;
+            }
+
+        }
+
+
+        #{$className + '__elements__list'} {
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+            margin: 10px 0;
+            overflow: hidden;
+            max-height: 270px;
+
+            #{$className + '__elements__list__element'} {
+                text-align: center;
+                width: 100%;
+                background: none;
+                border: 0;
+                color: white;
+                padding: 10px;
+                cursor: pointer;
+                opacity: .7;
+
+                &#{$className + '__elements__list__element--hidden'} { display: none; }
+
+                #{$className + '__elements__list__element__icon'} {
+                    width: 25px;
+                    height: 25px;
+                    font-size: 25px;
+                    color: white;
+                }
+
+                #{$className + '__elements__list__element__title'} {
+                    @extend %baseTooltip;
+
+                    > span {
+                        @extend %tooltip;
+
+                        &:before { @extend %arrow; }
+
+                    }
+
+                }
+
+                &:hover {
+                    opacity: 1;
+
+                    #{$className + '__elements__list__element__title'} {
+                        visibility: visible;
+
+                        > span { left: 10px; }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    #{$className + '__exmenu'} {
+
+        #{$className + '__exmenu__button'} {
+            width: 100%;
+            padding: 10px;
+            text-align: left;
+            background: rgba( 0, 106, 254, .2 );
+            font: 500 14px/1.2 sans-serif;
+            color: white;
+            cursor: pointer;
+            @include border_radius( 5px );
+
+            #{$className + '__exmenu__button__icon'} {
+                background: $daAccent;
+                padding: 5px;
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+                margin-right: 10px;
+                @include border_radius( 40px );
+            }
+        }
+    }
+
+    #{$className + '__footer'} {
+        border-top: 1px solid $liDark;
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        overflow: hidden;
+        flex-wrap: wrap;
+
+        #{$className + '__footer__button'} {
+            width: 100%;
+            color: white;
+            background: none;
+            margin: 0;
+            cursor: pointer;
+            padding: 10px;
+            opacity: .7;
+
+            &#{$className + '__expand'} {
+                width: 0;
+                padding: 0;
+
+            }
+
+            #{$className + '__footer__button__title'} {
+                @extend %baseTooltip;
+
+                > span {
+                    @extend %tooltip;
+
+                    &:before { @extend %arrow; }
+                }
+            }
+
+            &:hover {
+                opacity: 1;
+
+                #{$className + '__footer__button__title'} {
+                    visibility: visible;
+
+                    > span { left: 10px; }
+
+                }
+
+            }
+
+        }
+    }
+}

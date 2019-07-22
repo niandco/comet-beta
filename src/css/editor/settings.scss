@@ -1,0 +1,124 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.comet-general-settings {
+    position: fixed;
+    top: 100%;
+    left: -9999em;
+    background: $liLight;
+    z-index: 3;
+    @include transition( top .2s ease-in-out );
+
+    &.comet-general-settings--open {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .comet-general-settings__header {
+        position: relative;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+
+        h4 {
+            width: 100%;
+            padding-right: 10px;
+        }
+
+        .comet-button {
+            color: $liDark;
+            width: 35px;
+            height: 35px;
+            line-height: 25px;
+            padding: 10px;
+            @include border_radius( 100% );
+
+            &:hover{
+                background: $daLight;
+                color: $daAccent;
+            }
+        }
+
+        .cico {
+            font-size: 15px;
+            height: 15px;
+            width: 15px;
+            display: block;
+        }
+
+    }
+
+    .comet-general-settings__close {
+        padding: 0;
+        margin: 0;
+        background: none;
+        cursor: pointer;
+        position: relative;
+        @include box_shadow( none );
+
+        &:hover {
+
+            &:after {
+                content: '';
+                @include arrow();
+            }
+
+            .comet-general-settings__close__icon {
+                background: $daLight;
+                color: $daAccent;
+            }
+
+            .comet-general-settings__close__tooltip{ left: 50%; }
+
+        }
+
+        .comet-general-settings__close__icon {
+            color: $liDark;
+            padding: 10px;
+            @include border_radius( 100% );
+
+        }
+
+        .comet-general-settings__close__tooltip { @include tooltip(); }
+
+    }
+
+    .comet-general-settings__main {
+        display: flex;
+        flex-wrap: wrap;
+        overflow: auto;
+        height: calc( 100% - 75px );
+    }
+
+    .comet-metaboxes { padding: 20px; }
+
+    .comet-metaboxesAdvanced { width: 65%; }
+
+    .comet-metaboxesSide { width: 35%; }
+
+    .comet-metaboxesNormal { width: 100%; }
+
+    %marbot20{ margin-bottom: 20px; }
+
+    .comet-metabox { @extend %marbot20; } 
+
+    #poststatus{
+
+        .comet-row { @extend %marbot20; } 
+
+        .comet-inner {
+            display: flex;
+            align-items: center;
+
+            * { width: 50%; }
+
+            label { margin-right: 10px; }
+
+        }
+
+    }
+
+}

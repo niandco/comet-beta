@@ -1,0 +1,526 @@
+@import '../utils/variables';
+@import '../utils/mixins';
+
+.comet-panel {
+	top: 0;
+	font: 300 15px/1.2 sans-serif;
+	width: 250px;
+	flex: 0 0 250px;
+	background: white;
+	height: 100%;
+	order: 2;
+
+	$fieldRoot: & + __field;
+
+	@at-root #{&}__close {
+		border: 0;
+		padding: 10px;
+		margin: 0;
+		background: none;
+		cursor: pointer;
+		@include border-radius( 100% );
+
+		&:hover, &:active {
+			color: $daAccent;
+			background: #F0F3F5;
+		}
+
+		.cico {
+			font-size: 12px;
+			width: 12px;
+			height: 12px;
+			display: block;
+		}
+
+	}
+
+	@at-root #{&}__header {
+		border-bottom: 1px solid $daLight;
+
+		> div {
+			display: flex;
+			align-items: center;
+			width: 100%;
+		}
+
+		&__top {
+			padding: 10px;
+			padding-bottom: 30px;
+		}
+
+		&__title {
+			width: 100%;
+			padding-left: 10px;
+		}
+
+	}
+
+	@at-root #{&}__tab {
+
+		$tabRoot: &;
+
+		&--button {
+			margin: 0;
+			padding: 5px 10px;
+			border: 0;
+			border-bottom: 1px solid transparent;
+			font: 300 14px/1.2 sans-serif;
+			max-height: 30px;
+			align-self: stretch;
+			overflow: hidden;
+			color: $liDark;
+			background: none;
+			cursor: pointer;
+
+			&#{$tabRoot}--active {
+				color: $daAccent;
+				border-color: $daAccent;
+			}
+
+		}
+
+		&--content {
+			display: none;
+
+			&#{$tabRoot}--active { display: block; }
+
+		}
+
+	}
+
+	@at-root #{&}__tabs {
+		height: calc( 100% - 100px );
+		overflow: auto;
+
+	}
+
+	@at-root #{&}__section{
+
+		&__header {
+			font-weight: 300;
+			border-bottom: 1px solid $daLight;
+			padding: 10px;
+			cursor: pointer;
+			color: $liDark;
+		}
+
+		&__body {
+			padding: 0;
+			border-bottom: 1px solid $daLight;
+			background: $liLight;
+			display: block;
+			height: 1px;
+			visibility: hidden;
+			overflow: hidden;
+
+		}
+
+		&--active {
+			padding: 10px;
+			visibility: visible;
+			height: auto;
+		}
+
+	}
+
+	@at-root #{&}__control {
+		padding: 10px 0;
+		position: relative;
+
+		$controlRoot: &;
+		$controlMeta: & + __meta;
+		$controlField: & + __field;
+
+		//&.comet-hide { display: none; }
+
+		&__field { padding-top: 5px; }
+
+		&__meta {
+			display: flex;
+			align-items: center;
+			position: relative;
+
+			&__icon {
+				display: block;
+				color: #ACBECC;
+				font-size: 14px;
+				font-weight: 700;
+				margin-left: 10px;
+				cursor: pointer;
+			}
+
+			&__desc {
+				background: rgba( 0, 0, 0, .8 );
+				left: -99999em;
+				top: 0;
+				position: absolute;
+				color: white;
+				width: calc( 100% - 10px );
+				max-width: 100%;
+				font: 300 13px/1.5 sans-serif;
+				padding: 5px;
+				@include border_radius( 3px );
+				@include transition( top .1s ease-in-out );
+
+			}
+
+			&:hover &__desc { left: 0; top: 100%; }
+		}
+
+		/* Gradient */
+
+		&--gradient {
+
+			#{$controlField} {
+				display: flex;
+				align-items: center;
+
+			}
+
+			.comet-color-picker {
+
+				&, &__preview {
+					width: 16px;
+					height: 16px;
+					display: block;
+
+				}
+				
+			}
+
+			.comet-eGRange {
+				position: relative;
+				width: 100%;
+				height: 20px;
+				margin: 0 10px;
+
+				&:before {
+					position: absolute;
+					width: 100%;
+					height: 2px;
+					top: 9px;
+					left: 0;
+					background: $daLight;
+					content: '';
+				}
+			}
+
+			.comet-eGDragger {
+				width: 20px;
+				height: 20px;
+				border: 2px solid $daLight;
+				padding: 0;
+				margin: 0;
+				cursor: pointer;
+				background: white;
+				position: absolute;
+				top: 0;
+				left: 0;
+				@include border_radius( 100% );
+
+				.comet-cpRender {
+					border: 0;
+					width: 100%;
+					height: 100%;
+				}
+
+				> .comet-ui-position {
+					position: absolute;
+					bottom: 0;
+					right: 99999999em;
+					background: white;
+					color: $liDark;
+					padding: 3px;
+					font: 300 11px/1.2 sans-serif;
+					margin-bottom: 5px;
+					@include transition( bottom .1s ease-in-out);
+					@include box_shadow( 0 0 5px 2px $daLight );
+					@include border_radius( 3px );
+				}
+
+				&:hover > .comet-ui-position {
+					bottom: 100%;
+					right: 0;
+				}
+
+
+			}
+
+			.comet-eGManager {
+				padding: 0;
+				margin: 0 0 0 10px;
+				border: 2px solid #B5C6D3;
+				color: #B5C6D3;
+				background: none;
+				width: 24px;
+				height: 24px;
+				text-align: center;
+				cursor: pointer;
+				@include border_radius( 100% );
+			}
+
+			.comet-eGAdd{
+
+				.cico {
+					font-size: 14px;
+					line-height: 20px;
+				}
+
+				&:hover {
+					background: #B5C6D3;
+					color: $liLight;
+				}
+
+			}
+
+			.comet-eGDelete {
+				border-color: transparent;
+
+				&:hover { color: red; }
+
+			}
+
+		}
+
+		/* Items */
+
+		.comet-section.comet-items{
+
+			> .comet-buttonset{
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 10px;
+
+				> .comet-button {
+					padding: 10px;
+					height: auto;
+					border-radius: 2em;
+					position: relative;
+
+					.cico{
+						display: block;
+						height: 20px;
+					}
+
+				}
+
+			}
+
+			.comet-button {
+
+				.comet-title{
+					position: absolute;
+					left: -9999em;
+					top: 0;
+					padding: 5px;
+					color: white;
+					background: rgba( 0, 0, 0, .7 );
+					font: 300 12px/1.2 sans-serif;
+					margin-top: 5px;
+					@include transition( top .1s ease-in-out );
+					@include transform( translate( -50%, 0 ) );
+					@include border_radius( 3px );
+
+					&:before{
+						content: '';
+						position: absolute;
+						left: 50%;
+						margin-left: -5px;
+						bottom: 100%;
+						width: 0;
+						height: 0;
+						border-left: 5px solid transparent;
+						border-right: 5px solid transparent;
+
+						border-bottom: 5px solid rgba( 0, 0, 0, .7 );
+
+					}
+
+				}
+
+				&:hover .comet-title{
+					left: 50%;
+					top: 100%;
+				}
+
+			}
+
+			> .comet-items > .comet-item {
+				padding: 7px;
+				border-bottom: 1px solid $daLight;
+				display: flex;
+				background: none;
+				color: $liDark;
+				font: 300 15px/1 sans-serif;
+				width: 100%;
+				align-items: center;
+
+				&:hover { @include box_shadow( 0 0 5px 0 $daLight); }
+
+				&.comet-ui-placeholder {
+					height: 42px;
+					background: $daLight;
+				}
+
+				> span {
+					width: 100%;
+					padding: 5px;
+				}
+
+				> .comet-button {
+					padding: 5px;
+					height: 27px;
+					width: 27px;
+					position: relative;
+					@include border_radius( 100% );
+
+					&:hover{
+						background: $daLight;
+						color: $daAccent;
+					}
+
+				}
+
+				.cico {
+					height: 17px;
+					display: block;
+					font-size: 17px;
+					width: 17px;
+					line-height: 17px;
+				}
+
+
+			}
+
+		}
+
+		/* Numbers */
+
+		&--numbers {
+
+			#{$controlMeta} { padding-right: 30px; }
+
+			#{$controlRoot}__vernum {
+				position: absolute;
+				right: 0;
+				top: 10px;
+				background: none;
+				border: 0;
+				opacity: .7;
+				margin: 0;
+				padding: 0;
+				cursor: pointer;
+
+				&:hover { opacity: 1; }
+
+			}
+
+			#{$controlRoot}__uiwrap--numbers {
+				display: flex;
+				justify-content: space-between;
+
+			}
+
+			#{$controlRoot}__uiwrap--numbers__number {
+				display: none;
+				width: calc( 25% - 1px );
+
+				input { width: 100%; }
+
+				label { font-size: 13px; }
+
+				&#{$controlField}--active { display: block; }
+
+			}
+
+		}
+
+		/* Checkbox */
+
+		&--checkbox {
+			display: flex;
+			justify-content: space-between;
+
+			#{$controlMeta} {
+				padding-right: 10px;
+				position: unset;
+			}
+
+			#{$controlField} { padding: 0; }
+
+		}
+
+		/* Radio */
+
+		&--radio > &__field {
+			display: flex;
+			background: $daLight;
+			padding: 0;
+			margin-top: 5px;
+			border-radius: 3px;
+
+			> .comet-label {
+				text-align: center;
+				padding: 5px;
+				cursor: pointer;
+				position: relative;
+				width: 100%;
+				opacity: .5;
+
+				> .comet-title {
+					position: absolute;
+					top: 0;
+					left: -99999em;
+					background: rgba( 0, 0, 0, .7 );
+					padding: 5px;
+					margin-top: 5px;
+					font: 300 12px/1.2 sans-serif;
+					color: white;
+					@include border_radius( 3px );
+					@include transition( top .1s ease-in-out );
+
+					&:before {
+						content: '';
+						width: 0; 
+						height: 0; 
+						border-left: 5px solid transparent;
+						border-right: 5px solid transparent;
+
+						border-bottom: 5px solid rgba( 0, 0, 0, .7 );
+
+						position: absolute;
+						bottom: 100%;
+						left: 50%;
+						margin-left: -5px;
+
+					}
+
+				}
+
+				&:hover{
+					opacity: 1;
+
+					> .comet-title {
+						left: 50%;
+						top: 100%;
+						@include transform( translate( -50%, 0 ) );
+
+					}
+				}
+
+				> input { display: none; }
+
+			}
+
+			#{$fieldRoot}--active {
+				opacity: 1;
+				color: $daAccent;
+
+			}
+
+		}
+
+	}
+
+}

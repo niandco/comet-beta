@@ -1,0 +1,57 @@
+@import 'variables';
+
+$success: #2CC265;
+$bg_success: #DFFFE7;
+
+$error: #E66E3F;
+$bg_error: #FFE8DF;
+
+$warning: #C2A32C;
+$bg_warning: #FFFDDF;
+
+.comet-message {
+    display: block;
+    text-align: left;
+    font: 300 15px/1.3 sans-serif;
+    padding: 10px;
+    margin: 2px 0;
+    border-left: 2px solid transparent;
+
+    a {
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover, &:active { text-decoration: underline; }
+    }
+
+    &.comet-success {
+        background: $bg_success;
+        border-color: $success;
+
+        &, a, a:hover, a:active { color: $success; }
+    }
+
+    &.comet-error {
+        background: $bg_error;
+        border-color: $error;
+
+        &, a, a:hover, a:active { color: $error; }
+
+    }
+
+    &.comet-warning {
+        background: $bg_warning;
+        border-color: $warning;
+
+        &, a, a:hover, a:active { color: $warning; }
+
+    }
+
+    &.comet-note {
+        background: $liLight;
+        border-color: $liDark;
+
+        &, a, a:hover, a:active { color: $liDark; }
+
+    }
+}
