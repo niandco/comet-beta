@@ -127,6 +127,8 @@
 		padding: 10px 0;
 		position: relative;
 
+		&--hide { display: none; } 
+
 		$controlRoot: &;
 		$controlMeta: & + __meta;
 		$controlField: & + __field;

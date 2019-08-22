@@ -1,17 +1,7 @@
-import { isNode, isBool, isFunction, isObject, isString } from '../../utils/is.js';
-import node from '../../dom/element.js';
+import utils from '../utils.js';
+import node from '../node.js';
 
 /* global document, window */
-
-/**
- *
- *	@TODO	Rewrite core object out of the main function
- *
- */
-
-const DOCUMENT = document;
-
-const CORE = {};
 
 export default function( source, options ){
 
@@ -109,7 +99,7 @@ export default function( source, options ){
 				__range.values.min = min;
 				__range.values.max = max;
 				__range.values.step = step;
-				__range.values.unit = isObject( source.dataset ) ? ( isString( source.dataset.unit ) ? source.dataset.unit : '' ) : '';
+				__range.values.unit = utils.isObject( source.dataset ) ? ( utils.isString( source.dataset.unit ) ? source.dataset.unit : '' ) : '';
 
 				__core.set.value( __core.parse.value() );
 				__core.set.position( __core.get.positionFromValue() );
@@ -138,14 +128,14 @@ export default function( source, options ){
 				let value = __range.values.value;
 				const step = __range.values.step;
 
-				increase = isBool( increase ) && increase ? true : false;
+				increase = utils.isBool( increase ) && increase ? true : false;
 				value = increase ? value + step : value - step;
 
 				__core.set.value( value );
 				__core.set.position( __core.get.positionFromValue() );
 				__core.set.dragger();
 
-				if( isFunction( options.change ) ){
+				if( utils.isFunction( options.change ) ){
 					options.change( ev, ui, __range.values.value );
 
 				}
@@ -180,7 +170,7 @@ export default function( source, options ){
 				__core.set.value( __core.get.valueFromPosition() );
 				__core.set.dragger();
 
-				if( isFunction( options.change ) ){
+				if( utils.isFunction( options.change ) ){
 					options.change( ev, ui, __range.values.value );
 
 				}
@@ -190,7 +180,7 @@ export default function( source, options ){
 			start: function( ev, ui ){
 				ev.preventDefault();
 
-				if( isFunction( options.start ) ){
+				if( utils.isFunction( options.start ) ){
 					options.start( ev, ui, __range.values.value );
 
 				}
@@ -201,7 +191,7 @@ export default function( source, options ){
 			stop: function( ev, ui ){
 				ev.preventDefault();
 
-				if( isFunction( options.stop ) ){
+				if( utils.isFunction( options.stop ) ){
 					options.stop( ev, ui, __range.values.value );
 
 				}
@@ -213,7 +203,7 @@ export default function( source, options ){
 
 				__core.set.flexValue( ev, ui, false );
 
-				if( isFunction( options.decrease ) ){
+				if( utils.isFunction( options.decrease ) ){
 					options.decrease( ev, ui, __range.values.value );
 
 				}
@@ -224,7 +214,7 @@ export default function( source, options ){
 
 				__core.set.flexValue( ev, ui, true );
 
-				if( isFunction( options.increase ) ){
+				if( utils.isFunction( options.increase ) ){
 					options.increase( ev, ui, __range.values.value );
 
 				}
@@ -249,14 +239,14 @@ export default function( source, options ){
 				fragment.className = 'comet-range';
 
 				if( options.buttons ){
-					inner += '<button class="comet-range__decrease">-</button>';
+					inner += '<button class="comet-range__decrease comet-button">-</button>';
 
 				}
 				inner += '<div class="comet-range__bar"><button class="comet-range__bar__dragger"></button></div>';
 
 
 				if( options.buttons ){
-					inner += '<button class="comet-range__increase">+</button>';
+					inner += '<button class="comet-range__increase comet-button">+</button>';
 
 				}
 				fragment.innerHTML = inner;
@@ -294,7 +284,7 @@ export default function( source, options ){
 
 	};
 
-	if( !isNode( source ) || source.parentNode === null || source.nodeName !== 'INPUT' ){
+	if( !node( source ).isNode() || source.parentNode === null || source.nodeName !== 'INPUT' ){
 		return;
 
 	}

@@ -55,15 +55,16 @@ const ICON = {
 	},
 
 	decode: function( entry ){
+		var decoded = [];
 
-		if( !isString( entry ) || isEmpty( entry = entry.trim() ) || !isArray( entry.split( ':' ) ) || entry.length < 2 ){
+		if( !isString( entry ) || isEmpty( entry = entry.trim() ) || !isArray( decoded = entry.split( ':' ) ) || decoded.length < 2 ){
 			return false;
 
 		}
 
 		return {
-			set_id: entry[0],
-			icon_id: entry[1]
+			set_id: decoded[0],
+			icon_id: decoded[1]
 		};
 
 	},

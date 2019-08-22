@@ -269,6 +269,7 @@ const CORE = {
 			__range(
 				data.control.firstChild,
 				{
+					buttons: true,
 					change: function(){
 						update( data.control.firstChild );
 
@@ -315,7 +316,8 @@ const CORE = {
 				);
 
 			__colorPicker( data.control.firstChild, {
-				onchange: update
+				onchange: update,
+				clear: true
 
 			});
 

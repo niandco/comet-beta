@@ -2,8 +2,8 @@
 namespace Comet\Library\Elements;
 
 if( !defined( 'ABSPATH' ) ){
-    exit;
-    
+	exit;
+
 }
 require_once COMET_PATH . 'includes/class-element.php';
 use Comet\Library\Comet_Element;
@@ -47,11 +47,11 @@ class text extends Comet_Element{
 		?>
 
 		const content = ui.firstChild;
-		const classes = [ 'cpb-text', 'cpb-wrapper', toolkit.sanitize.alignment( data.el.alg ) ];
+		const classes = [ 'cpb-text', 'cpb-wrapper', comet.helpers.sanitizeAlignment( data.el.alg ) ];
 
-		content.innerHTML = '<div class="' + toolkit.utils.toClass( classes ) + '"><span></span></div>';
+		content.innerHTML = '<div class="' + comet.helpers.joinClasses( classes ) + '"><span></span></div>';
 
-		toolkit.html.editor( content.firstChild.firstChild, {
+		comet.html.renderEditor( content.firstChild.firstChild, {
 			id: id,
 			slug: 'content',
 			content: data.el.content,
@@ -67,27 +67,27 @@ class text extends Comet_Element{
 		var css = '';
 		var tmp, tmp1, o;
 
-		if( ( tmp = toolkit.sanitize.number( { value: data.el.lh, float: true } ) ) !== null && tmp > 0 ){
-			css += toolkit.css.render( 'line-height', tmp );
+		if( ( tmp = comet.helpers.sanitizeNumber( { value: data.el.lh, float: true } ) ) !== null && tmp > 0 ){
+			css += comet.css.property( 'line-height', tmp );
 
 		}
 
-		if( ( tmp = toolkit.sanitize.number( data.el.ls ) ) !== null ){
-			css += toolkit.css.render( 'letter-spacing', tmp + 'px' );
+		if( ( tmp = comet.helpers.sanitizeNumber( data.el.ls ) ) !== null ){
+			css += comet.css.property( 'letter-spacing', tmp + 'px' );
 
 		}
 
-		if( ( tmp = toolkit.sanitize.color( data.el.tc ) ) !== '' ){
-			css += toolkit.css.render( 'color', tmp );
+		if( ( tmp = comet.helpers.sanitizeColor( data.el.tc ) ) !== '' ){
+			css += comet.css.property( 'color', tmp );
 
 		}
 
-		if( !toolkit.utils.isStringEmpty( data.el.fo ) && data.el.fo !== '0' ){
-			css += toolkit.css.render( 'font-family', toolkit.utils.trim( data.el.fo ) );
+		if( comet.helpers.isString( data.el.fo ) && data.el.fo !== '0' ){
+			css += comet.css.property( 'font-family', data.el.fo.trim() );
 
 		}
 
-		css += toolkit.css.textShadow({
+		css += comet.css.textShadow({
 			color: data.el.tsc,
 			blur: data.el.tsb,
 			x: data.el.tsh,
@@ -95,12 +95,12 @@ class text extends Comet_Element{
 
 		});
 
-		if( ( tmp = toolkit.sanitize.color( data.el.bg ) ) !== '' ){
-			css += toolkit.css.render( 'background', tmp );
+		if( ( tmp = comet.helpers.sanitizeColor( data.el.bg ) ) !== '' ){
+			css += comet.css.property( 'background', tmp );
 
 		}
 
-		css += toolkit.css.border({
+		css += comet.css.border({
 			style: data.el.bs,
 			color: data.el.bc,
 			top: data.el.brt,
@@ -108,34 +108,34 @@ class text extends Comet_Element{
 			bottom: data.el.brb,
 			left: data.el.brl
 		});
-		css += toolkit.css.padding( data.el.pdt, data.el.pdr, data.el.pdb, data.el.pdl, 'px', 'px' );
-		css += toolkit.css.borderRadius( data.el.rdt, data.el.rdr, data.el.rdb, data.el.rdl );
-		css += toolkit.css.margin( data.el.mrt, data.el.mrr, data.el.mrb, data.el.mrl, 'px', 'px' );
-        o = toolkit.css.element( id, '.cpb-text.cpb-wrapper', css );
+		css += comet.css.padding( data.el.pdt, data.el.pdr, data.el.pdb, data.el.pdl, 'px', 'px' );
+		css += comet.css.borderRadius( data.el.rdt, data.el.rdr, data.el.rdb, data.el.rdl );
+		css += comet.css.margin( data.el.mrt, data.el.mrr, data.el.mrb, data.el.mrl, 'px', 'px' );
+		o = comet.css.element( id, '.cpb-text.cpb-wrapper', css );
 
 
 		css = '';
 
-		if( ( tmp = toolkit.sanitize.number( data.el.fs ) ) !== null && tmp > 0 ){
-			css += toolkit.css.render( 'font-size', tmp + 'px' );
+		if( ( tmp = comet.helpers.sanitizeNumber( data.el.fs ) ) !== null && tmp > 0 ){
+			css += comet.css.property( 'font-size', tmp + 'px' );
 
 		}
 
-		if( ( tmp = toolkit.sanitize.number( data.el.fw ) ) !== null && tmp > 99 && tmp < 901 ){
-			css += toolkit.css.render( 'font-weight', tmp );
+		if( ( tmp = comet.helpers.sanitizeNumber( data.el.fw ) ) !== null && tmp > 99 && tmp < 901 ){
+			css += comet.css.property( 'font-weight', tmp );
 
 		}
-		o += toolkit.css.element( id, '.cpb-text.cpb-wrapper *', css );
+		o += comet.css.element( id, '.cpb-text.cpb-wrapper *', css );
 
-		tmp = toolkit.css.margin( data.el.mrtt, data.el.mrrt, data.el.mrbt, data.el.mrlt, 'px', 'px' );
-		tmp1 = toolkit.css.padding( data.el.pdtt, data.el.pdrt, data.el.pdbt, data.el.pdlt, 'px', 'px' );
-		o += toolkit.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ), 't' );
-		o += toolkit.css.responsive( 't', toolkit.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ) ) );
+		tmp = comet.css.margin( data.el.mrtt, data.el.mrrt, data.el.mrbt, data.el.mrlt, 'px', 'px' );
+		tmp1 = comet.css.padding( data.el.pdtt, data.el.pdrt, data.el.pdbt, data.el.pdlt, 'px', 'px' );
+		o += comet.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ), 't' );
+		o += comet.css.responsive( 't', comet.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ) ) );
 
-		tmp = toolkit.css.margin( data.el.mrtm, data.el.mrrm, data.el.mrbm, data.el.mrlm, 'px', 'px' );
-		tmp1 = toolkit.css.padding( data.el.pdtm, data.el.pdrm, data.el.pdbm, data.el.pdlm, 'px', 'px' );
-		o += toolkit.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ), 'm' );
-		o += toolkit.css.responsive( 'm', toolkit.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ) ) );
+		tmp = comet.css.margin( data.el.mrtm, data.el.mrrm, data.el.mrbm, data.el.mrlm, 'px', 'px' );
+		tmp1 = comet.css.padding( data.el.pdtm, data.el.pdrm, data.el.pdbm, data.el.pdlm, 'px', 'px' );
+		o += comet.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ), 'm' );
+		o += comet.css.responsive( 'm', comet.css.element( id, '.cpb-text.cpb-wrapper', ( tmp + tmp1 ) ) );
 		return o;
 
 		<?php
@@ -214,6 +214,7 @@ class text extends Comet_Element{
 			'std'		=> '',
 			'min'		=> '10',
 			'max'		=> '200',
+			'step'   	=> '1',
 			'unit'		=> 'px'
 		] );
 

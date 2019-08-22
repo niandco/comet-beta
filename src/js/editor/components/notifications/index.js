@@ -173,7 +173,7 @@ export default function(){
 	inner += '<h4>' + __cometi18n.ui.notifications + '</h4>';
 	inner += '<button class="' + CORE.classes.close.main + '">';
 	inner += '<span class="' + ClassName( CORE.classes.close.icon ).combineWith( [ 'cico', 'cico-x' ] ) + '"></span>';
-	inner += '<span class="' + CORE.classes.close.toggle + '">' + __cometi18n.ui.close + '</span>';
+	inner += '<span class="' + CORE.classes.close.tooltip + '">' + __cometi18n.ui.close + '</span>';
 	inner += '</button>';
 	inner += '<p>';
 	inner += '<button class="' + CORE.classes.clear + '">' + __cometi18n.ui.clearNx + '</button>';

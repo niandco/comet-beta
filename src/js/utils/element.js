@@ -2,67 +2,21 @@ import { inArray, stripTags, stripOnly, escUrl, capitalize, xtrim, arrayDiff, ex
 import { getElement } from '../editor/components/stored.js';
 import * as CSS from './css/properties.js';
 import * as SANITIZE from './sanitize.js';
+import * as HELPERS from './helpers.js';
 import * as HTML from './html/index.js';
 import { parseId } from './parse.js';
 import * as IS from './is.js';
 
 const CORE = {
 
-	/*toObject: function( initial, need ){
-		const obj = {};
-		var i;
-
-		if( !IS.isObject( initial ) || !IS.isArray( need ) || need.length < 1 ){
-			return {};
-
-		}
-
-		for( i in initial ){
-
-			if( need.indexOf( i ) < 0 ){
-				continue;
-
-			}
-			obj[i] = initial[i];
-
-		}
-		return obj;
-
-	},*/
-
 	toolkit: function( type ){
 		const __SANITIZE = extend( {}, SANITIZE );
-		const MAIN = { inArray, stripTags, stripOnly, escUrl, capitalize, xtrim, arrayDiff };
-		//const sn = [ 'unit', 'valueUnit', 'number', 'value', 'color', 'alignment', 'class' ];
-		//const un = [ 'toClass', 'getVideo','stripTags', 'escUrl', 'capitalize', 'isString', 'isStringEmpty', 'isNumber', 'isBool', 'isArray', 'isSet', 'trim', 'isObject', 'isFunction', 'foreachItem' ];
-		//const _d = {};
-		//_d.sanitize = CORE.toObject( sanitize, sn );
-		//_d.utils = CORE.toObject( utils, un );
+		const FILL = { inArray, stripTags, stripOnly, escUrl, capitalize, xtrim, arrayDiff };
 
 		delete __SANITIZE.sanitizeData;
 		delete __SANITIZE.sanitizeContent;
 
-		return extend( MAIN, IS, SANITIZE, ( type === 'css' ? CSS : HTML ) );
-
-
-
-
-
-		/*switch( type ){
-
-			case 'css':
-			_d.css = _css;
-			break;
-
-			case 'html':
-			_d.html = _html;
-			break;
-
-			default:
-			break;
-
-		}
-		return _d;*/
+		return extend( { helpers: extend( FILL, IS, __SANITIZE, HELPERS ) }, ( type === 'css' ? { css: CSS } : { html: HTML } ) );
 
 	},
 
@@ -111,7 +65,7 @@ export default function( slug, id, data ){
 				return false;
 
 			}
-			return Function('"use strict";return (function( id, data, ui, toolkit ){ ' + element.render.view + '})')()( id, data, ui, TOOLKIT.HTML );
+			return Function('"use strict";return (function( id, data, ui, comet ){ ' + element.render.view + '})')()( id, data, ui, TOOLKIT.HTML );
 
 		},
 
@@ -121,7 +75,7 @@ export default function( slug, id, data ){
 				return false;
 
 			}
-			return Function('"use strict";return (function( id, data, toolkit ){ ' + element.render.css + '})')()( id, data, TOOLKIT.CSS );
+			return Function('"use strict";return (function( id, data, comet ){ ' + element.render.css + '})')()( id, data, TOOLKIT.CSS );
 
 		}
 	};

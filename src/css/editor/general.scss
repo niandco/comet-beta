@@ -25,7 +25,17 @@
 
         &, .cpb-columnContent { min-height: 30px; }
 
-        &:hover { outline: 2px dotted #969696; }
+        &:hover { outline: 2px dotted $daLight_b; }
+
+    }
+
+    .comet-editable[contenteditable="true"] {
+        outline: 0;
+
+        &:focus, &:active, &:hover {
+            outline: 0;
+            @include box_shadow( 0 0 0 2px $daAccent inset );
+        }
 
     }
 
@@ -118,7 +128,7 @@
     padding: 20px;
     background: $liDark;
     @include border_radius( 5px );
-    @include animation( cometanimate 3s infinite );
+    //@include animation( cometanimate 3s infinite );
 }
 
 .comet-preloader__text {

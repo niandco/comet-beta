@@ -1,6 +1,7 @@
 import { isNode, isString, isObject, isFunction, isArray, isBool } from '../../../utils/is.js';
 import { frameset as getFrameset, panel as getPanel } from '../stored.js';
 import { sanitizeNumber } from '../../../utils/sanitize.js';
+import { inArray } from '../../../utils/fill.js';
 import Global from '../../../utils/global.js';
 import { createControl } from './control.js';
 import node from '../../../dom/element.js';
@@ -80,20 +81,82 @@ export default function( options ){
 				CONTROLS[a].data.target = response;
 				RDATA.controls[RDATA.controls.length] = CONTROLS[a].data;
 
-				CORE.initSwitch( CONTROLS[a] );
+				CORE.initSwitch( CONTROLS[a], CONTROLS );
 
 			}
 
 		},
 
-		initSwitch: function( control ){
+		initSwitch: function( control, controls ){
+			var val, a;
+
+			if( !inArray( [ 'checkbox', 'select', 'radio' ], control.data.type.toLowerCase() ) || !isObject( control.data.switch ) ){
+				return;
+
+			}
+
+			for( val in control.data.switch ){
+
+				if( !isArray( control.data.switch[val] ) || control.data.switch[val].length < 1 ){
+					continue;
+
+				}
+
+				for( a = 0; a < controls.length; a++ ){
+
+					if( !inArray( control.data.switch[val], controls[a].id ) ){
+						continue;
+
+					}
+
+					if( val !== control.value ){
+						node( controls[a].control.parentNode ).addClass( 'comet-panel__control--hide' );
+
+					}
 
 
-			node( control.data.target ).on( 'input', CORE.onSwitch, control );
+				}
+
+
+			}
+			node( control.data.target ).on( 'input', CORE.onSwitch, { control, controls } );
 
 		},
 
-		onSwitch: function( ev, ui, control ){
+		onSwitch: function( ev, ui, data ){
+			var val, a;
+
+
+			for( val in data.control.data.switch ){
+
+				if( !isArray( data.control.data.switch[val] ) || data.control.data.switch[val].length < 1 ){
+					continue;
+
+				}
+
+				for( a = 0; a < data.controls.length; a++ ){
+
+					if( !inArray( data.control.data.switch[val], data.controls[a].id ) ){
+						continue;
+
+					}
+
+					if( val !== ui.value ){
+						node( data.controls[a].control.parentNode ).addClass( 'comet-panel__control--hide' );
+						continue;
+
+					}
+					node( data.controls[a].control.parentNode ).removeClass( 'comet-panel__control--hide' );
+
+
+				}
+
+
+			}
+
+
+
+
 
 		},
 

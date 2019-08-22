@@ -47,8 +47,6 @@ const CORE = {
 
 		}
 
-		// @TODO remove searchCP and render destroy
-
 		if( CURRENT.cp.isOpen && !isPicker( ev.target, CURRENT.cp.node ) ){
 			CURRENT.cp.isOpen = false;
 			CURRENT.cp.isDragging = false;

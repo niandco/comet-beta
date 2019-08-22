@@ -1,12 +1,12 @@
 @import '../utils/variables';
 @import '../utils/mixins';
 
-.comet-modal > .comet-inner > .comet-body > .comet-icons.comet-set {
+.comet-icons-pack {
 	padding: 10px;
 	display: flex;
 	flex-wrap: wrap;
 
-	> .comet-scope {
+	&__icon {
 		min-width: 6.25%;
 		padding: 10px;
 		cursor: pointer;

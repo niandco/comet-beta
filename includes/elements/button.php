@@ -2,8 +2,8 @@
 namespace Comet\Library\Elements;
 
 if( !defined( 'ABSPATH' ) ){
-    exit;
-    
+	exit;
+
 }
 require_once COMET_PATH . 'includes/class-element.php';
 use Comet\Library\Comet_Element;
@@ -11,253 +11,252 @@ use Comet\Library\Comet_Utils;
 
 class button extends Comet_Element {
 
-    public function __construct(){
+	public function __construct(){
 
-        $this->set_element( 'button', __( 'Button', 'comet'), 'cico-click' );
+		$this->set_element( 'button', __( 'Button', 'comet'), 'cico-click' );
 
-    }
+	}
 
-    public function render( $data ){
+	public function render( $data ){
 
-    	$edata = is_array( $data['el'] ) ? $data['el'] : [];
-    	$text = isset( $edata['text'] ) && is_string( $edata['text'] ) ? trim( strip_tags( $edata['text'] ) ) : '';
-    	$icon = isset( $edata['icon'] ) && is_string( $edata['icon'] ) ? comet_get_svgicon( $edata['icon'] ) : '';
+		$edata = is_array( $data['el'] ) ? $data['el'] : [];
+		$text = isset( $edata['text'] ) && is_string( $edata['text'] ) ? trim( strip_tags( $edata['text'] ) ) : '';
+		$icon = isset( $edata['icon'] ) && is_string( $edata['icon'] ) ? comet_get_svgicon( $edata['icon'] ) : '';
 
-        $classe = 'cpb-button cpb-wrapper ' . Comet_Utils::get_alignment( isset( $edata['alg'] ) ? $edata['alg'] : 'c' );
+		$classe = 'cpb-button cpb-wrapper ' . Comet_Utils::get_alignment( isset( $edata['alg'] ) ? $edata['alg'] : 'c' );
 
-        $output = "<div class=\"{$classe}\">";
-        $ca = 'cpb-link';
+		$output = "<div class=\"{$classe}\">";
+		$ca = 'cpb-link';
 
-        if( isset( $edata['ani'] ) && is_string( $edata['ani'] ) ){
+		if( isset( $edata['ani'] ) && is_string( $edata['ani'] ) ){
 
-        	switch( $animation = strtolower( trim( $edata['ani'] ) ) ){
-        		case 'none':
-        		break;
+			switch( $animation = strtolower( trim( $edata['ani'] ) ) ){
+				case 'none':
+				break;
 
-                case 'stt':
-                case 'stl':
-                case 'stb':
-                case 'str':
-                $ca += " cpb-hvrbt cpb-hvrbt-{$animation}";
-                break;
+				case 'stt':
+				case 'stl':
+				case 'stb':
+				case 'str':
+				$ca += " cpb-hvrbt cpb-hvrbt-{$animation}";
+				break;
 
-                default:
+				default:
 
-                if( in_array( $animation, [ 'pulse', 'tada' ] ) ){
-                	$ca .= ' cpb-animated cpb-efInfinite';
+				if( in_array( $animation, [ 'pulse', 'tada' ] ) ){
+					$ca .= ' cpb-animated cpb-efInfinite';
 
-                }
-                $ca .= " cpb-ef-{$animation}";
-                break;
+				}
+				$ca .= " cpb-ef-{$animation}";
+				break;
 
-            }
+			}
 
-        }
-        $url = isset( $edata['link'] ) && is_string( $edata['link'] ) ? esc_url( trim( strip_tags( $edata['link'] ) ) ) : '#';
-        $tar = isset( $edata['tar'] ) && Comet_Utils::is_enabled( $edata['tar'] ) ? ' target="_blank"' : '';
-        $dir = isset( $edata['ipos'] ) && is_string( $edata['ipos'] ) && $edata['ipos'] === 'r' ? 'r' : 'l';
+		}
+		$url = isset( $edata['link'] ) && is_string( $edata['link'] ) ? esc_url( trim( strip_tags( $edata['link'] ) ) ) : '#';
+		$tar = isset( $edata['tar'] ) && Comet_Utils::is_enabled( $edata['tar'] ) ? ' target="_blank"' : '';
+		$dir = isset( $edata['ipos'] ) && is_string( $edata['ipos'] ) && $edata['ipos'] === 'r' ? 'r' : 'l';
 
-        $output .= "<a class=\"{$ca}\" href=\"{$url}\"{$tar}>";
+		$output .= "<a class=\"{$ca}\" href=\"{$url}\"{$tar}>";
 
-        if( $dir === 'l' && $icon !== '' ){
-        	$output .= "<span class=\"cpb-icon\">{$icon}</span>";
+		if( $dir === 'l' && $icon !== '' ){
+			$output .= "<span class=\"cpb-icon\">{$icon}</span>";
 
-        }
-        $output .= "<span class=\"cpb-title\">{$text}</span>";
+		}
+		$output .= "<span class=\"cpb-title\">{$text}</span>";
 
-        if( $dir === 'r' && $icon !== '' ){
-        	$output .= "<span class=\"cpb-icon\">{$icon}</span>";
+		if( $dir === 'r' && $icon !== '' ){
+			$output .= "<span class=\"cpb-icon\">{$icon}</span>";
 
-        }
-        $output .= '</a>';
-        $output .= '</div>';
+		}
+		$output .= '</a>';
+		$output .= '</div>';
 
-        return $output;
+		return $output;
 
-    }
+	}
 
-    public function view(){
+	public function view(){
 
-    	?>
-        console.log( toolkit );
-    	
-    	const content = ui.firstChild;
-    	const text = toolkit.utils.isString( data.el.text ) ? toolkit.utils.trim( toolkit.utils.stripTags( data.el.text ) ) : '';
-        const icon = toolkit.utils.isString( data.el.icon ) ? toolkit.utils.trim( data.el.icon ) : '';
-        var o, classe, ca, dir, tar, url, b_icon;
+		?>
 
+		const content = ui.firstChild;
+		const text = comet.helpers.isString( data.el.text ) ? ( comet.helpers.stripTags( data.el.text ) ).trim() : '';
+		const icon = comet.helpers.isString( data.el.icon ) ? data.el.icon.trim() : '';
+		var o, classe, ca, dir, tar, url, b_icon;
 
-        if( text === '' && icon === '' ){
-        	content.innerHTML = toolkit.html.placeholder();
-        	return;
 
-        }
-        classe = 'cpb-button cpb-wrapper ' + toolkit.sanitize.alignment( data.el.alg );
+		if( text === '' && icon === '' ){
+			content.innerHTML = comet.html.renderPlaceholder();
+			return;
 
-        o = '<div class="' + classe + '">';
-        ca = 'cpb-link';
+		}
+		classe = 'cpb-button cpb-wrapper ' + comet.helpers.sanitizeAlignment( data.el.alg );
 
-        if( !toolkit.utils.isStringEmpty( data.el.ani ) ){
+		o = '<div class="' + classe + '">';
+		ca = 'cpb-link';
 
-        	switch( data.el.ani = ( toolkit.utils.trim( data.el.ani ) ).toLowerCase() ){
-        		case 'none':
-        		break;
+		if( comet.helpers.isString( data.el.ani ) && data.el.ani.length > 0 ){
 
-                case 'stt':
-                case 'stl':
-                case 'stb':
-                case 'str':
-                ca += ' cpb-hvrbt cpb-hvrbt-' + data.el.ani;
-                break;
+			switch( data.el.ani = ( data.el.ani.trim() ).toLowerCase() ){
+				case 'none':
+				break;
 
-                default:
+				case 'stt':
+				case 'stl':
+				case 'stb':
+				case 'str':
+				ca += ' cpb-hvrbt cpb-hvrbt-' + data.el.ani;
+				break;
 
-                if( [ 'pulse', 'tada' ].indexOf( data.el.ani ) > -1 ){
-                	ca += ' cpb-animated cpb-efInfinite';
+				default:
 
-                }
-                ca += ' cpb-ef-' + data.el.ani;
-                break;
+				if( comet.helpers.inArray( [ 'pulse', 'tada' ], data.el.ani ) ){
+					ca += ' cpb-animated cpb-efInfinite';
 
-            }
+				}
+				ca += ' cpb-ef-' + data.el.ani;
+				break;
 
-        }
-        url = toolkit.utils.isString( data.el.link ) ? toolkit.utils.trim( toolkit.utils.stripTags( data.el.link ) ) : '#';
-        tar = [ 'true', 1, true ].indexOf( data.el.tar ) > -1 ? ' target="_blank"' : '';
-        dir = data.el.ipos === 'r' ? 'r' : 'l';
+			}
 
-        o += '<a class="' + ca + '" href="' + toolkit.utils.escUrl( url ) + '"' + tar + '>';
+		}
+		url = comet.helpers.isString( data.el.link ) ? ( comet.helpers.stripTags( data.el.link ) ).trim() : '#';
+		tar = comet.helpers.inArray( [ 'true', 'TRUE', 'True' ], data.el.tar ) ? ' target="_blank"' : '';
+		dir = data.el.ipos === 'r' ? 'r' : 'l';
 
-        if( dir === 'l' && icon !== '' ){
-        	o += '<span class="cpb-icon">' + toolkit.html.icon( icon ) + '</span>';
+		o += '<a class="' + ca + '" href="' + comet.helpers.escUrl( url ) + '"' + tar + '>';
 
-        }
-        o += '<span class="cpb-title">' + text + '</span>';
+		if( dir === 'l' && icon !== '' ){
+			o += '<span class="cpb-icon">' + comet.html.renderIcon( icon ) + '</span>';
 
-        if( dir === 'r' && icon !== '' ){
-        	o += '<span class="cpb-icon">' + toolkit.html.icon( icon ) + '</span>';
+		}
+		o += '<span class="cpb-title">' + text + '</span>';
 
-        }
-        o += '</a>';
-        o += '</div>';
-        content.innerHTML = o;
+		if( dir === 'r' && icon !== '' ){
+			o += '<span class="cpb-icon">' + comet.html.renderIcon( icon ) + '</span>';
 
-        <?php
+		}
+		o += '</a>';
+		o += '</div>';
+		content.innerHTML = o;
 
-    }
+		<?php
 
-    public function css(){
-    	?>
-    	var o = '';
-    	var bg, abg, hsp, vsp, css, tmp;
+	}
 
-    	if( data.el.sty === 'g' ){
-    		bg = toolkit.css.gradient( 'linear', data.el.ang , data.el.gbg );
-    		abg = toolkit.css.gradient( 'linear', data.el.ang , data.el.ghbg );
+	public function css(){
+		?>
+		var o = '';
+		var bg, abg, hsp, vsp, css, tmp;
 
-    	}else{
-    		bg = toolkit.sanitize.color( data.el.bg );
-    		abg = toolkit.sanitize.color( data.el.hbg );
+		if( data.el.sty === 'g' ){
+			bg = comet.css.gradient( 'linear', data.el.ang , data.el.gbg );
+			abg = comet.css.gradient( 'linear', data.el.ang , data.el.ghbg );
 
-    	}
-    	vsp = toolkit.sanitize.number({ value: data.el.vsp, min: 0, max: 70 });
-    	hsp = toolkit.sanitize.number({ value: data.el.hsp, min: 0, max: 100 });
+		}else{
+			bg = comet.helpers.sanitizeColor( data.el.bg );
+			abg = comet.helpers.sanitizeColor( data.el.hbg );
 
-    	if( ( tmp = toolkit.css.margin( data.el.mrt, data.el.mrr, data.el.mrb, data.el.mrl, 'px', 'px' ) ) !== '' ){
-    		o += toolkit.css.element( id, '.cpb-button.cpb-wrapper', tmp );
+		}
+		vsp = comet.helpers.sanitizeNumber({ value: data.el.vsp, min: 0, max: 70 });
+		hsp = comet.helpers.sanitizeNumber({ value: data.el.hsp, min: 0, max: 100 });
 
-    	}
-    	css = toolkit.css.padding( vsp, hsp, vsp, hsp, 'px', 'px' );
+		if( ( tmp = comet.css.margin( data.el.mrt, data.el.mrr, data.el.mrb, data.el.mrl, 'px', 'px' ) ) !== '' ){
+			o += comet.css.element( id, '.cpb-button.cpb-wrapper', tmp );
 
-    	if( ( tmp = toolkit.sanitize.number({ value: data.el.fs, min: 0 }) ) !== null ){
-    		css += toolkit.css.render( 'font-size', tmp + 'px' );
+		}
+		css = comet.css.padding( vsp, hsp, vsp, hsp, 'px', 'px' );
 
-    	}
+		if( ( tmp = comet.helpers.sanitizeNumber({ value: data.el.fs, min: 0 }) ) !== null ){
+			css += comet.css.property( 'font-size', tmp + 'px' );
 
-    	if( bg !== '' ){
-    		css += toolkit.css.render( 'background', bg );
+		}
 
-    	}
+		if( bg !== '' ){
+			css += comet.css.property( 'background', bg );
 
-    	if( ( tmp = toolkit.sanitize.color( data.el.tc ) ) !== '' ){
-    		css += toolkit.css.render( 'color', tmp );
+		}
 
-    	}
-    	css += toolkit.css.border({
-    		color: data.el.bc,
-            style: data.el.bs,
-            top: data.el.brt,
-            right: data.el.brr,
-            bottom: data.el.brb,
-            left: data.el.brl
-        });
+		if( ( tmp = comet.helpers.sanitizeColor( data.el.tc ) ) !== '' ){
+			css += comet.css.property( 'color', tmp );
 
-        css += toolkit.css.borderRadius( data.el.rdt, data.el.rdr, data.el.rdb, data.el.rdl );
+		}
+		css += comet.css.border({
+			color: data.el.bc,
+			style: data.el.bs,
+			top: data.el.brt,
+			right: data.el.brr,
+			bottom: data.el.brb,
+			left: data.el.brl
+		});
 
-        css += toolkit.css.boxShadow({
-            x: data.el.sx,
-            y: data.el.sy,
-            blur: data.el.sbl,
-            spread: data.el.ssp,
-            color: data.el.shc,
-            inset: data.el.sin
+		css += comet.css.borderRadius( data.el.rdt, data.el.rdr, data.el.rdb, data.el.rdl );
 
-        });
-        o += toolkit.css.element( id, '.cpb-button.cpb-wrapper .cpb-link', css );
-        css = '';
+		css += comet.css.boxShadow({
+			x: data.el.sx,
+			y: data.el.sy,
+			blur: data.el.sbl,
+			spread: data.el.ssp,
+			color: data.el.shc,
+			inset: data.el.sin
 
-        if( ( tmp = toolkit.sanitize.number({ value: data.el.is, min: 10, max: 70, default: 20 }) ) !== null ){
-            css += toolkit.css.render( 'width', tmp + 'px' );
+		});
+		o += comet.css.element( id, '.cpb-button.cpb-wrapper .cpb-link', css );
+		css = '';
 
-        }
+		if( ( tmp = comet.helpers.sanitizeNumber({ value: data.el.is, min: 10, max: 70, default: 20 }) ) !== null ){
+			css += comet.css.property( 'width', tmp + 'px' );
 
-        if( ( tmp = toolkit.sanitize.number({ value: data.el.isp, min: 0, max: 100 }) ) > 0 ){
+		}
 
-        	if( data.el.ipos === 'r' ){
-        		css += toolkit.css.render( 'margin-left', tmp + 'px' );
+		if( ( tmp = comet.helpers.sanitizeNumber({ value: data.el.isp, min: 0, max: 100 }) ) > 0 ){
 
-        	}else{
-        		css += toolkit.css.render( 'margin-right', tmp + 'px' );
+			if( data.el.ipos === 'r' ){
+				css += comet.css.property( 'margin-left', tmp + 'px' );
 
-        	}
+			}else{
+				css += comet.css.property( 'margin-right', tmp + 'px' );
 
-        }
-        o += toolkit.css.element( id, '.cpb-button.cpb-wrapper .cpb-icon', css );
-        css = '';
+			}
 
-        /* Hover */
+		}
+		o += comet.css.element( id, '.cpb-button.cpb-wrapper .cpb-icon', css );
+		css = '';
 
-        if( abg !== '' ){
-        	css += toolkit.css.render( 'background', abg );
+		/* Hover */
 
-        }
+		if( abg !== '' ){
+			css += comet.css.property( 'background', abg );
 
-        if( ( tmp = toolkit.sanitize.color( data.el.htc ) ) !== '' ){
-        	css += toolkit.css.render( 'color', tmp );
+		}
 
-        }
+		if( ( tmp = comet.helpers.sanitizeColor( data.el.htc ) ) !== '' ){
+			css += comet.css.property( 'color', tmp );
 
-        if( ( tmp = toolkit.sanitize.color( data.el.hbc ) ) !== '' ){
-        	css += toolkit.css.render( 'border-color', tmp );
+		}
 
-        }
-        o += toolkit.css.element( id, '.cpb-button.cpb-wrapper .cpb-link:hover', css );
+		if( ( tmp = comet.helpers.sanitizeColor( data.el.hbc ) ) !== '' ){
+			css += comet.css.property( 'border-color', tmp );
 
-        if( ( tmp = toolkit.css.margin( data.el.mrtt, data.el.mrrt, data.el.mrbt, data.el.mrlt, 'px', 'px' ) ) !== '' ){
-        	o += toolkit.css.element( id, '.cpb-button.cpb-wrapper', tmp, 't' );
-        	o += toolkit.css.responsive( 't', toolkit.css.element( id, '.cpb-button.cpb-wrapper', tmp ) );
+		}
+		o += comet.css.element( id, '.cpb-button.cpb-wrapper .cpb-link:hover', css );
 
-        }
+		if( ( tmp = comet.css.margin( data.el.mrtt, data.el.mrrt, data.el.mrbt, data.el.mrlt, 'px', 'px' ) ) !== '' ){
+			o += comet.css.element( id, '.cpb-button.cpb-wrapper', tmp, 't' );
+			o += comet.css.responsive( 't', comet.css.element( id, '.cpb-button.cpb-wrapper', tmp ) );
 
-        if( ( tmp = toolkit.css.margin( data.el.mrtm, data.el.mrrm, data.el.mrbm, data.el.mrlm, 'px', 'px' ) ) !== '' ){
-        	o += toolkit.css.element( id, '.cpb-button.cpb-wrapper', tmp, 'm' );
-        	o += toolkit.css.responsive( 'm', toolkit.css.element( id, '.cpb-button.cpb-wrapper', tmp ) );
+		}
 
-        }
-        return o;
-        <?php
+		if( ( tmp = comet.css.margin( data.el.mrtm, data.el.mrrm, data.el.mrbm, data.el.mrlm, 'px', 'px' ) ) !== '' ){
+			o += comet.css.element( id, '.cpb-button.cpb-wrapper', tmp, 'm' );
+			o += comet.css.responsive( 'm', comet.css.element( id, '.cpb-button.cpb-wrapper', tmp ) );
 
-    }
+		}
+		return o;
+		<?php
+
+	}
 
 	protected function _register_settings(){
 
@@ -371,6 +370,7 @@ class button extends Comet_Element {
 			'min'		=> '0',
 			'max'		=> '360',
 			'unit'		=> __( 'deg', 'comet' ),
+			'step'		=> '1',
 			'hidden'	=> true
 		] );
 
@@ -382,6 +382,7 @@ class button extends Comet_Element {
 			'std'		=> '20',
 			'min'		=> '10',
 			'max'		=> '70',
+			'step'		=> '1',
 			'unit'		=> 'px'
 		] );
 
@@ -403,6 +404,7 @@ class button extends Comet_Element {
 			'std'		=> '20',
 			'min'		=> '10',
 			'max'		=> '70',
+			'step'		=> '1',
 			'unit'		=> 'px'
 		] );
 
@@ -456,6 +458,7 @@ class button extends Comet_Element {
 			'std'		=> '0',
 			'min'		=> '-70',
 			'max'		=> '70',
+			'step'		=> '1',
 			'unit'		=> 'px',
 			'hidden'	=> true
 		] );
@@ -466,6 +469,7 @@ class button extends Comet_Element {
 			'std'		=> '0',
 			'min'		=> '-70',
 			'max'		=> '70',
+			'step'		=> '1',
 			'unit'		=> 'px',
 			'hidden'	=> true
 		] );
@@ -486,6 +490,7 @@ class button extends Comet_Element {
 			'std'		=> '0',
 			'min'		=> '-70',
 			'max'		=> '70',
+			'step'		=> '1',
 			'unit'		=> 'px',
 			'hidden'	=> true
 		] );
@@ -505,6 +510,7 @@ class button extends Comet_Element {
 			'std'		=> '10',
 			'min'		=> '0',
 			'max'		=> '70',
+			'step'		=> '1',
 			'unit'		=> 'px'
 		] );
 
@@ -514,6 +520,7 @@ class button extends Comet_Element {
 			'std'		=> '25',
 			'min'		=> '0',
 			'max'		=> '100',
+			'step'		=> '1',
 			'unit'		=> 'px'
 		] );
 
@@ -523,6 +530,7 @@ class button extends Comet_Element {
 			'std'		=> '25',
 			'min'		=> '0',
 			'max'		=> '100',
+			'step'		=> '1',
 			'unit'		=> 'px'
 		] );
 

@@ -85,25 +85,21 @@ export function children( object, query ){
 	var hasOnChildFunction = false;
 	var selector, all, a, classes;
 
-	console.log( 'a' );
 	if( !isNode( object ) || !isObject( query ) || isEmpty( all = object.children ) ){
 		return aChildren;
 
 	}
 	hasOnChildFunction = isFunction( query.onMatch );
-	console.log( 'b' );
 
 	if( !( selector = decodeSelector( query.selector ) ) ){
 		return all;
 
 	}
-	console.log( 'c' );
 
 	if( selector.tagName === null && selector.classList.length < 1 ){
 		return all;
 
 	}
-	console.log( 'd' );
 
 	for( a = 0; a < all.length; a++ ){
 

@@ -1,3 +1,5 @@
+import { inArray } from './fill.js';
+
 const DOCUMENT = document;
 
 const WINDOW = window;
@@ -97,6 +99,13 @@ export function isEmpty( entry ){
 export function isTrueValue( value ){
 
 	return ( isString( value ) && ( value.toLowerCase() ).trim() === 'true' );
+
+}
+
+export function isValid( value ){
+	const VALID = [ 'true', 'TRUE', 'True', 'yes','YES', 'Yes', 'on', 'ON','On', '1' ];
+
+	return isString( value ) && inArray( VALID, value.trim() );
 
 }
 

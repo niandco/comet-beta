@@ -6,72 +6,80 @@
 	width: 100%;
 	align-items: center;
 
-	/*.comet-button  {
+	&__decrease,
+	&__increase {
 		padding: 0;
 		width: 20px;
 		height: 20px;
-		line-height: 20px;
-		text-align: center;
+		border: 0;
+		margin: 0;
+		cursor: pointer;
+		font: 600 15px/20px sans-serif;
+		margin-right: 5px;
+		background: $daLight_b;
+		color: $liDark;
+		flex-basis: 20px;
+		opacity: .5;
+		@include border_radius( 5px );
 
-		&:hover { color: $daAccent; }
+		&:hover { opacity: 1; }
+
 	}
 
-	&:hover .comet-range__bar__dragger__value {
+	&__increase { margin: 0 0 0 5px; }
+
+
+	&:hover &__bar__dragger__value {
 		bottom: 100%;
 		right: 0;
 
-		}*/
+	}
+
+	&__bar {
+		width: calc( 100% - 64px );
+		flex-basis: calc( 100% - 64px );
+		height: 14px;
+		position: relative;
+		margin-right: 14px;
 
 
-		&:hover &__bar__dragger__value {
-			bottom: 100%;
-			right: 0;
-
+		&:before {
+			content: '';
+			background: $daLight;
+			height: 2px;
+			top: 6px;
+			left: 0;
+			width: calc( 100% + 14px );
+			position: absolute;
 		}
 
-		@at-root #{&}__bar {
-			width: 100%;
+		&__dragger {
+			width: 14px;
 			height: 14px;
-			position: relative;
-			margin-right: 14px;
+			padding: 0;
+			cursor: pointer;
+			background: $daAccent;
+			position: absolute;
+			@include border_radius( 100% );
 
-			&:before {
-				content: '';
-				background: $daLight;
-				height: 2px;
-				top: 6px;
-				left: 0;
-				width: calc( 100% + 14px );
+			&__value {
 				position: absolute;
-			}
-
-			&__dragger {
-				width: 14px;
-				height: 14px;
-				padding: 0;
-				cursor: pointer;
-				background: $daAccent;
-				position: absolute;
-				@include border_radius( 100% );
-
-				&__value {
-					position: absolute;
-					bottom: 0;
-					right: 99999999em;
-					background: white;
-					color: $liDark;
-					padding: 3px;
-					font: 300 11px/1.2 sans-serif;
-					margin-bottom: 5px;
-					@include border_radius( 3px );
-					@include box_shadow( 0 0 5px 3px $daLight );
-					@include transition( bottom .1s ease-in-out );
-
-				}
+				bottom: 0;
+				right: 99999999em;
+				background: white;
+				color: $liDark;
+				padding: 3px;
+				font: 300 11px/1.2 sans-serif;
+				margin-bottom: 5px;
+				@include border_radius( 3px );
+				@include box_shadow( 0 0 5px 3px $daLight );
+				@include transition( bottom .1s ease-in-out );
 
 			}
-
 
 		}
+
 
 	}
+
+}

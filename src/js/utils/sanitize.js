@@ -2,8 +2,6 @@ import { isArray, isNumber, isString, isObject, isNode, isBool } from './is.js';
 import { parseId, parseIds } from './parse.js';
 import { inArray, stripTags } from './fill.js';
 
-// @TODO: utils.toClass
-
 /* global document */
 
 const DOCUMENT = document;

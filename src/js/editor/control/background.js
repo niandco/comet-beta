@@ -7,7 +7,6 @@ const DOCUMENT = document;
 const CORE = {
 
 	remove: function( ui ){
-		console.log( ui );
 
 		if( ui.parentNode === null ){
 			return;
@@ -28,7 +27,6 @@ export default function( content, data ){
 		return;
 
 	}
-	console.log( content );
 	node( content ).children( { selector: '.' + bgClassName, onMatch: CORE.remove } );
 
 	background = DOCUMENT.createElement( 'div' );
