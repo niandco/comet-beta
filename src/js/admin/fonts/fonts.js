@@ -1,169 +1,230 @@
-import { isBool, isNode, isArray, isObject } from '../../utils/is.js';
+import { isBool, isNode, isArray, isObject, isDefined, isString } from '../../utils/is.js';
+import { inArray, arrayMax } from '../../utils/fill.js';
+import node from '../../dom/element.js';
 import __F from './fonts-private.js';
+import CLASSES from './classes.js';
 
 const DOCUMENT = document;
 
-const WINDOW = window;
+const CORE = {
+	collection: [],
+	counter: false,
+	loadInfo: false,
+	frame: null,
+	fontsBox: null,
+	modal: false,
+	isImporting: false,
+	isDeleting: false
+};
 
-export class Fonts {
+export default class Fonts {
 
-	constructor(){
-		var frame;
-
-		if( typeof __cometfontsdata === 'object' ){
-
-			if( isNode( __cometfontsdata.frame ) ){
-				this.frame = __cometfontsdata.frame;
-				this.data = __cometfontsdata;
-				return;
-			}
-
-		}
-
-		if( ( frame = DOCUMENT.getElementById( 'comet-sourceframe8679171600336466' ) ) === null ){
-			return;
-
-		}
-		WINDOW.__cometfontsdata = {
-			collection: [],
-			counter: false,
-			loadInfo: false,
-			frame,
-			fontsBox: null,
-			modal: false,
-			isImporting: false,
-			isDeleting: false,
-			hasFonts: false
-
-		};
-		this.frame = __cometfontsdata.frame;
-		this.data = __cometfontsdata;
+	setFrameUiOnce( entry ){
+		return __F( CORE ).setDefault( 'frame', entry );
 
 	}
 
-	setCounterOnce( entry ){
-		return __F( this ).setDefault( 'counter', entry );
+	setCounterUiOnce( entry ){
+		return __F( CORE ).setDefault( 'counter', entry );
 
 	}
 
-	setLoadInfoOnce( entry ){
-		return __F( this ).setDefault( 'LoadInfo', entry );
+	setLoadInfoUiOnce( entry ){
+		return __F( CORE ).setDefault( 'loadInfo', entry );
 
 	}
 
-	setfontsBoxOnce( entry ){
-		return __F( this ).setDefault( 'fontsBox', entry );
+	setFontsBoxUiOnce( entry ){
+		return __F( CORE ).setDefault( 'fontsBox', entry );
+
+	}
+
+	emptyFontsBox(){
+		CORE.fontsBox.innerHTML = '';
+
+	}
+
+	appendToFontsBox( entry ){
+		CORE.fontsBox.appendChild( entry );
 
 	}
 
 	hasFonts(){
-		this.data.hasFonts = isArray( this.data.collection ) && this.data.collection.length > 0;
-		return this.data.hasFonts;
+		return this.count() > 0;
 
 	}
 
 	getFonts(){
-		return this.hasFonts() ? this.data.collection : false;
+		return this.hasFonts() ? CORE.collection : false;
 
 	}
 
-	getFont( id ){
-		return !this.hasFonts() || !isObject( this.data.collection[id] ) ? false : this.data.collection[id];
+	setFonts( entry ){
+		CORE.collection = !isArray( entry ) ? [] : entry;
+		return this.getFonts();
 
 	}
 
-	setFont( id, args, force ){
-		var fonts = this.getFonts();
-		force = isBool( force ) ? force : false;
+	getFont( index ){
+		return !this.hasFonts() || !isObject( CORE.collection[index] ) ? false : CORE.collection[index];
 
-		if( !fonts ){
-			this.data.collection = [];
-			fonts = this.data.collection;
+	}
 
+	/* id, name */
+	getFontBy( entry, value ){
+		var a;
+
+		if( !this.hasFonts() ){
+			return false;
 		}
 
-		if( id < 0 || !isObject( args ) ){
+		if( !isString( entry ) || !inArray( [ 'name', 'id' ], ( entry = ( entry.toLowerCase() ).trim() ) ) ){
 			return false;
 
 		}
 
-		if( !isDefined( fonts[id] ) || force ){
-			fonts[id] = args;
+		for( a = 0; a < CORE.collection.length; a++ ){
+
+			if( !isObject( CORE.collection[a] ) ){
+				continue;
+
+			}
+
+			if( entry === 'id' ){
+
+				if( value === CORE.collection[a].id ){
+					return {
+						index: a,
+						data: CORE.collection[a]
+					};
+
+				}
+				continue;
+
+			}
+
+			if( value === CORE.collection[a].family ){
+				return {
+					index: a,
+					data: CORE.collection[a]
+				};
+
+			}
 
 		}
-		return fonts[id];
+		return false;
+
+
+	}
+
+	setFont( index, args, force ){
+		force = isBool( force ) ? force : false;
+
+		if( !this.hasFonts() ){
+			CORE.collection = [];
+
+		}
+
+		if( !isObject( args ) ){
+			return false;
+
+		}
+
+		if( index < 0 ){
+			index = arrayMax( CORE.collection ) + 1;
+
+
+		}
+
+		if( !isDefined( CORE.collection[index] ) || force ){
+			CORE.collection[index] = args;
+
+		}
+		return index;
+
+	}
+
+	unsetFont( index ){
+
+		if( !this.getFont( index ) ){
+			return false;
+
+		}
+		delete CORE.collection[index];
+		return true;
 
 	}
 
 	count(){
-		const F = this.getFonts();
-		return !F ? 0 : F.length;
+		var collection;
+		return !isArray( CORE.collection ) ? 0 : CORE.collection.filter(String).length;
 
 	}
 
 	isImporting(){
-		return isBool( this.data.isImporting ) ? this.data.isImporting : false;
+		return isBool( CORE.isImporting ) ? CORE.isImporting : false;
 
 	}
 
 	setImport( value ){
-		return __F( this ).setIsBoolean( 'isImporting', value );
+		return __F( CORE ).setIsBoolean( 'isImporting', value );
 
 	}
 
 	isDeleting(){
-		return isBool( this.data.isDeleting ) ? this.data.isDeleting : false;
+		return isBool( CORE.isDeleting ) ? CORE.isDeleting : false;
 
 	}
 
 	setDelete( value ){
-		return __F( this ).setIsBoolean( 'isDeleting', value );
+		return __F( CORE ).setIsBoolean( 'isDeleting', value );
 
 	}
 
 	getModal(){
-		return isObject( this.data.modal ) ? this.data.modal : false;
+		return isObject( CORE.modal ) ? CORE.modal : false;
 
 	}
 
 	setModal( modal ){
-		this.data.modal = modal;
+		CORE.modal = modal;
 		return modal;
 
 	}
 
 	setCounter(){
 		const c = this.count();
-		this.data.counter.innerHTML = c + ' font ' + ( c === 1 ? 'family' : 'families' );
+		console.log( c, CORE );
+		CORE.counter.innerHTML = c + ' font ' + ( c === 1 ? 'family' : 'families' );
 
 	}
 
 	setLoadTime(){
 		const c = this.count();
 		var state = 'Slow';
-		var classes = 'comet-gauge comet-indicator';
+		var classes = CLASSES.gauge.main + ' ';
 
 		if( c <= 2 ){
 			state = 'Fast';
-			classes += ' is-fast';
+			classes += CLASSES.gauge.fast;
 
 
 		}else if( c <= 4 ){
 			state = 'Moderate';
-			classes += ' is-moderate'; 
+			classes += CLASSES.gauge.moderate; 
 
 		}else{
 			state = 'Slow';
-			classes += ' is-slow';
+			classes += CLASSES.gauge.slow;
 
 		}
-		this.data.loadInfo.className = classes;
-		this.data.loadInfo.innerHTML = 'Load time: ' + state;
+		CORE.loadInfo.className = classes;
+		CORE.loadInfo.innerHTML = 'Load time: ' + state;
 
 	}
 
 	setState( importing ){
-		const button = this.data.modal.fontBoxUi.import;
+		const button = CORE.modal.fontBoxUi.import;
 		importing = this.setImport( importing );
 
 		if( !isNode( button ) ){

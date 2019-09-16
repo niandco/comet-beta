@@ -1,0 +1,169 @@
+@import '../utils/mixins';
+@import '../utils/colors';
+
+.comet-page--main {
+
+	&__content {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+
+		&__column {
+			flex-basis: 50%;
+			width: 50%;
+
+			&--c1 {
+				flex-basis: 100%;
+				width: 100%;
+				padding-bottom: 30px;
+
+			}
+
+			&--c2 { padding-right: 20px; }
+
+		}
+	}
+
+	&__widget {
+		display: block;
+		margin-bottom: 20px;
+
+		&--intro {
+
+			&__button {
+				background: getColor( yellow400 );
+				margin-top: 10px;
+
+				&:hover {
+					background: getColor( yellow500 );
+					color: inherit;
+
+				}
+
+			}
+		}
+
+		&--learn {
+
+			&__item {
+				margin: 0 0 10px;
+
+				&__url {
+					background: white;
+					color: getColor( gray600 );
+					display: block;
+					padding: 10px;
+					@include border_radius( 5px );
+
+					&:hover, &:active {
+						color: getColor( blue600 );
+						text-decoration: none;
+						@include box_shadow( 0 0 5px 0 getColor( gray400 ) );
+					}
+				}
+			}
+		}
+
+		&--docs {
+			background: url('../img/comet-dashboard-img1.jpeg') repeat center center;
+			background-size: cover;
+			overflow: hidden;
+			@include border_radius( 5px );
+
+			&__url {
+				padding: 100px 20px;
+				background: rgba( getColor( blue600 ), .8 );
+				display: block;
+				font-size: 30px;
+				font-weight: 300;
+				color: white;
+
+				&:hover, &:active {
+					background: rgba( getColor( blue600 ), .4 );
+					text-decoration: none;
+					@include transition( background-color ease-in-out .5s );
+
+				}
+			}
+		}
+
+		&--slider {
+
+			&__slide {
+				flex-wrap: wrap;
+				height: 500px;
+				align-content: space-between;
+				padding: 40px;
+				background: getColor( blue600 );
+				@include border_radius( 5px );
+				display: none;
+
+				$slide: #{&};
+
+				&__counter {
+
+					span {
+						background: rgba( getColor( mono100 ), .5 );
+						color: getColor( mono100 );
+						display: inline-block;
+						padding: 5px 10px;
+						font: 500 13px/1.1 sans-serif;
+						@include border_radius( 5px );
+					}
+				}
+
+				&__content {
+
+					h4 {
+						margin-bottom: 10px;
+						color: getColor( mono100 );
+					}
+
+					p { color: getColor( mono100 ); }
+
+				}
+
+				&--start {
+					display: flex;
+
+					h4 { font-size: 30px; }
+
+					&  #{$slide}__buttonset { justify-content: flex-end; }
+
+				}
+
+				&__buttonset {
+					display: flex;
+					justify-content: space-between;
+					flex-basis: 100%;
+					width: 100%;
+					padding-top: 20px;
+
+				}
+
+				&__button {
+					background: none;
+					cursor: pointer;
+					opacity: .8;
+					padding: 0;
+					margin: 0;
+
+					.cico {
+						border: 2px solid getColor( mono100 );
+						color: getColor( mono100 );
+						margin: 0;
+						padding: 5px;
+						@include border_radius( 30em );
+
+					}
+
+					&:hover {
+						opacity: 1;
+						@include transition( opacity .5s ease );
+
+					}
+				}
+			}
+		}
+	}
+}

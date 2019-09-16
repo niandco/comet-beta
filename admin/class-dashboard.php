@@ -47,7 +47,7 @@ class Comet_Dashboard extends Comet_Pages {
 	}
 
 	public function body_class(){
-		return 'comet-dashboard';
+		return 'comet-page--dashboard';
 		
 	}
 

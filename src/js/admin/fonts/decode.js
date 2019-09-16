@@ -143,7 +143,6 @@ export default function( raw ){
 	var ff, i, wei, fam;
 
 
-
 	if( !isString( raw ) || !( ff = TRY.fontFace( raw ) ) ){
 		return false;
 

@@ -1,0 +1,79 @@
+$colors: (
+	mono100: white,
+	mono900: black,
+
+	gray100: #F7FAFC,
+	gray200: #EDF2F7,
+	gray300: #E2E8F0,
+	gray400: #CBD5E0,
+	gray500: #A0AEC0,
+	gray600: #718096,
+	gray700: #4A5568,
+	gray800: #2D3748,
+	gray900: #1A202C,
+
+	red100: #FFF5F5,
+	red200: #FED7D7,
+	red300: #FEB2B2,
+	red400: #FC8181,
+	red500: #F56565,
+	red600: #E53E3E,
+	red700: #C53030,
+	red800: #9B2C2C,
+	red900: #742A2A,
+
+	orange100: #FFFAF0,
+	orange200: #FEEBC8,
+	orange300: #FBD38D,
+	orange400: #F6AD55,
+	orange500: #ED8936,
+	orange600: #DD6B20,
+	orange700: #C05621,
+	orange800: #9C4221,
+	orange900: #7B341E,
+
+	yellow100: #FFFFF0,
+	yellow200: #FEFCBF,
+	yellow300: #FAF089,
+	yellow400: #F6E05E,
+	yellow500: #ECC94B,
+	yellow600: #D69E2E,
+	yellow700: #B7791F,
+	yellow800: #975A16,
+	yellow900: #744210,
+
+	green100: #F0FFF4,
+	green200: #C6F6D5,
+	green300: #9AE6B4,
+	green400: #68D391,
+	green500: #48BB78,
+	green600: #38A169,
+	green700: #2F855A,
+	green800: #276749,
+	green900: #22543D,
+
+	/*b100: #52CEFF,*/
+
+	blue100: #EFF5FF,
+	blue200: #C3DCFF,
+	blue300: #9EC7FF,
+	blue400: #7CB3FF,
+	blue500: #2A83FF,
+	blue600: #006AFE,
+	blue700: #0359D2,
+	blue800: #0143A0,
+	blue900: #002456,
+
+);
+
+
+@function getColor( $key ) {
+
+	@if map-has-key($colors, $key) {
+		@return map-get($colors, $key);
+
+	}
+	@warn "The key #{$key} is not in the map ’$colors’";
+	@return null;
+
+}

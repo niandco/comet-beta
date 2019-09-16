@@ -23,6 +23,11 @@ class settings extends Comet_Interface{
 
     private $options = [];
 
+    private $className = [
+        'block'     => 'comet-page--settings__block',
+        'field'     => 'comet-input comet-field'
+    ];
+
     public function __construct(){
 
         $this->menu_title = __( 'Settings', 'comet' );
@@ -123,23 +128,27 @@ class settings extends Comet_Interface{
     	$this->post = ( is_array( $_POST ) ? $_POST : array() );
     	$this->is_action = isset( $this->post['_comet_nonce'] );
     	$this->options = get_option( 'comet_settings' );
-    	$options = array();
+    	$options = [];
     	$fields = '';
 
         foreach( $this->settings as $id => $param ){
 
             $field = call_user_func( array( $this, $param['type'] ), $id, $param );
 
-            $fields .= '<div class="comet-setting comet-row col2">';
-            $fields .= '<div class="comet-settingBlock first comet-column col1">';
-            $fields .= '<label for="' . $id . '">' . $param['label'] . '</label>';
+            $fields .= <<<ITEM
+            <div class="{$this->className['block']}">
+                <div class="{$this->className['block']}__column {$this->className['block']}__column--first">
+                    <label class="{$this->className['block']}__label" for="$id">{$param['label']}</label>
+ITEM;
 
             if( isset( $param['desc'] ) && is_string( $param['desc'] ) ){
-                $fields .= '<div class="comet-settingDesc">' . trim( strip_tags( $param['desc'], '<a><span><br>' ) ) . '</div>';
+                $fields .= "<p class=\"{$this->className['block']}__desc\">";
+                $fields .= trim( strip_tags( $param['desc'], '<a><span><br>' ) );
+                $fields .= '</p>';
 
             }
             $fields .= '</div>';
-            $fields .= '<div class="comet-settingBlock last comet-column col2">';
+            $fields .= "<div class=\"{$this->className['block']}__column {$this->className['block']}__column--last\">";
 
             if( is_array( $field ) ){
 
@@ -176,16 +185,15 @@ class settings extends Comet_Interface{
         	}
 
         }
-        echo $fields;
-        echo '<button type="submit" class="comet-button comet-buttonPrimary">' . __( 'Save', 'comet' ) . '</button>';
-        echo '<input type="hidden" id="comet-nonce" name="_comet_nonce" value="' . wp_create_nonce( 'comet_dash_settings_nonce' ) . '" />';
-        echo '</form>';
+        $save = __( 'Save', 'comet' );
+        $nonce = wp_create_nonce( 'comet_dash_settings_nonce' );
 
-    }
-
-    private function _toClasses(){
-
-        return 'comet-input comet-field';
+        echo <<<OUT
+        $fields
+            <button type="submit" class="comet-button comet-button--primary comet-button--rounded comet-page--settings__submit">$save</button>
+            <input type="hidden" id="comet-nonce" name="_comet_nonce" value="$nonce" />
+        </form>
+OUT;
 
     }
 
@@ -220,8 +228,11 @@ class settings extends Comet_Interface{
 
     private function _text( $id ){
     	$value = sanitize_text_field( $this->_get_value( $id ) );
+        $svalue = esc_attr( $value );
 
-    	$input = '<input class="' . $this->_toClasses() . '" type="text" id="' . $id . '" name="' . $id . '" value="' . esc_attr( $value ) . '" />';
+    	$input = <<<INPUT
+        <input class="{$this->className['field']}" type="text" id="$id" name="$id" value="$svalue" />
+INPUT;
 
     	return $this->_onreturn( $input, $value );
 
@@ -233,7 +244,9 @@ class settings extends Comet_Interface{
     	$is_valid = false;
 
         if( isset( $this->settings[$id]['choices'] ) && is_array( $choices = $this->settings[$id]['choices'] ) ){
-        	$select = '<select id="' . $id . '" class="' . $this->_toClasses() . '" name="' . $id . '">';
+        	$select = <<<SELECT
+            <select id="$id" class="{$this->className['field']}" name="$id">
+SELECT;
 
         	foreach( $choices as $key => $label ){
         		$selected = '';
@@ -260,11 +273,14 @@ class settings extends Comet_Interface{
 
     private function _number( $id ){
     	$value = (float) $this->_get_value( $id );
+        $svalue = esc_attr( $value );
 
-        $input = '<input class="comet-inline ' . $this->_toClasses() . '" type="number" id="' . $id . '" name="' . $id . '" value="' . esc_attr( $value ) . '" />';
+        $input = <<<INPUT
+        <input class="comet-inline {$this->className['field']}" type="number" id="$id" name="$id" value="$svalue" />
+INPUT;
 
         if( isset( $this->settings[$id]['unit'] ) ){
-            $input .= '<span class="comet-inline">' . $this->settings[$id]['unit'] . '</label>';
+            $input .= '<span class="comet-inline">' . $this->settings[$id]['unit'] . '</span>';
 
         }
         return $this->_onreturn( $input, $value );
@@ -292,7 +308,7 @@ class settings extends Comet_Interface{
         	}
         	$radio .= '<label for="' . $id . $i . '" class="' . $class . '">';
             $radio .= '<span>'. ( is_string( $label ) ? trim( strip_tags( $label ) ) : __( 'Undefined', 'comet' ) ) . '</span>';
-            $radio .= '<input class="' . $this->_toClasses() . '" type="radio" name="' . $id . '" id="' . $id_ . '" value="' . esc_attr( $key ) . '"' . $checked . ' />';
+            $radio .= '<input class="' . $this->className['field'] . '" type="radio" name="' . $id . '" id="' . $id_ . '" value="' . esc_attr( $key ) . '"' . $checked . ' />';
             $radio .= '</label>';
             $i++;
         }
@@ -317,16 +333,21 @@ class settings extends Comet_Interface{
         		$id_ = $id . $i;
         		$name = "{$id}[{$key}]";
         		$checked = '';
+                $slabel = is_string( $label ) ? trim( strip_tags( $label ) ) : __( 'Undefined', 'comet' );
 
         		if( isset( $values[$key] ) && (int)$values[$key] === 1 ){
         			$checked = ' checked="checked"';
 
         		}
-        		$checkbox .= '<div class="comet-fieldCheckbox">';
-        		$checkbox .= '<input class="' . $this->_toClasses() . '" type="checkbox" name="'. $name .'" id="' . $id_ . '" value="1"' . $checked . ' />';
-        		$checkbox .= '<label for="' . $id_ . '" class="comet-middleIb">' . ( is_string( $label ) ? trim( strip_tags( $label ) ) : __( 'Undefined', 'comet' ) ) . '</label>';
-        		$checkbox .= '</div>';
+        		$checkbox .= <<<CHECKBOX
+                <div class="comet-control comet-control--checkbox">
+                    <input class="{$this->className['field']} {$this->className['field']}--checkbox" type="checkbox" name="$name" id="$id_" value="1"$checked />
+                    <label for="$id_" class="comet-control--checkbox__label">$slabel</label>
+                </div>
+CHECKBOX;
+
         		$i++;
+
         	}
         }
         return $this->_onreturn( $checkbox, $values );

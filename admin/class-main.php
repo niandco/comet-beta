@@ -17,6 +17,10 @@ class main extends Comet_Interface {
 
     protected $slug = 'main';
 
+    private $className = [
+        'widget'      => 'comet-page--main__widget'
+    ];
+
     public function __construct(){
 
     	$help = __( 'Welcome to your Comet dashboard! This screen gives you access to the general features of Comet.', 'comet' );
@@ -39,40 +43,53 @@ class main extends Comet_Interface {
 
     protected function content(){
 
-        //echo '<div id="comet-mapDashboard" class="comet-row comet-wrapper">';
-        echo '<div class="comet-row comet-wrapper">';
-        echo '<div class="comet-column col1">';
-        echo $this->welcome();
-        echo '</div>';
-        echo '<div class="comet-column col2">';
-        echo $this->tour();
-        echo '</div>';
-        echo '<div class="comet-column col3">';
-        echo $this->learn();
-        echo $this->support();
-        echo '</div>';
-        //echo '</div>';
-        echo '</div>';
+        $className = 'comet-page--main__content';
+
+        echo <<<CONTENT
+        <div class="$className">
+
+            <div class="{$className}__column {$className}__column--c1">
+                {$this->welcome()}
+            </div>
+
+            <div class="{$className}__column {$className}__column--c2">
+                {$this->tour()}
+            </div>
+
+            <div class="{$className}__column {$className}__column--c3">
+                {$this->learn()}
+                {$this->support()}
+            </div>
+
+        </div>
+CONTENT;
 
     }
 
     private function welcome(){
         $user = wp_get_current_user();
         $url = esc_url( 'https://wordpress.org/support/plugin/comet-lite/reviews/?filter=5#new-post' );
-        $button = __( 'Write a review', 'comet' );
+        $content = [
+            'h2'        => sprintf( __( 'Hi %s !', 'comet' ), $user->user_login ),
+            'p1'        => __( 'Welcome to Comet. Here is the dashboard to manage some parts of Comet.', 'comet' ),
+            'p2'        => __( 'Your opinion is really important to us to bring new ideas and make Comet better. We truly appreciate the time you may take to write some lines about your experience with Comet.', 'comet' ),
+            'button'    => __( 'Write a review', 'comet' )
 
-        $o = '<div class="comet-dashboardWidget">';
-        $o .= '<h2>' . sprintf( __( 'Hi %s !', 'comet' ), $user->user_login ) . '</h2>';
-        $o .= '<p>';
-        $o .= __( 'Welcome to Comet. Here is the dashboard to manage some parts of Comet.', 'comet' );
-        $o .= '</p>';
-        $o .= '<p>';
-        $o .= __( 'Your opinion is really important to us to bring new ideas and make Comet better. We truly appreciate the time you may take to write some lines about your experience with Comet.', 'comet' );
-        $o .= '</p>';
-        $o .= "<a class=\"comet-button comet-buttonPrimary\" href=\"{$url}\" target=\"_blank\">{$button}</a>";
-        $o .= '</div>';
+        ];
 
-        return $o;
+        $output = <<<CONTENT
+        <div class="{$this->className['widget']} {$this->className['widget']}--intro">
+            <h2>{$content['h2']}</h2>
+            <p>{$content['p1']}</p>
+            <p>{$content['p2']}</p>
+            <a class="comet-button comet-button--rounded {$this->className['widget']}--intro__button" href="$url" target="_blank">
+                {$content['button']}
+            </a>
+        </div>
+
+CONTENT;
+
+        return $output;
 
     }
 
@@ -106,7 +123,9 @@ class main extends Comet_Interface {
 
         $total = count( $slides );
 
-        $o = '<div id="comet-dashboardSlider" class="comet-dashboardWidget">';
+        $o = <<<ITEMS
+        <div class="{$this->className['widget']} {$this->className['widget']}--slider">
+ITEMS;
 
         for( $n = 0; $n < $total; $n++ ){
             $slide = $slides[$n];
@@ -118,15 +137,14 @@ class main extends Comet_Interface {
 
             }
             $id = $n + 1;
-            $classes = 'comet-dashboardSlide';
 
-            if( isset( $slide['id'] ) && !empty( $slide['id'] ) ){
-                $classes .= ' comet-dashboardSlide' . ucfirst( trim( $slide['id'] ) );
-
-            }
-
-            $o .= "<div class=\"{$classes}\">";
-            $o .= "<div class=\"comet-dashboardSlideCount\"><span>{$id}/{$total}</span></div>";
+            $o .= <<<ITEM
+            <div class="{$this->className['widget']}--slider__slide {$this->className['widget']}--slider__slide--{$slide['id']}">
+                <div class="{$this->className['widget']}--slider__slide__counter">
+                    <span>{$id}/{$total}</span>
+                </div>
+                <div class="{$this->className['widget']}--slider__slide__content">
+ITEM;
 
             if( $has_title ){
                 $o .= '<h4>' . $slide['title'] . '</h4>';
@@ -137,14 +155,22 @@ class main extends Comet_Interface {
                 $o .= '<p>' . $slide['content'] . '</p>';
 
             }
-            $o .= '<div class="comet-dashboardSlideButtonset">';
+            $o .= '</div>';
+            $o .= "<div class=\"{$this->className['widget']}--slider__slide__buttonset\">";
 
             if( $id > 1 ){
-                $o .= '<button class="comet-dashboardSlideButton comet-prev comet-button">' . __( 'Back', 'comet' ) . '</button>';
+                $title = __( 'Back', 'comet' );
+                $o .= "<button class=\"{$this->className['widget']}--slider__slide__button {$this->className['widget']}--slider__slide__button--prev\" title=\"$title\">";
+                $o .= '<span class="cico cico-arrow-left-alt"></span>';
+                $o .= '</button>';
 
             }
+
             if( $id < $total ){
-                $o .= '<button class="comet-dashboardSlideButton comet-next comet-button">' . __( 'Next', 'comet' ) . '</button>';
+                $title = __( 'Next', 'comet' );
+                $o .= "<button class=\"{$this->className['widget']}--slider__slide__button {$this->className['widget']}--slider__slide__button--next\" title=\"$title\">";
+                $o .= '<span class="cico cico-arrow-right-alt"></span>';
+                $o .= '</button>';
 
             }
             $o .= '</div>';
@@ -177,23 +203,26 @@ class main extends Comet_Interface {
             ],
         ];
         $total = count( $docs );
-        $o = '<ul id="comet-dashboardLearn" class="comet-dashboardWidget">';
+        $o = "<ul class=\"{$this->className['widget']} {$this->className['widget']}--learn\">";
 
         for( $n = 0; $n < $total; $n++ ){
             $doc = $docs[$n];
             $url = isset( $doc['url'] ) && is_string( $doc['url'] ) ? esc_url( trim( strip_tags( $doc['url'] ) ) ) : '';
 
-            $o .= "<li><a href=\"{$url}\" target=\"_blank\">";
+            $o .= <<<ITEM
+            <li class="{$this->className['widget']}--learn__item">
+                <a class="{$this->className['widget']}--learn__item__url" href=\"{$url}\" target=\"_blank\">
+ITEM;
 
             if( isset( $doc['title'] ) && is_string( $doc['title'] ) ){
                 $title = strip_tags( $doc['title'] );
-                $o .= "<h4>{$title}</h4>";
+                $o .= "<h4 class=\"{$this->className['widget']}--learn__item__title\">{$title}</h4>";
 
             }
 
             if( isset( $doc['desc'] ) && is_string( $doc['desc'] ) ){
                 $desc = strip_tags( $doc['desc'] );
-                $o .= "<p>{$desc}</p>";
+                $o .= "<p class=\"{$this->className['widget']}--learn__item__desc\">{$desc}</p>";
 
             }
             $o .= '</a></li>';
@@ -210,11 +239,13 @@ class main extends Comet_Interface {
         $url = esc_url( 'https://blacklead.fr/support/docs/comet' );
         $title = __( 'Read the documentation', 'comet' );
 
-        $o = '<div id="comet-dashboardReadDoc" class="comet-dashboardWidget">';
-        $o .= "<a href=\"{$url}\" target=\"_blank\">{$title}</a>";
-        $o .= '</div>';
+        return <<<CONTENT
 
-        return $o;
+        <div class="{$this->className['widget']} {$this->className['widget']}--docs">
+            <a class="{$this->className['widget']}--docs__url" href="$url" target="_blank">$title</a>
+        </div>
+
+CONTENT;
 
     }
 

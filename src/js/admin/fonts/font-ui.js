@@ -1,8 +1,14 @@
 import { isObject, isString, isArray } from '../../utils/is.js';
-import { getFontData } from './helpers.js';
+import { capitalize, decodeChars } from '../../utils/fill.js';
+import Message from '../../utils/message.js';
 import Dialog from '../../utils/dialog.js';
+import node from '../../dom/element.js';
 import Ajax from '../../utils/ajax.js';
+import CLASSES from './classes.js';
 import Fonts from './fonts.js';
+
+
+const DOCUMENT = document;
 
 function __Remove( self ){
 
@@ -60,7 +66,7 @@ function __Remove( self ){
 			var gdata;
 
 			self.setDelete( false );
-			DIALOG.dialog.buttonset.cancel.className = 'comet-button comet-buttonPrimary comet-cancel';
+			DIALOG.dialog.buttonset.cancel.className = 'comet-button comet-button--primary comet-button--cancel';
 			DIALOG.dialog.buttonset.cancel.style.display = 'inline-block';
 			DIALOG.dialog.buttonset.cancel.innerHTML = __cometi18n.ui.done;
 			node( DIALOG.dialog.buttonset.done ).remove();
@@ -72,8 +78,8 @@ function __Remove( self ){
 
 				}
 
-				if( isObject( gdata = getFontData( DATA.id ) ) ){
-					__core.data.collection.splice( gdata.index, 1 );
+				if( isObject( gdata = self.getFontBy( 'id', DATA.id ) ) ){
+					self.unsetFont( gdata.index );
 
 				}
 				self.setCounter();
@@ -82,7 +88,7 @@ function __Remove( self ){
 				code = 200;
 
 			}
-			message( msg, code ).set( DIALOG.dialog.textbox );
+			Message( msg, code ).set( DIALOG.dialog.textbox );
 
 		},
 
@@ -92,10 +98,10 @@ function __Remove( self ){
 
 }
 
-export class FontUi extends Fonts {
+export default class FontUi extends Fonts {
 
 	constructor(){
-		super( this );
+		super();
 
 	}
 
@@ -111,32 +117,28 @@ export class FontUi extends Fonts {
 		}
 		c = isArray( data.weight ) ? data.weight.length : ( isObject( data.weight ) ? Object.keys( data.weight ).length : 0 );
 		fragment.appendChild( card );
-		inner = '<div class="comet-previewbox comet-sampletext">';
-		inner += '<p class="comet-inner comet-text" style="font-family:' + name + ';">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>';
+		inner = '<div class="' + CLASSES.item.preview + '">';
+		inner += '<p class="' + CLASSES.item.sample + '" style="font-family:' + name + ';">ABC acb 0123456789</p>';
 		inner += '</div>';
-		inner += '<div class="comet-info comet-wrapper">';
-		inner += '<div class="comet-fontinfo">';
-		inner += '<span class="comet-fontname">' + capitalize( name ) + '</span>';
-		inner += '<span class="comet-fontstyle">' + ( c === 1 ? '1 style' : c + ' styles' ) + '</span>';
+		inner += '<div class="' + CLASSES.item.aside + '">';
+		inner += '<div class="' + CLASSES.item.meta + '">';
+		inner += '<span class="' + CLASSES.item.name + '">' + capitalize( name ) + '</span>';
+		inner += '<span class="' + CLASSES.item.style + '">' + ( c === 1 ? '1 style' : c + ' styles' ) + '</span>';
 		inner += '</div>';
-		inner += '<div class="comet-actions comet-ui">';
-		inner += '<button class="comet-button" title="' + __cometi18n.ui.delete + '"><span class="cico cico-trash"></span></button>';
+		inner += '<div class="' + CLASSES.item.events + '">';
+		inner += '<button class="comet-button comet-button--circle comet-button--has-icon ' + CLASSES.item.delete + '" title="' + __cometi18n.ui.delete + '"><span class="comet-button__icon cico cico-trash"></span></button>';
 		inner += '</div>';
 		inner += '</div>';
-		card.className = 'comet-font comet-wrapper comet-card';
+		card.className = CLASSES.item.main;
 		card.innerHTML = inner;
 
 		node( card.lastChild.lastChild.firstChild ).on( 'click', __Remove( this ).remove, { card, id: data.id } );
 
-		return fragment;
-
-		/*if( !__core.data.hasFonts ){
-			__core.data.fontsBox.innerHTML = '';
-			__core.data.hasFonts = true;
+		if( ( this.count() - 1 ) <= 0 ){
+			this.emptyFontsBox();
 
 		}
-		__core.data.fontsBox.appendChild( card );*/
-
+		this.appendToFontsBox( fragment );
 
 	}
 
@@ -159,7 +161,7 @@ export class FontUi extends Fonts {
 		}
 		o = DOCUMENT.createElement( 'style' );
 		o.type = 'text/css';
-		o.innerHTML = inner;
+		o.innerHTML = decodeChars( inner );
 		DOCUMENT.head.appendChild( o );
 
 	}

@@ -1,112 +1,109 @@
-@import '../utils/variables';
+@import '../utils/colors';
 @import '../utils/mixins';
 
-.comet-fonts.comet-dashboard .comet-boxed.comet-content {
+.comet-page--fonts {
 
-	> .comet-header > .comet-column {
+	&__new { padding: 10px; }
 
-		.comet-button {
-			padding: 10px;
-			@include border_radius( 30em );
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 
-			> .cico { display: block; }
-
-		}
-
-		&:first-child {
-			flex-wrap: wrap;
-
-			> h4 { width: 100%; }
-
-			> .comet-gauge {
-				padding: 5px;
-				margin-top: 5px;
-				font-size: 13px;
-				color: white;
-				@include border_radius( 30em );
-
-				&.is-fast { background: #52B952; }
-
-				&.is-moderate { background: #F9AB36; }
-
-				&.is-slow { background: #EC4A4A; }
-
-			}
-
-		}
 	}
 
-	> .comet-body.comet-fontslist {
+	&__counter {
+		flex-basis: 100%;
+		width: 100%;
+
+	}
+
+	&__gauge {
+		padding: 5px;
+		margin-top: 5px;
+		font-size: 13px;
+		color: white;
+		@include border_radius( 30em );
+
+		&--fast { background: getColor( green600 ); }
+
+		&--moderate { background: getColor( orange600 ); }
+
+		&--slow { background: getColor( red600 ); }
+
+	}
+
+	&__list {
 		display: flex;
-		justify-content: flex-start;
+		justify-content: space-between;
 		flex-wrap: wrap;
 
-		> .comet-font.comet-card {
-			width: calc( 33.33% - 20px );
-			margin-right: 30px;
-			margin-top: 30px;
+	}
+
+	&__item {
+		flex-basis: 30%;
+		width: 30%;
+		margin-top: 30px;
+		overflow: hidden;
+		border: 1px solid getColor( gray400 );
+		@include border_radius( 5px );
+
+		&:hover { @include box_shadow( 0 0 5px 0 getColor( gray400 ) ); }
+
+		&__preview {
+			background: white;
+			color: black;
+			padding: 10px;
+			height: 150px;
+			font-size: 23px;
 			overflow: hidden;
-			border: 1px solid $daLight;
-			@include border_radius( 3px );
-
-			&:nth-of-type(3n) { margin-right: 0; }
-
-			&:hover { @include box_shadow( 0 0 10px 0 $daLight ); }
-
-			> .comet-previewbox.comet-sampletext {
-				background: white;
-				color: black;
-				padding: 10px;
-				height: 150px;
-				font-size: 23px;
-				overflow: hidden;
-				border-bottom: 1px solid $daLight;
-			}
-
-			> .comet-info.comet-wrapper {
-				padding: 10px;
-				display: flex;
-				justify-content: space-between;
-				background: #EBF3F9;
-
-				.comet-fontname {
-					font-weight: 600;
-					display: block;
-				}
-
-				.comet-fontstyle {
-					font-size: 14px;
-					display: block;
-				}
-
-				.comet-button {
-					padding: 0;
-
-					> .cico { display: block; }
-
-					&:hover > .cico.cico-trash { color: red; }
-
-				}
-
-
-			}
+			border-bottom: 1px solid getColor( gray400 );
 
 		}
 
-		> .comet-introduction.comet-tutorial {
-			width: 100%;
+		&__aside {
+			padding: 10px;
+			display: flex;
+			justify-content: space-between;
+
+		}
+
+		&__name {
+			font-weight: 600;
+			display: block;
+		}
+
+		&__style {
+			font-size: 14px;
+			display: block;
+		}
+
+		&__delete {
+			padding: 5px;
+
+			&:hover { color: getColor( red600 ); }
+
+		}
+
+	}
+
+	&__tutorial {
+		width: 100%;
+		margin-top: 30px;
+		text-align: center;
+
+		&__row {
+			display: flex;
+			justify-content: space-between;
+
+		}
+
+		&__column {
+			flex-basis: 30%;
+			width: 30%;
 			margin-top: 30px;
-			text-align: center;
+			text-align: left;
 
-			.comet-column {
-				width: calc( 33.33% - 20px );
-				margin-top: 30px;
-				margin-right: 30px;
-				text-align: left;
-
-				&:nth-of-type(3n) { margin-right: 0; }
-				
-			}
 		}
 	}
 }

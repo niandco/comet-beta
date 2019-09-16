@@ -1,0 +1,59 @@
+@import 'mixins';
+@import 'colors';
+
+.comet-tooltip {
+	position: relative;
+
+	$rootTooltip: #{&};
+
+	&__main {
+		position: absolute;
+		top: 100%;
+		padding: 5px;
+		background: getColor( mono100 );
+		color: getColor( gray600 );
+		font-size: 13px;
+		width: 150px;
+		@include border_radius( 5px );
+		filter: drop-shadow( 0 0 5px getColor( gray500 ) );
+
+		&:before {
+			content: '';
+			width: 0; 
+			height: 0; 
+			position: absolute;
+			bottom: 100%;
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			border-bottom: 5px solid getColor( mono100 );
+
+		}
+
+		&--right {
+			right: 9999em;
+
+			&:before { right: 10px; }
+
+		}
+
+		&--left { left: -9999em;
+
+			&:before { left: 10px; }
+
+		}
+
+	}
+
+	&:hover {
+
+		#{$rootTooltip}__main {
+			z-index: 99999;
+
+			&--right { right: 10px; }
+
+			&--left { left: 10px; }
+
+		}
+	}
+
+}

@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'colors';
 @import 'mixins';
 
 html {
@@ -7,7 +7,7 @@ html {
 }
 
 body {
-    color: $liDark;
+    color: getColor( gray700 );
     font: 300 15px/1.5 sans-serif;
     background: none;
 }

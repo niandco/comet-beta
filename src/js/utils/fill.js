@@ -1,4 +1,4 @@
-import { isArray, isString, isObject, isEmpty, isBool } from './is.js';
+import { isArray, isString, isObject, isEmpty, isBool, isNumber, isFunction, isDefined } from './is.js';
 
 /**
 * Computes the difference of arrays.
@@ -29,6 +29,63 @@ export function arrayDiff( array1, array2 ){
 export function inArray( array, value ){
 
 	return isArray( array ) && array.length > 0 && isString( value ) && array.indexOf( value ) > -1;
+
+}
+
+/**
+* Get max value in an array.
+*
+* @param {array}	array	The array.
+*
+* @return {int} Returns The max value found in the array.
+*/
+export function arrayMax( array ){
+	var r = 0;
+	var a = 0;
+
+	if( !isArray( array ) || array.length < 1 ){
+		return 0;
+
+	}
+
+	for( a; a < array.length; a++ ){
+
+		if( a > r ){
+			r = a;
+
+		}
+
+	}
+	return r;
+
+}
+
+/**
+* Get min value in an array.
+*
+* @param {array}	array	The array.
+*
+* @return {int} Returns The min value found in the array.
+*/
+export function arrayMin( array ){
+	var r = 0;
+	var a = 0;
+
+	if( !isArray( array ) || array.length < 1 ){
+		return 0;
+
+	}
+	r = array.length;
+
+	for( a; a < array.length; a++ ){
+
+		if( a < r ){
+			r = a;
+
+		}
+
+	}
+	return r;
 
 }
 
@@ -83,7 +140,7 @@ export function xtrim( entry ){
 *
 * @return {string} Returns a JSON encoded string.
 */
-export function jsonEncode( obj, raw ){
+/*export function jsonEncode( obj, raw ){
 
 	if( !isObject( obj ) || isArray( obj ) ){
 		return '';
@@ -97,22 +154,74 @@ export function jsonEncode( obj, raw ){
 	}
 	return JSON.stringify( obj );
 
+}*/
+
+export function jsonEncode( entry, raw ){
+
+	if( !isObject( entry ) || isArray( entry ) ){
+		return '';
+
+	}
+
+	if( isBool( raw ) && raw ){
+		entry = preJsonValues( entry );
+
+	}
+	return encodeURIComponent( JSON.stringify( entry ) );
+
+}
+
+export function preJsonValues( entry ){
+	var e;
+
+	if( !isObject( entry ) ){
+
+		if( isString( entry ) ){
+			return encodeChars( entry );
+
+		}else if( isNumber( entry ) ){
+			return entry.toString();
+
+		}else if( isFunction( entry ) ){
+			return encodeChars( entry.toString() );
+
+		}else if( !isDefined( entry ) ){
+			return entry;
+
+		}
+		return '';
+
+	}
+
+	for( e in entry ){
+		entry[e] = preJsonValues( entry[e] );
+
+	}
+	return entry;
+
 }
 
 /**
-* Convert some special characters.
+* Encode some special characters.
 *
 * @param {string}	str	The string being converted.
 *
 * @return {string} Returns the converted string.
 */
 export function encodeChars( str ){
+
 	const __core = {
 
 		map: {
 			'\\': '&#92;',
 			"'": '&#39;',
 			'"': '&#34;',
+			'+': '&#43;',
+			'@': '&#64;',
+			'{': '&#123;',
+			'}': '&#125;',
+			':': '&#58;',
+			',': '&#44;'
 		},
 
 		callback: function( m ){
@@ -122,7 +231,41 @@ export function encodeChars( str ){
 
 	};
 
-	return !isString( str ) ? str : str.replace(/[\\'"]/g, __core.callback );
+	return !isString( str ) ? str : str.replace(/[\\'"+@{}:,]/g, __core.callback );
+
+}
+
+/**
+* Decode some special characters.
+*
+* @param {string}	str	The string being converted.
+*
+* @return {string} Returns the converted string.
+*/
+export function decodeChars( str ){
+
+	const __core = {
+
+		map: {
+			'&#92;': '\\',
+			'&#39;': "'",
+			'&#34;': '"',
+			'&#43;': '+',
+			'&#64;': '@',
+			'&#123;': '{',
+			'&#125;': '}',
+			'&#58;': ':',
+			'&#44;': ','
+		},
+
+		callback: function( m, d ){
+			return String.fromCharCode(d);
+
+		}
+
+	};
+
+	return !isString( str ) ? str : str.replace(/&#(\d+);/g, __core.callback );
 
 }
 

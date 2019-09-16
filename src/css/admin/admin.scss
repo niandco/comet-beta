@@ -10,11 +10,13 @@ body {
 
 @include form_fields;
 
+@import '../utils/tooltip';
 @import '../utils/button';
 @import '../utils/message';
 @import '../utils/dialog';
 @import '../utils/modal';
 @import 'dashboard';
+@import 'home';
 @import 'fonts';
 @import 'mytemplates';
 @import 'settings';

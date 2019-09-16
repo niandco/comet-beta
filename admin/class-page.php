@@ -25,8 +25,7 @@ class Comet_Page {
         }
         $page_title = isset( $this->page_title ) && is_string( $this->page_title ) ? $this->page_title : '';
         $title = esc_html( sprintf( 'Comet: %s < %s', $page_title, get_bloginfo( 'name') ) );
-        $classes = 'comet-admin comet-page';
-        $classes .= " comet-{$slug}";
+        $classes = "comet-page comet-page--{$slug}";
 
         if( is_string( $_classes = apply_filters( 'comet_admin_body_class', '' ) ) ){
             $classes .= ' ' . trim( $_classes );

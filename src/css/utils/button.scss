@@ -1,34 +1,52 @@
-@import 'variables';
+@import 'colors';
 @import 'mixins';
 
 .comet-button {
-    border: 0;
-    margin: 0;
-    padding: 10px 20px;
-    display: inline-block;
-    vertical-align: middle;
-    background: none;
-    text-decoration: none;
-    font: 300 15px/1.3 sans-serif;
-    height: auto;
-    width: auto;
-    cursor: pointer;
-    color: $liDark;
-    outline: 0;
-    @include border_radius( 5px );
-    @include box_shadow( none );
+	border: 0;
+	margin: 0;
+	padding: 10px 20px;
+	display: inline-block;
+	vertical-align: middle;
+	background: none;
+	text-decoration: none;
+	font: 300 15px/1.3 sans-serif;
+	height: auto;
+	width: auto;
+	cursor: pointer;
+	outline: 0;
+	@include box_shadow( none );
 
-    &.comet-buttonPrimary {
-        background: $daAccent;
-        color: white;
+	&:hover,
+	&:active {
+		background: getColor( gray300 );
+		color: getColor( blue600 );
+		text-decoration: none;
+		@include transition( all .5s ease );
 
-    } 
+	}
 
-    &:hover {
-        text-decoration: none;
-        @include transform( scale( 1.03, 1.03 ) );
-    }
+	&Primary,
+	&--primary {
+		background: getColor( blue600 );
+		color: getColor( mono100 );
 
-    &.cico { font-family: 'cico' }
+		&:hover,
+		&:active {
+			background: getColor( blue500 );
+			color: getColor( mono100 );
+
+		}
+
+	}
+
+	&--has-icon { padding: 0; }
+
+	&__icon { display: block; }
+
+	&--rounded { @include border_radius( 5px ); }
+
+	&--circle { @include border_radius( 30em ); }
+
+	/*&.cico { font-family: 'cico' }*/
 
 }

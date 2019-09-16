@@ -14,6 +14,10 @@ class mytemplates extends Comet_Interface {
 
     protected $slug = 'mytemplates';
 
+    private $className = [
+        'main'      => 'comet-page--mytemplates',
+    ];
+
     public function __construct(){
 
         $this->menu_title = __( 'My templates', 'comet' );
@@ -34,22 +38,30 @@ class mytemplates extends Comet_Interface {
             'nopaging'        => false,
             'posts_per_page'  => 50
         ]);
+        $nbTemplates = sprintf( _n( '%d template', '%d templates', $templates->found_posts, 'comet' ), $templates->found_posts );
+        $cnew = __( 'Create new', 'comet' );
+        $cimport = __( 'Import', 'comet' );
 
-        echo '<div class="comet-header comet-top comet-wrapper">';
-        echo '<div class="comet-column">';
-        echo '<h4>' . sprintf( _n( '%d template', '%d templates', $templates->found_posts, 'comet' ), $templates->found_posts ) . '</h4>';
-        echo '</div>';
-        echo '<div class="comet-column">';
-        echo '<a id="comet-newTemplate" class="comet-mthOption comet-button comet-buttonPrimary cico cico-plus" title="' . __( 'Create new', 'comet' ) . '"></a>';
-        echo '<div id="comet-importTemplate" class="comet-middleIb">';
-        echo '<input type="file" id="comet-importTemplateFile" multiple accept=".json" />';
-        echo '<button type="button" id="comet-importTemplateBtn" class="comet-mthOption comet-button cico cico-import" title="' . __( 'Import', 'comet' ) . '"></button>';
-        echo '</div>';
-        echo '</div>';
+        echo <<<CONTENT
+        <header class="{$this->className['main']}__header">
+            <div class="{$this->className['main']}__header__column {$this->className['main']}__header__column--c1">
+                <h4>$nbTemplates</h4>
+            </div>
+            <div class="{$this->className['main']}__header__column {$this->className['main']}__header__column--c2">
+                <button class="comet-button comet-button--primary comet-button--circle comet-button--has-icon {$this->className['main']}__new" title="$cnew">
+                    <span class="comet-button__icon cico cico-plus"></span>
+                </button>
+                <div class="{$this->className['main']}__import">
+                    <input type="file" id="{$this->className['main']}__import__files" class="{$this->className['main']}__import__files" multiple accept=".json" />
+                    <button class="comet-button comet-button--circle comet-button--has-icon {$this->className['main']}__import__select" title="$cimport">
+                        <span class="comet-button__icon cico cico-import"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
 
-        echo '</div>';
-
-        echo '<ul id="comet-map-templates">';
+        <ul class="{$this->className['main']}__list">
+CONTENT;
 
         if( $templates->have_posts() ){
 
@@ -69,20 +81,109 @@ class mytemplates extends Comet_Interface {
 
     private function template( $id, $single ){
 
-        $o = '<li class="comet-template">';
-        $o .= '<div class="comet-informations">';
-        $o .= '<h4 class="comet-title">' . ucfirst( get_the_title() ) . '</h4>';
-        $o .= '<p><span class="comet-date">' . get_the_date() . '</span>•<span class="comet-author">' . get_the_author() . '</span></p>';
-        $o .= '</div>';
+        $className = "{$this->className['main']}__list__item";
+        $date = get_the_date();
+        $author = get_the_author();
+        $title = ucfirst( get_the_title() );
 
-        $o .= '<div class="comet-action">';
-        $o .= '<a class="comet-templateEdit comet-button comet-buttonPrimary" href="' . $this->edit_link( $id ) . '">' . __( 'Edit', 'comet' ) . '</a>';
-        $o .= '<a class="comet-templatePreview comet-button cico cico-eye" href="' . $this->preview_link( $id )  . '"title="' . __( 'Preview', 'comet' ) . '"></a>';
-        $o .= '<a class="comet-templateExport comet-button cico cico-export" title="' . __( 'Export', 'comet' ) . '" data-id="' . $id . '"></a>';
-        $o .= '<a class="comet-templateDelete comet-button cico cico-trash" title="' . __( 'Delete', 'comet' ) . '" data-id="' . $id . '"></a>';
-        $o .= '</div>';
-        $o .= '</li>';
-        return $o;
+        $events = [
+            'edit'      => [
+                'title'     => __( 'Edit', 'comet' ),
+                'url'       => $this->edit_link( $id ),
+                'inner'		=> 'title',
+
+            ],
+            'preview'   => [
+                'title'     => __( 'Preview', 'comet' ),
+                'url'       => $this->preview_link( $id ),
+                'icon'		=> 'cico cico-eye',
+                'inner'		=> 'icon',
+                
+            ],
+            'export'    => [
+                'title'     => __( 'Export', 'comet' ),
+                'icon'		=> 'cico cico-export',
+                'inner'		=> 'icon',
+                'data'      => [
+                    'id'    => $id
+                ]
+                
+            ],
+            'delete'   => [
+                'title'     => __( 'Delete', 'comet' ),
+                'icon'		=> 'cico cico-trash',
+                'inner'		=> 'icon',
+                'data'      => [
+                    'id'    => $id
+                ]
+                
+            ],
+        ];
+
+        $oEvents = '';
+
+        foreach( $events as $key => $values ){
+        	$attr = '';
+        	$inner = '';
+
+        	if( isset( $values['url'] ) && is_string( $values['url'] ) ){
+        		$attr .= 'href="' . esc_url( trim( $values['url'] ) ) . '"';
+
+        	}
+
+        	if( isset( $values['data'] ) && is_array( $values['data'] ) ){
+
+        		foreach( $values['data'] as $datakey => $value ){
+
+        			if( is_string( $datakey ) ){
+        				$value = esc_attr( $value );
+        				$attr .= " data-{$datakey}=\"$value\"";
+
+        			}
+
+        		}
+
+        	}
+
+        	if( isset( $values['title'] ) && is_string( $values['title'] ) ){
+        		$attr .= " title=\"{${esc_attr( $values['title'] ) }}\"";
+
+        	}
+        	$attr = trim( $attr );
+
+        	if( isset( $values['inner'] ) ){
+
+        		if( $values['inner'] === 'icon' && is_string( $values['icon'] ) ){
+        			$inner = "<span class=\"comet-button__icon {$values['icon']}\"></span>";
+
+        		}else if( is_string( $values['title'] ) ){
+        			$inner = $values['title'];
+
+        		}
+
+        	}
+
+
+        	$oEvents .= <<<ITEM
+                <a class="comet-button comet-button--primary {$className}__event {$className}__event--{$key}" $attr>$inner</a>
+ITEM;
+
+        }
+
+        return <<<ITEM
+        <li class="$className">
+            <div class="{$className}__meta">
+                <h4 class="{$className}__title">$title</h4>
+                <p>
+                <span class="{$className}__date">$date</span>•<span class="{$className}__author">$author</span>
+                </p>
+            </div>
+
+            <div class="{$className}__events">
+            	$oEvents
+            </div>
+        </li>
+ITEM;
 
     }
 

@@ -10,62 +10,44 @@ const CORE = {
 
 	sidebar: {
 
-		target: DOCUMENT.getElementById( 'comet-dashboardSidebar' ),
+		target: DOCUMENT.getElementsByClassName( 'comet-page--dashboard__sidebar' ),
 
-		open: DOCUMENT.getElementById( 'comet-doSidebarOpen' ),
+		toggle: DOCUMENT.getElementsByClassName( 'comet-page--dashboard__sidebar__toggle' ),
 
-		close: DOCUMENT.getElementById( 'comet-doSidebarClose' ),
+		isOpen: false,
 
-		onOpen: function( ev ){
+		ontoggle: function( ev ){
+			var a = 0;
+
 			ev.preventDefault();
-			CORE.sidebar.target.style.display = 'block';
 
-		},
+			for( a; a < CORE.sidebar.target.length; a++ ){
 
-		onClose: function( ev ){
-			ev.preventDefault();
-			CORE.sidebar.target.style.display = 'none';
+				if( !isNode( CORE.sidebar.target[a] ) ){
+					continue;
+
+				}
+
+				if( CORE.sidebar.isOpen ){
+					CORE.sidebar.isOpen = false;
+					CORE.sidebar.target[a].style.display = 'none';
+					continue;
+
+				}
+				CORE.sidebar.isOpen = true;
+				CORE.sidebar.target[a].style.display = 'block';
+
+			}
 
 		},
 
 		init: function(){
 
-			if( !isNode( CORE.sidebar.target ) ){
+			if( CORE.sidebar.target.length < 1 || CORE.sidebar.toggle.length < 1 ){
 				return;
 
 			}
-
-			if( isNode( CORE.sidebar.open ) ){
-				node( CORE.sidebar.open ).on( 'click', CORE.sidebar.onOpen );
-
-			}
-
-			if( isNode( CORE.sidebar.close ) ){
-				node( CORE.sidebar.close ).on( 'click', CORE.sidebar.onClose );
-
-			}
-
-		}
-
-	},
-
-	help: {
-
-		tooltip: DOCUMENT.getElementsByClassName( 'comet-tooltip' ),
-
-		onTooltip: function( ev, ui ){
-			node( ui ).toggleClass( 'comet-active' );
-
-		},
-
-		init: function(){
-			const NTOOLTIP = nodes( CORE.help.tooltip );
-
-			if( !NTOOLTIP ){
-				return;
-
-			}
-			NTOOLTIP.on( 'click', CORE.help.onTooltip );
+			nodes( CORE.sidebar.toggle ).on( 'click', CORE.sidebar.ontoggle );
 
 		}
 
@@ -73,23 +55,29 @@ const CORE = {
 
 	slider: {
 
-		buttons: DOCUMENT.getElementsByClassName( 'comet-dashboardSlideButton' ),
+		classes: {
+			slide: 'comet-page--main__widget--slider__slide',
+			next: 'comet-page--main__widget--slider__slide__button--next',
+			prev: 'comet-page--main__widget--slider__slide__button--prev'
+
+		},
+
+		buttons: DOCUMENT.getElementsByClassName( 'comet-page--main__widget--slider__slide__button' ),
 
 		onButton: function( ev, ui ){
 			const slide = ui.parentNode.parentNode;
 			const _ui = node( ui );
-			const sc = 'comet-dashboardSlide';
 			var sibling = null;
 			var s, slides;
 
 			ev.preventDefault();
 
-			if( _ui.hasClass( 'comet-next' ) && ( sibling = slide.nextSibling ) === null ){
+			if( _ui.hasClass( CORE.slider.classes.next ) && ( sibling = slide.nextElementSibling ) === null ){
 				return;
 
 			}
 
-			if( _ui.hasClass( 'comet-prev' ) && ( sibling = slide.previousSibling ) === null ){
+			if( _ui.hasClass( CORE.slider.classes.prev ) && ( sibling = slide.previousElementSibling ) === null ){
 				return;
 
 			}
@@ -101,13 +89,13 @@ const CORE = {
 
 			for( s = 0; s < slides.length; s++ ){
 
-				if( node( slides[s] ).hasClass( sc ) ){
+				if( node( slides[s] ).hasClass( CORE.slider.classes.slide ) ){
 					slides[s].style.display = 'none';
 
 				}
 
 			}
-			sibling.style.display = 'block';
+			sibling.style.display = 'flex';
 
 		},
 
