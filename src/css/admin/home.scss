@@ -31,12 +31,13 @@
 		&--intro {
 
 			&__button {
-				background: getColor( yellow400 );
+				background: getColor( yellow55 );
+				color: getColor( yellow25 );
 				margin-top: 10px;
 
 				&:hover {
-					background: getColor( yellow500 );
-					color: inherit;
+					background: getColor( yellow50 );
+					color: getColor( yellow25 );
 
 				}
 
@@ -50,15 +51,15 @@
 
 				&__url {
 					background: white;
-					color: getColor( gray600 );
+					color: getColor( bright50 );
 					display: block;
 					padding: 10px;
 					@include border_radius( 5px );
 
 					&:hover, &:active {
-						color: getColor( blue600 );
+						color: getColor( blue50 );
 						text-decoration: none;
-						@include box_shadow( 0 0 5px 0 getColor( gray400 ) );
+						@include box_shadow( 0 0 5px 0 getColor( bright70 ) );
 					}
 				}
 			}
@@ -72,14 +73,14 @@
 
 			&__url {
 				padding: 100px 20px;
-				background: rgba( getColor( blue600 ), .8 );
+				background: rgba( getColor( blue50 ), .8 );
 				display: block;
 				font-size: 30px;
 				font-weight: 300;
 				color: white;
 
 				&:hover, &:active {
-					background: rgba( getColor( blue600 ), .4 );
+					background: rgba( getColor( blue50 ), .4 );
 					text-decoration: none;
 					@include transition( background-color ease-in-out .5s );
 
@@ -94,7 +95,7 @@
 				height: 500px;
 				align-content: space-between;
 				padding: 40px;
-				background: getColor( blue600 );
+				background: getColor( blue50 );
 				@include border_radius( 5px );
 				display: none;
 
@@ -103,8 +104,8 @@
 				&__counter {
 
 					span {
-						background: rgba( getColor( mono100 ), .5 );
-						color: getColor( mono100 );
+						background: rgba( getColor( bright100 ), .5 );
+						color: getColor( bright100 );
 						display: inline-block;
 						padding: 5px 10px;
 						font: 500 13px/1.1 sans-serif;
@@ -116,10 +117,10 @@
 
 					h4 {
 						margin-bottom: 10px;
-						color: getColor( mono100 );
+						color: getColor( bright100 );
 					}
 
-					p { color: getColor( mono100 ); }
+					p { color: getColor( bright100 ); }
 
 				}
 
@@ -149,8 +150,8 @@
 					margin: 0;
 
 					.cico {
-						border: 2px solid getColor( mono100 );
-						color: getColor( mono100 );
+						border: 2px solid getColor( bright100 );
+						color: getColor( bright100 );
 						margin: 0;
 						padding: 5px;
 						@include border_radius( 30em );

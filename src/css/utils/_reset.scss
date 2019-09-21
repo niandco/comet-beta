@@ -7,7 +7,7 @@ html {
 }
 
 body {
-    color: getColor( gray700 );
+    color: getColor( bright40 );
     font: 300 15px/1.5 sans-serif;
     background: none;
 }
@@ -76,7 +76,7 @@ h6 {
 
 a {
 	font-weight: 500;
-	color: $liDark;
+	color: getColor( bright45 );
 	@extend %outshadow;
 	@extend %inline-block;
 

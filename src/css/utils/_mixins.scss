@@ -82,7 +82,7 @@
 	border-radius: $property;
 }
 
-@mixin arrow( $position: bottom, $background: getColor( gray700 ) ){
+@mixin arrow( $position: bottom, $background: getColor( bright100 ) ){
 	position: absolute;
 	width: 0; 
 	height: 0; 
@@ -125,7 +125,7 @@
 
 }
 
-@mixin tooltip( $position: bottom, $background: getColor( gray700 ), $color: white, $css_pos: absolute, $transform: true ){
+@mixin tooltip( $position: bottom, $background: getColor( bright100 ), $color: white, $css_pos: absolute, $transform: true ){
 
 	position: $css_pos;
 	@if( $position == bottom ){
@@ -183,10 +183,10 @@
 	%base-fields {
 		padding: 5px;
 		margin: 0;
-		border: 1px solid getColor( gray400 );
+		border: 1px solid getColor( bright85 );
 		background: white;
 		font: 300 15px/1.2 sans-serif;
-		color: getColor( gray700 );
+		color: getColor( bright40 );
 		width:  100%;
 		height: 35px;
 		@include border_radius( 5px );
@@ -194,12 +194,12 @@
 	}
 
 	%base-hover{
-		@include box_shadow( 0 0 5px 0 getColor( gray600 ) );
+		@include box_shadow( 0 0 5px 0 getColor( bright80 ) );
 		z-index: 1;
 	}
 
 	%base-focus{
-		border-color: getColor( blue600 );
+		border-color: getColor( blue50 );
 		z-index: 1;
 		@include box_shadow( none );
 	}
@@ -223,7 +223,7 @@
 			margin: 0;
 			border: 0;
 			padding: 0;
-			background: getColor( gray400 );
+			background: getColor( bright75 );
 			border-radius: 3em;
 			position: relative;
 			cursor: pointer;
@@ -231,7 +231,7 @@
 			@include transition( all .2s ease-in-out );
 			@include box_shadow( none );
 
-			&:checked{ background: getColor( blue600 ); }
+			&:checked{ background: getColor( blue50 ); }
 
 			&:after{
 				position: absolute;

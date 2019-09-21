@@ -2,7 +2,7 @@
 @import '../utils/colors';
 
 .comet-page--dashboard {
-	background: getColor( blue100 );
+	background: getColor( bright95 );
 	display: flex;
 	overflow: hidden;
 	height: 100%;
@@ -11,8 +11,8 @@
 		flex-basis: 250px;
 		width: 250px;
 		height: 100%;
-		background: getColor( mono100 );
-		border-right: 1px solid getColor( gray400 );
+		background: getColor( bright100 );
+		border-right: 1px solid getColor( bright80 );
 		overflow: auto;
 		display: none;
 
@@ -24,10 +24,10 @@
 					display: block;
 					padding: 5px 20px;
 					text-decoration: none;
-					color: getColor( gray600 );
+					color: getColor( bright50 );
 
 					&:hover {
-						color: getColor( blue600 );
+						color: getColor( blue50 );
 						text-decoration: none;
 						padding-left: 25px;
 						@include transition( padding .5s ease );
@@ -66,7 +66,7 @@
 			padding: 10px;
 			flex-basis: calc( 50% - 25px );
 			width: calc( 50% - 25px );
-			background: getColor( gray300 );
+			background: getColor( bright90 );
 			@include border_radius( 5px );
 
 			&:hover {
@@ -84,15 +84,15 @@
 				width: 100%;
 
 				.cico {
-					background: getColor( mono100 );
-					color: getColor( blue600 );
+					background: getColor( bright100 );
+					color: getColor( blue50 );
 					width: 30px;
 					height: 30px;
 					font-size: 30px;
 					margin-right: 10px;
 					padding: 5px;
 					@include border_radius( 5px );
-					@include box_shadow( 0 0 5px 0 getColor( gray500 ) );
+					@include box_shadow( 0 0 5px 0 getColor( bright75 ) );
 
 				}
 
@@ -111,7 +111,7 @@
 
 			&--c2 {
 				margin-right: 5px;
-				background: getColor( yellow400 );
+				background: getColor( yellow55 );
 			}
 
 			&--c3 { margin-left: 5px; }
@@ -129,9 +129,9 @@
 
 	&__header {
 		width: 100%;
-		background: getColor( mono100 );
+		background: getColor( bright100 );
 		height: 50px;
-		border-bottom: 1px solid getColor( gray400 );
+		border-bottom: 1px solid getColor( bright80 );
 		display: flex;
 
 		$classItem: a#{&}__item;
@@ -140,38 +140,7 @@
 			margin: 5px;
 			overflow: hidden;
 			position: relative;
-			@include border_radius( 30em );
-
-			.comet-icon {
-				width: 20px;
-				height: 20px;
-				font-size: 20px;
-				padding: 10px;
-				z-index: 1;
-				position: relative;
-
-			}
-
-			&:after {
-				content: '';
-				position: absolute;
-				left: 0;
-				top: 100%;
-				height: 100%;
-				width: 100%;
-				background: getColor( gray200 );
-				z-index: 0;
-			}
-
-			&:hover {
-				color: getColor( blue600 );
-
-				&:after {
-					top: 0;
-					@include transition( top .5s ease );
-				}
-
-			}
+			padding: 10px;
 
 		}
 
@@ -179,11 +148,15 @@
 			width: 33.333%;
 			display: flex;
 
-			&--c1 #{$classItem} > .comet-icon {
-				font-size: 30px;
-				width: 30px;
-				height: 30px;
+			&--c1 #{$classItem} {
 				padding: 5px;
+
+				.comet-button__icon {
+					font-size: 30px;
+					width: 30px;
+					height: 30px;
+
+				}
 
 			}
 
@@ -191,7 +164,7 @@
 				justify-content: center;
 
 				h1 {
-					color: getColor( blue600 );
+					color: getColor( blue50 );
 					font-size: 20px;
 					line-height: 50px;
 					text-align: center;
@@ -215,7 +188,7 @@
 					display: flex;
 					padding: 10px 15px;
 					margin: 5px 0;
-					background: getColor( gray300 );
+					background: getColor( bright85 );
 					flex-basis: calc( 100% - 15px - 15px );
 					width: calc( 100% - 15px - 15px );
 					justify-content: space-between;
@@ -228,9 +201,9 @@
 					}
 
 					&:hover {
-						filter: brightness( .95 );
+						background: getColor( bright80 );
 						text-decoration: none;
-						@include transition( filter .5s ease );
+						@include transition( background .5s ease );
 
 					}
 

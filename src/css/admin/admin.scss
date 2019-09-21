@@ -1,12 +1,7 @@
 @charset "UTF-8";
-@import '../utils/variables';
+@import '../utils/colors';
 @import '../utils/mixins';
 @import '../utils/reset';
-
-body {
-	background: $liLight;
-	overflow: auto;
-}
 
 @include form_fields;
 

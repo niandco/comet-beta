@@ -25,29 +25,29 @@ const EVENTS = {
 
 		ev.preventDefault();
 
-		wrapper.className = 'comet-savebox comet-wrapper';
+		wrapper.className = 'comet-modal--fonts__body__wrapper';
 
 		fragment.appendChild( wrapper );
 
-		inner = '<div class="comet-messages comet-wrapper"></div>';
+		inner = '<div class="comet-modal--fonts__body__messages"></div>';
 
-		inner += '<div class="comet-saveform">';
-		inner += '<label>';
-		inner += '<p>' + __cometi18n.ui.resource + '</p>';
-		inner += '<select class="comet-input comet-capture" name="resource">';
+		inner += '<div class="comet-modal--fonts__body__form">';
+		inner += '<div class="comet-modal--fonts__body__form__control">';
+		inner += '<label class="comet-modal--fonts__body__form__label">' + __cometi18n.ui.resource + '</label>';
+		inner += '<select class="comet-input" name="resource">';
 		inner += '<option value="google">Google Fonts</option>';
 		inner += '<option value="typeKit">TypeKit</option>';
 		inner += '<option value="typography">Typography.com (H&Co)</option>';
 		//inner += '<option value="custom">' + __cometi18n.ui.custom + '</option>';
 		inner += '</select>';
-		inner += '</label>';
+		inner += '</div>';
 
-		inner += '<label>';
-		inner += '<p>' + __cometi18n.ui.embed + '</p>';
-		inner += '<textarea class="comet-input comet-capture" name="embed"></textarea>';
-		inner += '</label>';
+		inner += '<div class="comet-modal--fonts__body__form__control">';
+		inner += '<label class="comet-modal--fonts__body__form__label">' + __cometi18n.ui.embed + '</label>';
+		inner += '<textarea class="comet-input" name="embed"></textarea>';
+		inner += '</div>';
 
-		inner += '<button class="comet-button comet-buttonPrimary" aria-label="' + __cometi18n.ui.import + '">' + __cometi18n.ui.import + '</button>';
+		inner += '<button class="comet-button comet-button--primary comet-button--rounded" aria-label="' + __cometi18n.ui.import + '">' + __cometi18n.ui.import + '</button>';
 		inner += '</div>';
 		wrapper.innerHTML = inner;
 
@@ -60,7 +60,7 @@ const EVENTS = {
 		} );
 
 		m = Modal({
-			classes: 'comet-fontbox',
+			slug: 'fonts',
 			header: '<h4>' + __cometi18n.ui.addFont + '</h4>',
 			content: fragment,
 			done: function(){

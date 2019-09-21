@@ -1,4 +1,4 @@
-@import '../utils/variables';
+@import '../utils/colors';
 @import '../utils/mixins';
 
 .comet-color-picker {
@@ -27,7 +27,7 @@
 					width: 10px;
 					height: 10px;
 					background: white;
-					@include box_shadow( 0 0 3px 0 $liDark );
+					@include box_shadow( 0 0 3px 0 getColor( bright75 ) );
 
 					&__value { @include box_shadow( 0 0 3px 0 rgba( 0, 0, 0, .3 ) );  }
 
@@ -49,7 +49,7 @@
 		background: white;
 		margin: 0 10px 0 0;
 		padding: 0;
-		border: 1px solid $daLight;
+		border: 1px solid getColor( bright85 );
 		position: relative;
 		text-indent: -9999em;
 		@include border_radius( 100% );
@@ -73,13 +73,13 @@
 		cursor: pointer;
 		display: inline-block;
 		vertical-align: middle;
-		color: $liDark;
+		color: getColor( bright40 );
 		width: 30px;
 		height: 30px;
 		background: white;
 		margin: 0 10px 0 0;
 		padding: 0;
-		border: 1px solid $daLight;
+		border: 1px solid getColor( bright85 );
 		position: relative;
 		text-indent: -9999em;
 		@include border_radius( 100% );
@@ -105,13 +105,13 @@
 			left: 0;
 			width: 10px;
 			height: 10px;
-			border: 1px solid white;
+			border: 1px solid getColor( bright100 );
 			background: none;
 			padding: 0;
 			margin: 0;
 			cursor: pointer;
 			@include border_radius( 100% );
-			@include box_shadow( 0 0 0 1px black );
+			@include box_shadow( 0 0 0 1px getColor( bright0 ) );
 
 		}
 
@@ -144,14 +144,14 @@
 
 	&__value__input {
 		font: 300 13px/30px sans-serif;
-		color: $liDark;
+		color: getColor( bright40 );
 		padding: 5px;
-		border: 1px solid $daLight;
+		border: 1px solid getColor( bright85 );
 		height: 30px;
 		width: 100%;
 		box-sizing: border-box;
 
-		&:focus { @include box_shadow( 0 0 5px 0 $daLight ); }
+		&:focus { @include box_shadow( 0 0 5px 0 getColor( bright85 ) ); }
 
 	}
 }

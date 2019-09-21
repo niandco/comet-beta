@@ -51,21 +51,21 @@
 			width: 100%;
 			display: flex;
 			align-items: center;
-			border: 1px solid getColor( gray400 );
+			border: 1px solid getColor( bright85 );
 			padding: 20px;
 			margin: 20px 0;
 			position: relative;
-			background: getColor( mono100 );
+			background: getColor( bright100 );
 			justify-content: space-between;
 			@include border_radius( 5px );
 
-			&:hover { @include box_shadow( 0 0 10px 0 getColor( gray400 ) ); }
+			&:hover { @include box_shadow( 0 0 10px 0 getColor( bright85 ) ); }
 
-			&__title { color: getColor( blue600 ); }
+			&__title { color: getColor( blue50 ); }
 
 			&__meta > p {
 				font: 300 13px/1.2 sans-serif;
-				color: getColor( gray600 );
+				color: getColor( bright75 );
 
 				> span {
 					margin: 0 5px;

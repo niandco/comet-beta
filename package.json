@@ -7,10 +7,10 @@
   "author": "https://blacklead.fr",
   "license": "GPL-2.0",
   "devDependencies": {
-    "acorn": "^6.1.1",
-    "gulp": "^4.0.0",
+    "acorn": "^7.0.0",
+    "gulp": "^4.0.2",
     "gulp-csslint": ">=1.0.1",
-    "gulp-eslint": ">=5.0.0",
+    "gulp-eslint": ">=6.0.0",
     "gulp-sass": ">=4.0.2",
     "vinyl-named": ">=1.1.0",
     "webpack-stream": ">=5.2.1"

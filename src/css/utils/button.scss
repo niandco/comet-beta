@@ -18,8 +18,8 @@
 
 	&:hover,
 	&:active {
-		background: getColor( gray300 );
-		color: getColor( blue600 );
+		background: getColor( bright85 );
+		color: getColor( blue50 );
 		text-decoration: none;
 		@include transition( all .5s ease );
 
@@ -27,13 +27,13 @@
 
 	&Primary,
 	&--primary {
-		background: getColor( blue600 );
-		color: getColor( mono100 );
+		background: getColor( blue50 );
+		color: getColor( bright100 );
 
 		&:hover,
 		&:active {
-			background: getColor( blue500 );
-			color: getColor( mono100 );
+			background: getColor( blue35 );
+			color: getColor( bright100 );
 
 		}
 

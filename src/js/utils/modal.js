@@ -1,18 +1,24 @@
-import { isObject, isString, isArray, isFunction } from './is.js';
+import { isObject, isString, isArray, isFunction, isClassName } from './is.js';
+import { ClassName } from './className.js';
 import node from '../dom/element.js';
+import { extend } from './fill.js';
 
 /* global document, __cometi18n */
 
 const DOCUMENT = document;
 
+const CLASSNAME = 'comet-modal';
+
+const BASE = ClassName( CLASSNAME );
+
 const CORE = {
 
 	classes: {
-		default: 'comet-modal',
-		close: 'comet-modal__close',
-		frame: 'comet-modal__frame',
-		header: 'comet-modal__header',
-		body: 'comet-modal__body'
+		default: CLASSNAME,
+		close: BASE.element( 'close' ),
+		frame: BASE.element( 'frame' ),
+		header: BASE.element( 'header' ),
+		body: BASE.element( 'body' )
 	},
 
 	destroy: function( ev, ui, data ){
@@ -40,6 +46,20 @@ export default function ( options ){
 
 	const FRAGMENT = DOCUMENT.createDocumentFragment();
 	const MODAL = DOCUMENT.createElement( 'div' );
+	var classes = extend( CORE.classes );
+	var modClass, MOD;
+
+	if( isClassName( options.slug ) ) {
+		modClass = BASE.modifier( options.slug );
+		MOD = ClassName( modClass );
+
+		classes.default += ' ' + modClass;
+		classes.close += ' ' + MOD.element( 'close' );
+		classes.frame += ' ' + MOD.element( 'frame' );
+		classes.header += ' ' + MOD.element( 'header' );
+		classes.body += ' ' + MOD.element( 'body' );
+
+	}
 
 	FRAGMENT.appendChild( MODAL );
 
@@ -53,19 +73,25 @@ export default function ( options ){
 	options.close.title = isString( options.close.title ) ? options.close.title.trim() : __cometi18n.ui.close;
 	options.close.icon = isString( options.close.icon ) ? options.close.icon.trim() : '<span class="cico cico-x"></span>';
 
-
-	inner = '<button class="' + CORE.classes.close + '" title="' + options.close.title + '">';
+	inner = '<button class="' + classes.close + '" title="' + options.close.title + '">';
 	inner += options.close.icon;
 	inner += '</button>';
 
-
-	inner += '<div class="' + CORE.classes.frame + '">';
-	inner += '<div class="' + CORE.classes.header + '"></div>';
-	inner += '<div class="' + CORE.classes.body + '"></div>';
+	inner += '<div class="' + classes.frame + '">';
+	inner += '<header class="' + classes.header + '"></header>';
+	inner += '<section class="' + classes.body + '"></section>';
 	inner += '</div>';
 
+	/*if( isString( options.classes ) && isClassName( options.classes ) ){
+		classes += ' ' + options.classes;
+
+	}else if( isArray( options.classes ) ){
+		classes += ' ' + options.classes.join( ' ' );
+
+	}*/
+
 	MODAL.innerHTML = inner;
-	MODAL.className = CORE.classes.default + ( isString( options.classes ) ? ' ' + options.classes.trim() : ( isArray( options.classes ) ? ' ' + ( options.classes ).join( ' ' ) : '' ) );
+	MODAL.className = classes.default;
 
 	button = MODAL.firstChild;
 	header = MODAL.lastChild.firstChild;
