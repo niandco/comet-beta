@@ -1,12 +1,13 @@
-import { isBool, isNode, isString, isObject, isArray } from '../utils/is.js';
-import { jsonEncode, stripTags, encodeChars, escUrl } from '../utils/fill.js';
-import { parseJson, parseDataset, parseId } from '../utils/parse.js';
-import { addQueryArgs } from '../utils/url.js';
+import { isBool, isNode, isString, isObject, isArray } from '../../utils/is.js';
+import { jsonEncode, stripTags, encodeChars, escUrl } from '../../utils/fill.js';
+import { parseJson, parseDataset, parseId } from '../../utils/parse.js';
+/*import { addQueryArgs } from '../utils/url.js';
 import message from '../utils/message.js';
 import dialog from '../utils/dialog.js';
-import modal from '../utils/modal.js';
-import node from '../dom/element.js';
-import ajax from '../utils/ajax.js';
+import modal from '../utils/modal.js';*/
+import node from '../../dom/element.js';
+import ajax from '../../utils/ajax.js';
+import CLASSES from './classes.js';
 
 /* global document, window, __cometi18n, __cometdata, FileReader, Blob */
 
@@ -15,11 +16,83 @@ import ajax from '../utils/ajax.js';
 *
 */
 
+
+
 const DOCUMENT = document;
 
 const WINDOW = window;
 
 export default function(){
+
+
+	//const source = DOCUMENT.getElementById( 'comet-tempframe__mytemplates' );
+	var fragment, header, h_inner, b_inner, body, i, collection;
+
+	/*if( source === null || source.parentNode === null ){
+		return;
+
+	}*/
+	fragment = DOCUMENT.createDocumentFragment();
+	header = DOCUMENT.createElement( 'header' );
+	header.className = CLASSES.header;
+
+	h_inner = '<div class="' + CLASSES.hColumn + '">';
+	h_inner += '<h4 class="' + CLASSES.counter + '"></h4>';
+	h_inner += '</div>';
+	h_inner += '<div class="' + CLASSES.hColumn + '">';
+	h_inner += '<button class="comet-button comet-button--primary comet-button--circle comet-button--has-icon ' + CLASSES.button +'" title="create new">'; // TRANSLATE
+    h_inner += '<span class="comet-button__icon cico cico-plus"></span>';
+    h_inner += '</button>';
+    h_inner += '<div class="' + CLASSES.import.main + '">';
+    h_inner += '<input type="file" class="' + CLASSES.import.files + '" multiple accept=".json" />';
+    h_inner += '<button class="comet-button comet-button--circle comet-button--has-icon ' + CLASSES.import.select + '" title="Import">'; // TRANSLATE
+    h_inner += '<span class="comet-button__icon cico cico-import"></span>';
+    h_inner += '</button>';
+    h_inner += '</div>';
+	h_inner += '</div>';
+
+	header.innerHTML = h_inner;
+
+	body = DOCUMENT.createElement( 'div' );
+	body.className = CLASSES.list;
+
+	fragment.appendChild( header );
+	fragment.appendChild( body );
+
+	console.log( 
+
+		ajax({
+			do: 'templates',
+			data: 'cus'
+
+		}).done( function( e ){
+			console.log( e, parseJson( e ) );
+		} )
+
+	);
+
+	/*node( header.lastChild.firstChild ).on( 'click', Create );
+	node( header.lastChild.lastChild ).on( 'click', Import );
+
+	collection = FONTSJS.setFonts( __cometdata.fonts );
+	FONTSJS.setFrameUiOnce( source );
+	FONTSJS.setCounterUiOnce( header.firstChild.firstChild );
+	FONTSJS.setFontsBoxUiOnce( body );
+
+	if( isArray( collection ) && collection.length > 0 ){
+
+		for( i = 0; i < collection.length; i++ ){
+			FONTUI.html( collection[i] );
+
+		}
+
+	}
+	source.parentNode.replaceChild( fragment, source );
+	FONTSJS.setCounter();*/
+
+}
+
+/*export default function(){
 
 	const __bun = {
 
@@ -50,7 +123,7 @@ export default function(){
 
 			var is_saving = false;
 
-			const nt = DOCUMENT.getElementsByClassName( 'comet-page--mytemplates__new' )[0];
+			const nt = DOCUMENT.getElementById( 'comet-newTemplate' );
 
 			const __core = {
 
@@ -258,7 +331,7 @@ export default function(){
 					items.className = 'comet-import comet-items';
 
 					button = DOCUMENT.createElement( 'button' );
-					button.className = 'comet-button comet-buttonPrimary';
+					button.className = 'comet-button comet-button--primary';
 					button.innerHTML = __cometi18n.ui.finish;
 
 					fragment.appendChild( message( __cometi18n.messages.warning.import, 300 ).get() );
@@ -482,4 +555,4 @@ export default function(){
 	__.export();
 	__.preview();
 
-}
+}*/

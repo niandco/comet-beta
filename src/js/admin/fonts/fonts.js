@@ -156,7 +156,6 @@ export default class Fonts {
 	}
 
 	count(){
-		var collection;
 		return !isArray( CORE.collection ) ? 0 : CORE.collection.filter(String).length;
 
 	}
@@ -194,8 +193,7 @@ export default class Fonts {
 
 	setCounter(){
 		const c = this.count();
-		console.log( c, CORE );
-		CORE.counter.innerHTML = c + ' font ' + ( c === 1 ? 'family' : 'families' );
+		CORE.counter.innerHTML = c + ' font ' + ( c === 1 ? 'family' : 'families' ); // TRANSLATE
 
 	}
 

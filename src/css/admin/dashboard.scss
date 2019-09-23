@@ -218,12 +218,13 @@
 		height: calc( 100% - 50px );
 		position: relative;
 		overflow: auto;
+		padding: 50px 20px;
 
 	}
 
 	&__content {
 		max-width: 800px;
-		margin: 50px auto;
+		margin: 0 auto;
 
 	}
 }

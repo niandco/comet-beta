@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'colors';
 
 .comet-dialog.comet-alertbox {
     position: fixed;
@@ -7,15 +7,15 @@
     right: 0;
     bottom: 0;
     z-index: 99999;
-    background: rgba( 0, 0, 0, .7 );
+    background: rgba( getColor( bright0 ), .7 );
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 
     > .comet-inner {
-        background: white;
-        color: $liDark;
+        background: getColor( bright100 );
+        color: getColor( bright40 );
         height: 150px;
         width: 500px;
         border-radius: 3px;

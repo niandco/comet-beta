@@ -1,4 +1,4 @@
-@import '../utils/variables';
+@import '../utils/colors';
 @import '../utils/mixins'; 
 
 .comet-page--mytemplates {
@@ -51,7 +51,7 @@
 			width: 100%;
 			display: flex;
 			align-items: center;
-			border: 1px solid getColor( bright85 );
+			border: 1px solid getColor( bright80 );
 			padding: 20px;
 			margin: 20px 0;
 			position: relative;
@@ -159,14 +159,14 @@
 			justify-content: space-between;
 			padding: 10px;
 			margin: 2px 0;
-			background: $liLight;
+			background: getColor( bright80 );
 
 			> .cico {
 				margin: 5px;
 
-				&.cico-check { color: green; }
+				&.cico-check { color: getColor( green50 ); }
 
-				&.cico-x { color: red; }
+				&.cico-x { color: getColor( red50 ); }
 			}
 
 		}

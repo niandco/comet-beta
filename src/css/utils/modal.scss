@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'colors';
 @import 'mixins'; 
 
 .comet-modal {
@@ -7,15 +7,15 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: rgba( 0, 0, 0, .5 );
+	background: rgba( getColor( bright0 ), .5 );
 	z-index: 99999;
 	padding: 50px;
-	font: 300 15px/20px sans-serif;
-	color: $liDark;
+	font: 300 15px/1.2 sans-serif;
+	color: getColor( bright40 );
 
 	&__frame {
 		display: block;
-		background: white;
+		background: getColor( bright100 );
 		overflow: hidden;
 		margin: 0 auto;
 		padding: 0;
@@ -40,7 +40,7 @@
 	}
 
 	&__header {
-		border-bottom: 1px solid $daLight;
+		border-bottom: 1px solid getColor( bright80 );
 		overflow: visible;
 		padding: 20px;
 
@@ -49,7 +49,7 @@
 			margin: 0;
 			font: 300 20px/35px sans-serif;
 			text-align: center;
-			color: $liDark;
+			color: getColor( bright40 );
 		}
 
 		> div {
@@ -79,10 +79,10 @@
 		position: fixed;
 		right: 5px;
 		top: 5px;
-		background: rgba( 0, 0, 0, .7 );
+		background: rgba( getColor( bright0 ), .7 );
 		padding: 0;
 		font: 300 20px/35px sans-serif;
-		color: white;
+		color: getColor( bright100 );
 		opacity: .7;
 		cursor: pointer;
 		@include border_radius( 5px );

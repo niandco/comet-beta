@@ -20,42 +20,41 @@
 
 @media screen and ( max-width: 650px ) {
 
-	.comet-dashboard.comet-admin .comet-content.comet-boxed > .comet-row.comet-wrapper > .comet-column{ width: 100%; }
+    .comet-page {
 
-    .comet-dashboard.comet-fonts .comet-content.comet-boxed > .comet-body.comet-fontslist {
+        &--main__content__column {
+            padding: 0;
+            flex-basis: 100%;
+            width: 100%;
+    
+        }
 
-    	> .comet-font.comet-card,
-    	> .comet-introduction.comet-tutorial .comet-column {
-    		width: calc( 50% - 20px );
-    		margin-right: 30px;
+        &--fonts__item {
+            flex-basis: 48%;
+            width: 48%;
+        }
 
-    		&:nth-of-type(2n) { margin-right: 0; }
-    	}
     }
+
 }
 
 @media screen and ( max-width: 500px ) {
 
-	.comet-settings.comet-dashboard .comet-content.comet-boxed .comet-setting.comet-row .comet-settingBlock.comet-column {
-		width: 100%;
-		padding: 0;
+    .comet-page--settings__block__column {
+        flex-basis: 100%;
+        width: 100%;
 
-		&.last { padding-top: 10px }
-
-	}
+        &--last { padding-top: 10px; }
+        
+    }
 
 }
 
 @media screen and ( max-width: 450px ) {
 
-	.comet-dashboard.comet-admin .comet-content.comet-boxed > .comet-row.comet-wrapper > .comet-column{ width: 100%; }
-
-    .comet-dashboard.comet-fonts .comet-content.comet-boxed > .comet-body.comet-fontslist {
-
-    	> .comet-font.comet-card,
-    	> .comet-introduction.comet-tutorial .comet-column {
-    		width: 100%;
-    		margin-right: 0;
-    	}
+    .comet-page--fonts__item {
+        flex-basis: 100%;
+        width: 100%;
     }
+
 }

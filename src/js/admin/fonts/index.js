@@ -116,7 +116,7 @@ const EVENTS = {
 
 export default function(){
 
-	const source = DOCUMENT.getElementById( 'comet-sourceframe8679171600336466' );
+	const source = DOCUMENT.getElementById( 'comet-tempframe__fonts' );
 	var fragment, header, h_inner, b_inner, body, i, collection;
 
 	if( source === null || source.parentNode === null ){
