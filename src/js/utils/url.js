@@ -19,7 +19,7 @@ export function getParameters( url ){
 
 	for( aItKey, nKeyId = 0, aCouples = url.search.substr(1).split('&'); nKeyId < aCouples.length; nKeyId++ ){
 		aItKey = aCouples[nKeyId].split('=');
-		oParametre[unescape(aItKey[0])] = aItKey.length > 1 ? unescape(aItKey[1]) : '';
+		oParametre[aItKey[0]] = aItKey.length > 1 ? aItKey[1] : '';
 
 	}
 	return oParametre;

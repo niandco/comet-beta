@@ -134,6 +134,11 @@ b, strong, strike, u, ins, del, em, i, sup, sub, span, abbr, code, mark, q, s, s
 
 .comet-waitwhile > .cico { @include animation( waitWhile 2s linear 0s infinite ); }
 
+.comet-spinner {
+	display: block;
+	@include animation( waitWhile 2s linear 0s infinite );
+}
+
 @keyframes waitWhile {
     from { @include transform( rotate(0deg) ); } to { @include transform( rotate(360deg) ); }
 

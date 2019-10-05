@@ -114,80 +114,85 @@ const EVENTS = {
 
 }; 
 
-export default function(){
+export default class MyFonts {
 
-	const source = DOCUMENT.getElementById( 'comet-tempframe__fonts' );
-	var fragment, header, h_inner, b_inner, body, i, collection;
+	constructor ( response ){
 
-	if( source === null || source.parentNode === null ){
-		return;
+		this.response = response;
+
+		FONTSJS.reset();
 
 	}
-	fragment = DOCUMENT.createDocumentFragment();
-	header = DOCUMENT.createElement( 'div' );
-	header.className = CLASSES.header;
 
-	h_inner = '<div class="' + CLASSES.hColumn + '">';
-	h_inner += '<h4 class="' + CLASSES.counter + '"></h4>';
-	h_inner += '<span class="' + CLASSES.gauge.main + ' ' + CLASSES.gauge.slow + '"></span>';
-	h_inner += '</div>';
-	h_inner += '<div class="' + CLASSES.hColumn + '">';
-	h_inner += '<button class="comet-button comet-button--primary comet-button--circle comet-button--has-icon ' + CLASSES.button + '" title="' + __cometi18n.ui.addFont + '">';
-	h_inner += '<span class="comet-button__icon cico cico-plus"></span>';
-	h_inner += '</button>';
-	h_inner += '</div>';
+	render (){
+		const fragment = DOCUMENT.createDocumentFragment();
+		const header = DOCUMENT.createElement( 'div' );
+		const body = DOCUMENT.createElement( 'div' );
+		var h_inner, b_inner, i, collection;
 
-	header.innerHTML = h_inner;
+		fragment.appendChild( header );
+		fragment.appendChild( body );
 
-	body = DOCUMENT.createElement( 'div' );
-	body.className = CLASSES.list;
+		h_inner = '<div class="' + CLASSES.hColumn + '">';
+		h_inner += '<h4 class="' + CLASSES.counter + '"></h4>';
+		h_inner += '<span class="' + CLASSES.gauge.main + ' ' + CLASSES.gauge.slow + '"></span>';
+		h_inner += '</div>';
+		h_inner += '<div class="' + CLASSES.hColumn + '">';
+		h_inner += '<button class="comet-button comet-button--primary comet-button--circle comet-button--has-icon ' + CLASSES.button + '" title="' + __cometi18n.ui.addFont + '">';
+		h_inner += '<span class="comet-button__icon cico cico-plus"></span>';
+		h_inner += '</button>';
+		h_inner += '</div>';
 
-	fragment.appendChild( header );
-	fragment.appendChild( body );
+		
+		header.className = CLASSES.header;
+		header.innerHTML = h_inner;
+		body.className = CLASSES.list;
 
-	node( header.lastChild.firstChild ).on( 'click', EVENTS.add );
+		node( header.lastChild.firstChild ).on( 'click', EVENTS.add );
 
-	collection = FONTSJS.setFonts( __cometdata.fonts );
-	FONTSJS.setFrameUiOnce( source );
-	FONTSJS.setCounterUiOnce( header.firstChild.firstChild );
-	FONTSJS.setLoadInfoUiOnce( header.firstChild.lastChild );
-	FONTSJS.setFontsBoxUiOnce( body );
+		collection = FONTSJS.setFonts( this.response.fonts );
+		FONTSJS.setFrameUiOnce( fragment );
+		FONTSJS.setCounterUiOnce( header.firstChild.firstChild );
+		FONTSJS.setLoadInfoUiOnce( header.firstChild.lastChild );
+		FONTSJS.setFontsBoxUiOnce( body );
 
-	if( isArray( collection ) && collection.length > 0 ){
+		if( isArray( collection ) && collection.length > 0 ){
 
-		for( i = 0; i < collection.length; i++ ){
-			FONTUI.html( collection[i] );
-			FONTUI.css( collection[i] );
+			for( i = 0; i < collection.length; i++ ){
+				FONTUI.html( collection[i] );
+				FONTUI.css( collection[i] );
+
+			}
+
+		}else{
+			b_inner = '<div class="' + CLASSES.tutorial.main + '">';
+			b_inner += '<h2>' + __cometi18n.messages.error.noFonts + '</h2>';
+			b_inner += '<p>' + __cometi18n.messages.selFonts1 + '<br>' + __cometi18n.messages.selFonts2 + '</p>';
+			b_inner += '<div class="' + CLASSES.tutorial.row + '">';
+			b_inner += '<div class="' + CLASSES.tutorial.column + ' ' + CLASSES.tutorial.column + '--c1">';
+			b_inner += '<figure>' + svg( 'heart' ) + '</figure>';
+			b_inner += '<h4>Browsering</h4>';
+			b_inner += '<p>' + __cometi18n.messages.fontSt1 + '</p>';
+			b_inner += '</div>';
+			b_inner += '<div class="' + CLASSES.tutorial.column + ' ' + CLASSES.tutorial.column + '--c2">';
+			b_inner += '<figure>' + svg( 'add' ) + '</figure>';
+			b_inner += '<h4>Importing</h4>';
+			b_inner += '<p>' + __cometi18n.messages.fontSt2 + '</p>';
+			b_inner += '</div>';
+			b_inner += '<div class="' + CLASSES.tutorial.column + ' ' + CLASSES.tutorial.column + '--c3">';
+			b_inner += '<figure>' + svg( 'check' ) + '</figure>';
+			b_inner += '<h4>Using</h4>';
+			b_inner += '<p>' + __cometi18n.messages.fontSt3 + '</p>';
+			b_inner += '</div>';
+			b_inner += '</div>';
+			b_inner += '</div>';
+			body.innerHTML = b_inner;
 
 		}
-
-	}else{
-		b_inner = '<div class="' + CLASSES.tutorial.main + '">';
-		b_inner += '<h2>' + __cometi18n.messages.error.noFonts + '</h2>';
-		b_inner += '<p>' + __cometi18n.messages.selFonts1 + '<br>' + __cometi18n.messages.selFonts2 + '</p>';
-		b_inner += '<div class="' + CLASSES.tutorial.row + '">';
-		b_inner += '<div class="' + CLASSES.tutorial.column + ' ' + CLASSES.tutorial.column + '--c1">';
-		b_inner += '<figure>' + svg( 'heart' ) + '</figure>';
-		b_inner += '<h4>Browsering</h4>';
-		b_inner += '<p>' + __cometi18n.messages.fontSt1 + '</p>';
-		b_inner += '</div>';
-		b_inner += '<div class="' + CLASSES.tutorial.column + ' ' + CLASSES.tutorial.column + '--c2">';
-		b_inner += '<figure>' + svg( 'add' ) + '</figure>';
-		b_inner += '<h4>Importing</h4>';
-		b_inner += '<p>' + __cometi18n.messages.fontSt2 + '</p>';
-		b_inner += '</div>';
-		b_inner += '<div class="' + CLASSES.tutorial.column + ' ' + CLASSES.tutorial.column + '--c3">';
-		b_inner += '<figure>' + svg( 'check' ) + '</figure>';
-		b_inner += '<h4>Using</h4>';
-		b_inner += '<p>' + __cometi18n.messages.fontSt3 + '</p>';
-		b_inner += '</div>';
-		b_inner += '</div>';
-		b_inner += '</div>';
-		body.innerHTML = b_inner;
+		FONTSJS.setLoadTime();
+		FONTSJS.setCounter();
+		return fragment;
 
 	}
-	source.parentNode.replaceChild( fragment, source );
-	FONTSJS.setLoadTime();
-	FONTSJS.setCounter();
 
 }

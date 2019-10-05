@@ -22,7 +22,7 @@ class Comet_Ajax {
         }
         $element = is_string( $p['element'] ) ? trim( $p['element'] ) : '';
         $id = is_integer( $id = (int)$p['id'] ) && $id > -1 ? $id : null;
-        return comet_get_element_ajax( $element, $id, ( isset( $p['data'] ) && ( $data = comet_parse_json( $p['data'] ) ) ? $data : array() ) );
+        return comet_get_element_ajax( $element, $id, ( isset( $p['data'] ) && ( $data = comet_parse_json( $p['data'] ) ) ? $data : [] ) );
 
     }
 
@@ -82,7 +82,11 @@ class Comet_Ajax {
 
         }
 
-        switch( is_string( $p['do'] ) ? trim( strtolower( $p['do'] ) ) : '' ){
+        switch( $p['do'] ){
+
+            case 'page':
+            echo comet_get_page_response( $p['id'] );
+            break;
 
             case 'element':
             echo $this->_element( $p );
@@ -103,7 +107,6 @@ class Comet_Ajax {
             break;
 
             case 'dtemplate'://@TODO rename
-
             echo ( isset( $p['id' ] ) && ( $post = comet_get_post( $p['id' ] ) )->has_post() && $post->delete_post() ? 1 : 0 );
             break;
 
@@ -126,7 +129,18 @@ class Comet_Ajax {
             echo ( isset( $p['id' ] ) && ( $post = comet_get_post( $p['id' ] ) )->has_post() ? json_encode( $post->get_post( $meta ) ) : 0 );
             break;
 
+            case 'settings':
+
+            if( isset( $p['data'] ) && ( $data = comet_parse_json( $p['data'] ) ) ){
+                echo (string)update_option( 'comet_settings', $data, true );
+                break;
+
+            }
+            echo '0';
+            break;
+
             default:
+            echo false;
             break;
 
         }

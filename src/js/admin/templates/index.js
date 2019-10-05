@@ -1,183 +1,52 @@
-import { isBool, isNode, isString, isObject, isArray } from '../../utils/is.js';
-import { jsonEncode, stripTags, encodeChars, escUrl } from '../../utils/fill.js';
-import { parseJson, parseDataset, parseId } from '../../utils/parse.js';
-/*import { addQueryArgs } from '../utils/url.js';
-import message from '../utils/message.js';
-import dialog from '../utils/dialog.js';
-import modal from '../utils/modal.js';*/
-import node from '../../dom/element.js';
-import ajax from '../../utils/ajax.js';
-import CLASSES from './classes.js';
+import { jsonEncode, jsonDecode, stripTags, encodeChars } from '../../utils/fill.js';
+import { isNode, isString, isObject, isArray } from '../../utils/is.js';
+/*import { addQueryArgs } from '../utils/url.js';*/
 
-/* global document, window, __cometi18n, __cometdata, FileReader, Blob */
+import message from '../../utils/message.js';
+import Modal from '../../utils/modal.js';
+import { ClassName } from '../../utils/className.js';
+import Node from '../../dom/element.js';
+import Ajax from '../../utils/ajax.js';
+import { __class } from './classes.js';
+import Templates from './templates.js';
+import Template from './template.js';
 
-/**
-* @TODO: Rewrite
-*
-*/
-
-
+/* global document, window, __cometi18n, __cometdata, FileReader */
 
 const DOCUMENT = document;
 
 const WINDOW = window;
 
-export default function(){
+const TEMPLATESJS = new Templates();
 
+const CORE = {
+	saving: false,
 
-	//const source = DOCUMENT.getElementById( 'comet-tempframe__mytemplates' );
-	var fragment, header, h_inner, b_inner, body, i, collection;
+	importing: false,
 
-	/*if( source === null || source.parentNode === null ){
-		return;
+	save: function( ev, ui, input ){
+		var name, _message, pp;
 
-	}*/
-	fragment = DOCUMENT.createDocumentFragment();
-	header = DOCUMENT.createElement( 'header' );
-	header.className = CLASSES.header;
+		ev.preventDefault();
 
-	h_inner = '<div class="' + CLASSES.hColumn + '">';
-	h_inner += '<h4 class="' + CLASSES.counter + '"></h4>';
-	h_inner += '</div>';
-	h_inner += '<div class="' + CLASSES.hColumn + '">';
-	h_inner += '<button class="comet-button comet-button--primary comet-button--circle comet-button--has-icon ' + CLASSES.button +'" title="create new">'; // TRANSLATE
-    h_inner += '<span class="comet-button__icon cico cico-plus"></span>';
-    h_inner += '</button>';
-    h_inner += '<div class="' + CLASSES.import.main + '">';
-    h_inner += '<input type="file" class="' + CLASSES.import.files + '" multiple accept=".json" />';
-    h_inner += '<button class="comet-button comet-button--circle comet-button--has-icon ' + CLASSES.import.select + '" title="Import">'; // TRANSLATE
-    h_inner += '<span class="comet-button__icon cico cico-import"></span>';
-    h_inner += '</button>';
-    h_inner += '</div>';
-	h_inner += '</div>';
-
-	header.innerHTML = h_inner;
-
-	body = DOCUMENT.createElement( 'div' );
-	body.className = CLASSES.list;
-
-	fragment.appendChild( header );
-	fragment.appendChild( body );
-
-	console.log( 
-
-		ajax({
-			do: 'templates',
-			data: 'cus'
-
-		}).done( function( e ){
-			console.log( e, parseJson( e ) );
-		} )
-
-	);
-
-	/*node( header.lastChild.firstChild ).on( 'click', Create );
-	node( header.lastChild.lastChild ).on( 'click', Import );
-
-	collection = FONTSJS.setFonts( __cometdata.fonts );
-	FONTSJS.setFrameUiOnce( source );
-	FONTSJS.setCounterUiOnce( header.firstChild.firstChild );
-	FONTSJS.setFontsBoxUiOnce( body );
-
-	if( isArray( collection ) && collection.length > 0 ){
-
-		for( i = 0; i < collection.length; i++ ){
-			FONTUI.html( collection[i] );
+		if( CORE.saving || !isNode( input ) || input.parentNode === null || ( pp = input.parentNode.parentNode ) === null ){
+			return;
 
 		}
-
-	}
-	source.parentNode.replaceChild( fragment, source );
-	FONTSJS.setCounter();*/
-
-}
-
-/*export default function(){
-
-	const __bun = {
-
-		toggle: function( button, state ){
-			const waitwhile = 'comet-waitwhile';
-
-			if( !isNode( button ) ){
-				return;
-
-			}
-
-			if( isBool( state ) && state ){
-				node( button ).addClass( waitwhile );
-				button.innerHTML = '<span class="cico cico-spin"></span>';
-				return;
-
-			}
-			node( button ).removeClass( waitwhile );
-			button.innerHTML = state;
-
-		}
-
-	};
-
-	const __ = {
-
-		create: function(){
-
-			var is_saving = false;
-
-			const nt = DOCUMENT.getElementById( 'comet-newTemplate' );
-
-			const __core = {
-
-				open: function( ev ){
-					const fragment = DOCUMENT.createDocumentFragment();
-					const wrapper = DOCUMENT.createElement( 'div' );
-					var inner;
-
-					ev.preventDefault();
-
-					wrapper.className = 'comet-savebox comet-wrapper';
-
-					fragment.appendChild( wrapper );
-
-					inner = '<div class="comet-saveform">';
-					inner += '<input type="text" class="comet-input" value="" placeholder="' + __cometi18n.ui.name + '" />';
-					inner += '<button class="comet-button comet-buttonPrimary" aria-label="' + __cometi18n.ui.create + '">' + __cometi18n.ui.create + '</button>';
-					inner += '</div>';
-					wrapper.innerHTML = inner;
-
-					node( wrapper.lastChild.lastChild ).on( 'click', __core.save, wrapper.lastChild.firstChild );
-
-					modal({
-						classes: 'comet-newtemplatebox',
-						header: '<h4>' + __cometi18n.ui.newTemplate + '</h4>',
-						content: fragment
-
-					});
-
-				},
-
-				save: function( ev, ui, input ){
-					var name, _message, pp;
-
-					ev.preventDefault();
-
-					if( is_saving || !isNode( input ) || input.parentNode === null || ( pp = input.parentNode.parentNode ) === null ){
-						return;
-
-					}
-					is_saving = true;
-					__bun.toggle( ui, true );
+		CORE.saving = true;
+					//__bun.toggle( ui, true );
 
 					if( !isString( name = input.value ) || ( name = ( stripTags( name ) ).trim() ).length < 1 ){
 						_message = message( __cometi18n.messages.error.title, 400 );
 						_message.remove_existing( pp );
 						_message.appendTo( pp );
-						is_saving = false;
-						__bun.toggle( ui, __cometi18n.ui.create );
+						CORE.saving = false;
+						//__bun.toggle( ui, __cometi18n.ui.create );
 						return;
 
 					}
 
-					ajax({
+					Ajax({
 						do: 'save',
 						data: jsonEncode({
 							post_title: encodeChars( name ),
@@ -190,8 +59,8 @@ export default function(){
 					}).done(function( r ){
 						var url, msg;
 
-						is_saving = false;
-						__bun.toggle( ui, __cometi18n.ui.create );
+						CORE.saving = false;
+						//__bun.toggle( ui, __cometi18n.ui.create );
 
 						if( parseInt( r ) > 0 ){
 							url = addQueryArgs( { post: r, action: 'edit', comet: 'template'  }, __cometdata.edit_url );
@@ -209,122 +78,17 @@ export default function(){
 
 					});
 
-				}
-
-			};
-
-			if( !isNode( nt ) ){
-				return;
-
-			}
-			node( nt ).on( 'click', __core.open );
-
-		},
-
-		delete: function(){
-
-			var isDeleting = false;
-
-			const nt = DOCUMENT.getElementsByClassName( 'comet-templateDelete' );
-
-			const prop = {
-
-				open: function( ev, ui ){
-					var msg = false;
-					var id;
-
-					ev.preventDefault();
-
-					if( !( id = parseDataset( ui, 'id' ) ) || !( id = parseId( id ) ) ){
-						msg = __cometi18n.messages.error.noTemplate;
-
-					}
-					dialog({
-						message: ( !msg ? __cometi18n.messages.warning.delete : msg ),
-						confirm: prop.delete,
-						data: {
-							id: id,
-							node: ui.parentNode.parentNode,
-							error: ( !msg ? false : true )
-						}
-					});
-
-				},
-
-				delete: function( ev, ui, data ){
-					ev.preventDefault();
-
-					if( isDeleting || !isObject( data ) || ( isBool( data.error ) && data.error ) ){
-						return;
-
-					}
-					isDeleting = true;
-					data.dialog.destroy();
-
-					ajax({
-						do: 'dtemplate',
-						id: data.id
-
-					}).done(function( r ){
-						isDeleting = false;
-
-						if( [ 'false', 'FALSE', '0', 0 ].indexOf( r ) > -1 ){
-							return;
-
-						}
-						WINDOW.location.reload( true );
-
-					});
-
-
-				}
-
-			};
-
-			if( !isNode( nt ) ){
-				return;
-
-			}
-			node( nt ).on( 'click', prop.open );
-
-		},
-
-		import: function(){
-
-			const nt = DOCUMENT.getElementById( 'comet-importTemplateBtn' );
-
-			const __core = {
-
-				open: function(){
-					const input = DOCUMENT.getElementById( 'comet-importTemplateFile' );
-					var wrapper;
-
-					if( !isNode( input ) ){
-						return;
-
-					}
-					wrapper = DOCUMENT.createElement( 'div' );
-					wrapper.className = 'comet-savebox comet-wrapper';
-					wrapper.innerHTML = __cometi18n.messages.selFile;
-
-					modal({
-						classes: 'comet-importbox',
-						header: '<h4>' + __cometi18n.ui.impTemplate + '</h4>',
-						content: wrapper,
-					});
-					node( input ).on( 'change', __core.import, wrapper );
-					input.click();
-
 				},
 
 				import: function( ev, ui, wrapper ){
 					const files = ui.files;
 					var importing, file, f, reader, fragment, button, items, item;
 
-					if( !files || files.length < 1 ){
+					if( CORE.importing || !files || files.length < 1 ){
 						return;
 
 					}
+					CORE.importing = true;
 					importing = files.length;
 					fragment = DOCUMENT.createDocumentFragment();
 					items = DOCUMENT.createElement( 'ul' );
@@ -354,12 +118,12 @@ export default function(){
 						reader.onload = function( e ){
 							var data;
 
-							if( !( data = parseJson( e.target.result ) ) || !isObject( data ) || !isObject( data.meta ) ){
+							if( !( data = jsonDecode( e.target.result ) ) || !isObject( data ) || !isObject( data.meta ) ){
 								return false;
 
 							}
 
-							ajax({
+							Ajax({
 								do: 'save',
 								data: jsonEncode({
 									post_title: isString( data.title ) ? data.title : isString( data.post_title ) ? data.post_title : 'Undefined',
@@ -376,6 +140,11 @@ export default function(){
 								item.lastChild.className = 'cico cico-' + ( is_saved ? 'check' : 'x' );
 								importing--;
 
+								if( importing === 0 ){
+									CORE.importing = false;
+
+								}
+
 							});
 
 						};
@@ -385,174 +154,147 @@ export default function(){
 					wrapper.innerHTML = '';
 					wrapper.appendChild( fragment );
 
-					node( button ).on( 'click', function( ev_ ){
+					Node( button ).on( 'click', function( ev_ ){
 						ev_.preventDefault();
 
 						if( importing !== 0 ){
 							return;
 
 						}
-						WINDOW.location.reload( true ); 
+						//WINDOW.location.reload( true ); 
 
 					});
 
-				},
+				}
 
 			};
 
-			if( !isNode( nt ) ){
-				return;
+			export default class MyTemplates {
 
-			}
-			node( nt ).on( 'click', __core.open );
+				constructor ( response ){
 
-		},
+					this.response = response;
+					this.fragment = null;
 
-		export: function(){
+					TEMPLATESJS.reset();
 
-			var is_saving = false;
+				}
 
-			const nt = DOCUMENT.getElementsByClassName( 'comet-templateExport' );
+				render (){
+					var h_inner, b_inner, i, collection;
 
-			const __core = {
+					TEMPLATESJS.setTemplates( this.response.templates );
 
-				open: function( ev, ui ){
-					var fragment = false;
-					var wrapper, inner, id;
+					this.fragment = DOCUMENT.createDocumentFragment();
+
+					this.header();
+					this.body();
+
+
+					return this.fragment;
+				}
+
+				header (){
+					const header = DOCUMENT.createElement( 'div' );
+					const C = ClassName( __class.hColumn );
+					var inner;
+					this.fragment.appendChild( header );
+
+
+					inner = '<div class="' + C.combineWith( [ C.modifier( 'c1' ) ] ) + '">';
+					inner += '<h4 class="' + __class.counter + '"></h4>';
+					inner += '</div>';
+					inner += '<div class="' + C.combineWith( [ C.modifier( 'c2' ) ] ) + '">';
+					inner += '<div class="' + __class.import.main + '">';
+					inner += '<input type="file" class="' + __class.import.files + '" multiple accept=".json" />';
+					inner += '<button class="' + ClassName( __class.import.select ).combineWith( [ 'comet-button', 'comet-button--circle', 'comet-button--has-icon' ] ) + '" title="' + __cometi18n.ui.template.import + '">';
+					inner += '<span class="comet-button__icon cico cico-import"></span>';
+					inner += '</button>';
+					inner += '</div>';
+					inner += '<button class="' + ClassName( __class.button ).combineWith( [ 'comet-button', 'comet-button--primary', 'comet-button--circle', 'comet-button--has-icon' ] ) + '" title="' + __cometi18n.ui.template.new + '">';
+					inner += '<span class="comet-button__icon cico cico-plus"></span>';
+					inner += '</button>';
+					inner += '</div>';
+
+					header.className = __class.header;
+					header.innerHTML = inner;
+
+					TEMPLATESJS.setUi( 'counter', header.firstChild.firstChild );
+					TEMPLATESJS.setUi( 'import', header.lastChild.firstChild.firstChild );
+					TEMPLATESJS.setCounter();
+
+					Node( header.lastChild.lastChild ).on( 'click', this.createNew );
+					Node( header.lastChild.firstChild.lastChild ).on( 'click', this.import );
+
+				}
+
+				body (){
+					const body = DOCUMENT.createElement( 'div' );
+					const templates = TEMPLATESJS.getTemplates();
+					var a = 0;
+
+					this.fragment.appendChild( body );
+
+					TEMPLATESJS.setUi( 'list', body );
+
+					body.className = __class.list;
+
+					for( a; a < templates.length; a++ ){
+						new Template( a ).render();
+
+					}
+
+				}
+
+				createNew ( ev ){
+					const fragment = DOCUMENT.createDocumentFragment();
+					const wrapper = DOCUMENT.createElement( 'div' );
+					var inner;
 
 					ev.preventDefault();
 
-					if(  !( id = parseDataset( ui, 'id' ) ) || !( id = parseId( id ) ) ){
-						return;
-
-					}
-					fragment = DOCUMENT.createDocumentFragment();
-					wrapper = DOCUMENT.createElement( 'div' );
 					wrapper.className = 'comet-savebox comet-wrapper';
+
 					fragment.appendChild( wrapper );
 
 					inner = '<div class="comet-saveform">';
 					inner += '<input type="text" class="comet-input" value="" placeholder="' + __cometi18n.ui.name + '" />';
-					inner += '<button class="comet-button comet-buttonPrimary" aria-label="' + __cometi18n.ui.export + '">' + __cometi18n.ui.export + '</button>';
+					inner += '<button class="comet-button comet-buttonPrimary" aria-label="' + __cometi18n.ui.create + '">' + __cometi18n.ui.create + '</button>';
 					inner += '</div>';
 					wrapper.innerHTML = inner;
 
-					node( wrapper.firstChild.lastChild ).on( 'click', __core.export, { id: id, input: wrapper.firstChild.firstChild } );
+					Node( wrapper.lastChild.lastChild ).on( 'click', CORE.save, wrapper.lastChild.firstChild );
 
-					modal({
-						classes: 'comet-exportbox',
-						header: '<h4>' + __cometi18n.ui.expTemplate + '</h4>',
-						content: fragment,
-					});
-				},
-
-				export: function( ev, ui, edata ){
-					var name, pp, _message;
-
-					ev.preventDefault();
-
-					if( is_saving || !isNode( edata.input ) || edata.input.parentNode === null || ( pp = edata.input.parentNode.parentNode ) === null ){
-						return;
-
-					}
-					is_saving = true;
-					__bun.toggle( ui, true );
-
-					if( !isString( name = edata.input.value ) || ( name = ( stripTags( name ) ).trim() ).length < 1 ){
-						_message = message( __cometi18n.messages.error.title, 400 );
-						_message.remove_existing( pp );
-						_message.appendTo( pp );
-						is_saving = false;
-						__bun.toggle( ui, __cometi18n.ui.export );
-						return;
-
-					}
-
-					ajax({
-						do: 'get',
-						meta: true,
-						id: edata.id,
-
-					}).done(function( r ){
-						var data, blob, msg, filename, json_data;
-
-						is_saving = false;
-						__bun.toggle( ui, __cometi18n.ui.export );
-
-						if( !( data = parseJson( r ) ) || !isString( data.post_content ) || !isObject( data.meta ) ){
-							_message = message( __cometi18n.messages.error.export, 400 );
-							_message.remove_existing( pp );
-							_message.appendTo( pp );
-							return;
-
-						}
-						filename = 'comet-mytemplate.json';
-						json_data = {
-							post_title: encodeChars( name ),
-							post_content: data.post_content,
-							meta: data.meta
-						};
-						blob = new Blob( [ JSON.stringify( json_data ) ], { type: 'application/json' } );
-						msg = __cometi18n.messages.success.export + '<br>';
-						msg += '<a href="' + escUrl( WINDOW.URL.createObjectURL( blob ) ) + '" download="' + filename + '">' + __cometi18n.ui.download + '</a>';
-
-						message( msg, 200 ).set( pp );
-						message( __cometi18n.messages.warning.export, 300 ).appendTo( pp );
+					Modal({
+						classes: 'comet-newtemplatebox',
+						header: '<h4>' + __cometi18n.ui.newTemplate + '</h4>',
+						content: fragment
 
 					});
 
 				}
 
-			};
+				import (){
 
-			if( !isNode( nt ) ){
-				return;
+					const input = TEMPLATESJS.getUi( 'import' );
+					var wrapper;
 
-			}
-			node( nt ).on( 'click', __core.open );
+					if( !isNode( input ) ){
+						return;
 
-		},
+					}
+					wrapper = DOCUMENT.createElement( 'div' );
+					wrapper.className = 'comet-savebox comet-wrapper';
+					wrapper.innerHTML = __cometi18n.messages.selFile;
 
-		preview: function(){
-
-			const nt = DOCUMENT.getElementsByClassName( 'comet-templatePreview' );
-
-			if( !isNode( nt ) ){
-				return;
-
-			}
-			node( nt ).on( 'click', function( ev, ui ){
-				const url = isString( ui.href ) ? ( stripTags( ui.href ) ).trim() : false;
-				var inner = '<div>';
-				
-				ev.preventDefault();
-
-				if( !url ){
-					inner += '<div class="comet-msgbox">';
-					inner += '<span class="cico cico-exclamation"></span>';
-					inner += '<p>' + __cometi18n.messages.error.unreach + '</p>';
-					inner += '</div>';
-
-				}else{
-					inner += '<iframe src="' + encodeURI( url ) + '"></iframe>';
+					Modal({
+						classes: 'comet-importbox',
+						header: '<h4>' + __cometi18n.ui.impTemplate + '</h4>',
+						content: wrapper,
+					});
+					Node( input ).on( 'change', CORE.import, wrapper );
+					input.click();
 
 				}
-				inner += '</div>';
 
-				modal({
-					classes: 'comet-previewbox',
-					header: '<h4>' + __cometi18n.ui.pTemplate + '</h4>',
-					content: inner
-				});
-			});
-
-		}
-
-	};
-	__.create();
-	__.delete();
-	__.import();
-	__.export();
-	__.preview();
-
-}*/
+}

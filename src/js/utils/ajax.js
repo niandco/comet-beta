@@ -4,59 +4,60 @@ import { isObject, isFunction, isString, isEmpty, isTrueValue } from './is.js';
 
 const CORE = {
 
-    action: !isTrueValue( __cometdata.user ) ? 'cometnoprivactions' : 'cometprivactions',
+	action: !isTrueValue( __cometdata.user ) ? 'cometnoprivactions' : 'cometprivactions',
 
-    encode: function( obj ){
-        var encoded = '';
-        var key;
+	encode: function( obj ){
+		var encoded = '';
+		var key;
 
-        for( key in obj ){
-            encoded += ( encoded.length > 0 ? '&' : '' ) + encodeURI( key + '=' + obj[key] );
+		for( key in obj ){
+			encoded += ( encoded.length > 0 ? '&' : '' ) + encodeURI( key + '=' + obj[key] );
 
-        }
-        return encoded;
+		}
+		return encoded;
 
-    }
+	}
 
 };
 
 export default function( data ){
-    const EVENTS = {
+	var xhr;
 
-        done: function( todo ){
+	const EVENTS = {
 
-            if( !isFunction( todo ) || !isObject( xhr ) ){
-                return;
+		done: function( todo ){
 
-            }
+			if( !isFunction( todo ) || !isObject( xhr ) ){
+				return;
 
-            xhr.onload = function(){
-                const response = xhr.status === 200 ? xhr.responseText : false;
-                todo( response );
+			}
 
-            };
+			xhr.onload = function(){
+				const response = xhr.status === 200 ? xhr.responseText : false;
+				todo( response );
 
-        }
+			};
 
-    };
-    var xhr;
+		}
 
-    if( !isObject( data ) || !isString( data.do ) || isEmpty( data.do ) ){
-        return EVENTS;
+	};
 
-    }
-    data.do = data.do.trim();
-    data.action = CORE.action;
+	if( !isObject( data ) || !isString( data.do ) || isEmpty( data.do ) ){
+		return EVENTS;
 
-    if( 'security' in __cometdata ){
-        data.security = __cometdata.security;
+	}
+	data.do = data.do.trim();
+	data.action = CORE.action;
 
-    }
-    xhr = new XMLHttpRequest();
-    xhr.open( 'POST' , __cometdata.ajax_url, true );
-    xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
-    xhr.send( CORE.encode( data ) );
+	if( 'security' in __cometdata ){
+		data.security = __cometdata.security;
 
-    return EVENTS;
+	}
+	xhr = new XMLHttpRequest();
+	xhr.open( 'POST' , __cometdata.ajax_url, true );
+	xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+	xhr.send( CORE.encode( data ) );
+
+	return EVENTS;
 
 }

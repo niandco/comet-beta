@@ -1,7 +1,7 @@
 @import '../utils/mixins';
 @import '../utils/colors';
 
-.comet-page--dashboard {
+.comet-dashboard {
 	background: getColor( bright95 );
 	display: flex;
 	overflow: hidden;
@@ -14,7 +14,7 @@
 		background: getColor( bright100 );
 		border-right: 1px solid getColor( bright80 );
 		overflow: auto;
-		display: none;
+		display: block;
 
 		&__menu {
 
@@ -176,38 +176,35 @@
 
 		}
 
-		&__tooltip {
+	}
 
-			.comet-tooltip__main { width: 200px; }
+	&__tooltip {
 
-			&__title { text-align: center; }
+		.comet-tooltip__main { width: 200px; }
 
-			&__footer {
+		&__title { text-align: center; }
 
-				&__link {
-					display: flex;
-					padding: 10px 15px;
-					margin: 5px 0;
-					background: getColor( bright85 );
-					flex-basis: calc( 100% - 15px - 15px );
-					width: calc( 100% - 15px - 15px );
-					justify-content: space-between;
-					@include border_radius( 5px );
+		&__button {
+			display: flex;
+			padding: 10px 15px;
+			margin: 5px 0;
+			background: getColor( bright85 );
+			flex-basis: calc( 100% - 15px - 15px );
+			width: calc( 100% - 15px - 15px );
+			justify-content: space-between;
+			@include border_radius( 5px );
 
-					.cico {
-						width: 15px;
-						height: 15px;
-						font-size: 15px;
-					}
+			.cico {
+				width: 15px;
+				height: 15px;
+				font-size: 15px;
+			}
 
-					&:hover {
-						background: getColor( bright80 );
-						text-decoration: none;
-						@include transition( background .5s ease );
+			&:hover {
+				background: getColor( bright80 );
+				text-decoration: none;
+				@include transition( background .5s ease );
 
-					}
-
-				}
 			}
 
 		}

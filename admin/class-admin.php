@@ -57,11 +57,32 @@ namespace Comet\Admin;
 	public function page(){
 
 		$path = COMET_PATH;
+		$load = comet_get_args();
 
-		if( ( $Dashboard = comet_autoload( '\Comet\Admin\Dashboard\Comet_Dashboard', "{$path}admin/class-dashboard.php" ) ) ){
-			$Dashboard->instance();
+		if( $load['page'] !== 'comet' ){
+			comet_die();
+			exit;
 
 		}
+
+		if( isset( $load['preview'] ) ){
+
+			if( ( $P = comet_autoload( '\Comet\Admin\Comet_Preview', "{$path}admin/class-preview.php" ) ) && $P->instance( $load['preview'] ) ){
+				$P->render();
+				exit;
+
+			}
+			comet_die();
+			exit;
+
+		}
+
+		if( ( $D = comet_autoload( '\Comet\Admin\Dashboard\Comet_Dashboard2', "{$path}admin/class-dashboard2.php" ) ) ){
+			$D->render();
+			exit;
+
+		}
+		comet_die();
 		exit;
 
 	}

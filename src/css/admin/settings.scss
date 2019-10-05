@@ -1,11 +1,11 @@
 @import '../utils/colors';
 @import '../utils/mixins';
 
-.comet-page--settings {
+.comet-dashboard--settings {
 
 	&__submit { margin-top: 20px; }
 
-	&__block {
+	&__section {
 		padding: 20px 0;
 		border-bottom: 2px solid getColor( bright85 );
 		display: flex;
@@ -13,38 +13,40 @@
 		flex-basis: 100%;
 		width: 100%;
 
-		&__column {
+	}
 
-			&--first {
-				flex-basis: 30%;
-				width: 30%;
-			}
+	&__meta {
+		flex-basis: 30%;
+		width: 30%;
 
-			&--last{
-				flex-basis: 60%;
-				width: 60%;
-
-			}
-
-		}
-
-		&__label {
-			font-weight: 500;
+		&__title {
+			font-weight: 600;
 			padding-bottom: 5px;
 
 		}
 
 	}
 
-}
+	&__controls {
+		flex-basis: 60%;
+		width: 60%;
 
-.comet-control--checkbox {
-	padding: 5px 0;
+	}
 
-	&__label {
-		display: inline-block;
-		vertical-align: middle;
-		margin-left: 5px;
+	&__control {
+
+		$baseControl: #{&};
+
+		&--checkbox {
+			padding: 5px 0;
+
+			& #{$baseControl}__label {
+				display: inline-block;
+				vertical-align: middle;
+				margin-left: 5px;
+
+			}
+		}
 
 	}
 

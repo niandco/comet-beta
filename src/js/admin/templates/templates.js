@@ -1,3 +1,5 @@
+import { isArray, isObject, isBool, isDefined, isNode } from '../../utils/is.js';
+import { arrayMax, i18n_n } from '../../utils/fill.js';
 
 const DOCUMENT = document;
 
@@ -5,17 +7,23 @@ const CORE = {
 
 	collection: [],
 	ui: {
-		files: null,
 		import: null,
 		counter: null,
 		list: null,
 
-	},
-
+	}
 
 };
 
 export default class Templates {
+
+	reset (){
+		CORE.collection = [];
+		CORE.ui.import = null;
+		CORE.ui.counter = null;
+		CORE.ui.list = null;
+
+	}
 
 	count(){
 		return !isArray( CORE.collection ) ? 0 : CORE.collection.filter(String).length;
@@ -92,9 +100,28 @@ export default class Templates {
 
 	}
 
+	getUi( slug ){
+
+		return !isNode( CORE.ui[slug] ) ? false : CORE.ui[slug];
+
+	}
+
 	setCounter(){
-		const c = this.count();
-		CORE.ui.counter.innerHTML = c + ( c === 1 ? ' template' : ' templates' ); // TRANSLATE
+		CORE.ui.counter.innerHTML = i18n_n( __cometi18n.ui.template.template, __cometi18n.ui.template.templates, this.count() );
+
+	}
+
+	appendTemplate( index, ui ){
+		const data = this.getTemplate( index );
+		const body = this.getUi( 'list' );
+
+		if( !isObject( data ) || !body ){
+			return false;
+
+		}
+		data.ui = ui;
+		body.appendChild( data.ui );
+		return true;
 
 	}
 

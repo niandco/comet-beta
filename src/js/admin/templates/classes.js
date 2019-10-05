@@ -1,33 +1,29 @@
 import { ClassName } from '../../utils/className.js';
+import { __default } from '../interface/classes.js';
 
-const CLASSNAME = ClassName( 'comet-page' ).modifier( 'mytemplates' );
+const elt = __default.modifier( 'mytemplates' );
 
-const BASE = ClassName( CLASSNAME );
+export const __elt = ClassName( elt );
 
-export default {
-	header: BASE.element( 'header' ),
-	hColumn: BASE.element( 'header__column' ),
-	counter: BASE.element( 'counter' ),
-	button: BASE.element( 'new' ),
+export const __class = {
+	header: __elt.element( 'header' ),
+	hColumn: __elt.element( 'header__column' ),
+	counter: __elt.element( 'counter' ),
+	button: __elt.element( 'new' ),
 	import: {
-		main: BASE.element( 'import' ),
-		files: BASE.element( 'import__files' ),
-		select: BASE.element( 'import__select' ),
+		main: __elt.element( 'import' ),
+		files: __elt.element( 'import__files' ),
+		select: __elt.element( 'import__select' ),
 
 	},
-	list: BASE.element( 'list' ),
+	list: __elt.element( 'list' ),
 	item: {
-		main: BASE.element( 'item' ),
-		events: BASE.element( 'item__events' ),
-		edit: BASE.element( 'item__edit' ),
-		preview: BASE.element( 'item__preview' ),
-		export: BASE.element( 'item__export' ),
-		delete: BASE.element( 'item__delete' ),
-		meta: BASE.element( 'item__meta' ),
-		desc: BASE.element( 'item__desc' ),
-		name: BASE.element( 'item__name' ),
-		author: BASE.element( 'item__author' ),
-		date: BASE.element( 'item__date' ),
+		main: __elt.element( 'item' ),
+		events: __elt.element( 'item__events' ),
+		event: __elt.element( 'item__event' ),
+		meta: __elt.element( 'item__meta' ),
+		title: __elt.element( 'item__title' ),
+		date: __elt.element( 'item__date' ),
 	},
 
 };

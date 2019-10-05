@@ -423,5 +423,4 @@ function comet_parse_ids( $entry ){
   return ( count( $nids ) < 1 ? false : $nids );
 
 }
-
 ?>

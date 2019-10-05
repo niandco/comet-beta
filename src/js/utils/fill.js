@@ -132,6 +132,22 @@ export function xtrim( entry ){
 
 }
 
+
+
+export function jsonDecode( str ){
+	var j;
+
+	try {
+		j = JSON.parse( str );
+
+	} catch( e ){
+		return false;
+
+	}
+	return j;
+
+}
+
 /**
 * Returns the JSON representation of a value.
 *
@@ -398,5 +414,66 @@ export function extend( out ){
 		
 	}
 	return out;
+
+}
+
+/**
+* Translates and retrieves the singular or plural form based on the supplied number.
+*
+* Used when you want to use the appropriate form of a string based on whether a number is singular or plural.
+*
+* @param {string}		single	The text to be used if the number is singular.
+* @param {string}		plural	The text to be used if the number is plural.
+* @param {int|float}	nb		The number to compare against to use either the singular or plural form.
+*
+* @return {string} The translated singular or plural form.
+*/
+export function i18n_n( single, plural, nb ){
+	var str;
+
+	if( !isString( single ) && !isString( plural ) ){
+		return '';
+
+	}
+	str = nb === 1 ? single : plural;
+
+	return str.replace( /\%d/g, nb );
+
+}
+
+export function timeSince( date ){
+	const _date = new Date( date );
+	const seconds = Math.floor( ( new Date() - _date ) / 1000 );
+	var interval = Math.floor( seconds / 31536000 );
+
+	if( interval > 1 ){
+		return interval + " years";
+
+	}
+	interval = Math.floor( seconds / 2592000 );
+
+	if( interval > 1 ){
+		return interval + " months";
+
+	}
+	interval = Math.floor( seconds / 86400 );
+
+	if( interval > 1 ){
+		return interval + " days";
+
+	}
+	interval = Math.floor( seconds / 3600 );
+
+	if( interval > 1 ){
+		return interval + " hours";
+
+	}
+	interval = Math.floor( seconds / 60 );
+
+	if( interval > 1 ){
+		return interval + " minutes";
+
+	}
+	return Math.floor( seconds ) + " seconds";
 
 }

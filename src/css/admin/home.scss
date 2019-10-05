@@ -1,12 +1,15 @@
 @import '../utils/mixins';
 @import '../utils/colors';
 
-.comet-page--main {
+.comet-dashboard{
 
-	&__content {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
+	&--home {
+
+		&__content {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: flex-start;
+		}
 
 		&__column {
 			flex-basis: 50%;
@@ -22,6 +25,7 @@
 			&--c2 { padding-right: 20px; }
 
 		}
+
 	}
 
 	&__widget {
@@ -46,23 +50,28 @@
 
 		&--learn {
 
-			&__item {
+			&__url {
 				margin: 0 0 10px;
+				background: white;
+				color: getColor( bright50 );
+				display: block;
+				padding: 10px;
+				@include border_radius( 5px );
 
-				&__url {
-					background: white;
-					color: getColor( bright50 );
-					display: block;
-					padding: 10px;
-					@include border_radius( 5px );
-
-					&:hover, &:active {
-						color: getColor( blue50 );
-						text-decoration: none;
-						@include box_shadow( 0 0 5px 0 getColor( bright70 ) );
-					}
+				&:hover, &:active {
+					color: getColor( blue50 );
+					text-decoration: none;
+					@include box_shadow( 0 0 5px 0 getColor( bright70 ) );
 				}
 			}
+
+			&__title {
+				display: block;
+				font-size: 16px;
+				font-weight: 600;
+
+			}
+
 		}
 
 		&--docs {
@@ -101,6 +110,8 @@
 
 				$slide: #{&};
 
+				&--active { display: flex; }
+
 				&__counter {
 
 					span {
@@ -124,8 +135,7 @@
 
 				}
 
-				&--start {
-					display: flex;
+				&--s0 {
 
 					h4 { font-size: 30px; }
 

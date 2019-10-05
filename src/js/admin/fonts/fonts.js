@@ -19,6 +19,18 @@ const CORE = {
 
 export default class Fonts {
 
+	reset(){
+		CORE.collection = [];
+		CORE.counter = false;
+		CORE.loadInfo = false;
+		CORE.frame = null;
+		CORE.fontsBox = null;
+		CORE.modal = false;
+		CORE.isImporting = false;
+		CORE.isDeleting = false;
+
+	}
+
 	setFrameUiOnce( entry ){
 		return __F( CORE ).setDefault( 'frame', entry );
 

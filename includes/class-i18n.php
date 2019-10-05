@@ -245,21 +245,25 @@ class Comet_i18n {
 	private function admin(){
 
 		$this->add( 'ui', [
+			'edit'			=> __( 'Edit', 'comet' ),
 			'download'		=> __( 'Download', 'comet' ),
 			'import'		=> __( 'Import', 'comet' ),
 			'export'		=> __( 'Export', 'comet' ),
 			'create'		=> __( 'Create', 'comet' ),
-			'delTemplate'	=> __( 'Delete template', 'comet' ),
-			'expTemplate'	=> __( 'Export template', 'comet' ),
-			'impTemplate' 	=> __( 'Import template', 'comet' ),
 			'selFonts'		=> __( 'Select fonts', 'comet' ),
 			'fonts'			=> __( 'Fonts', 'comet' ),
-			'newTemplate'	=> __( 'Create new template', 'comet' ),
 			'addFont'		=> __( 'Add new font', 'comet' ),
 			'finish'		=> __( 'Finish downloading', 'comet' ),
+			'template'		=> [
+				'template'	=> __( '%d template', 'comet' ),
+				'templates'	=> __( '%d templates', 'comet' ),
+				'new'		=> __( 'Create new template', 'comet' ),
+				'import'	=> __( 'Import templates', 'comet' ),
+				'preview'	=> __( 'Preview', 'comet' ),
+			],
 			'nFont'			=> [
-				'font'	=> __( '%s font', 'comet' ),
-				'fonts'	=> __( '%s fonts', 'comet' ),
+				'font'	=> __( '%d font', 'comet' ),
+				'fonts'	=> __( '%d fonts', 'comet' ),
 			],
 			'custom'		=> __( 'Custom', 'comet' ),
 			'resource'		=> __( 'Resource type', 'comet' ),

@@ -21,10 +21,9 @@ function comet_get_rediction_url( $post_type ){
 }
 
 function comet_die( $message = false, $title = '' ){
-  $die = '\Comet\Admin\Comet_Die';
-  $file = 'class-die.php';
+  $path = COMET_PATH;
 
-  if( !( $die = comet_requires( $die, $file ) ) || !( $_die = new $die( $message, $title ) ) || !( $_die instanceof $die ) ){
+  if( !( $die = comet_requires( '\Comet\Admin\Comet_Die', "{$path}admin/class-die.php" ) ) || !( $_die = new $die( $message, $title ) ) || !( $_die instanceof $die ) ){
     exit;
 
   }
@@ -106,6 +105,33 @@ function comet_inline_style( $style ){
 
   }
   echo '<style type="text/css">' . strip_tags( $style ) . '</style>' . "\r\n";
+
+}
+
+function comet_get_page( $slug ){
+  $path = COMET_PATH;
+
+  if( !current_user_can( 'edit_posts' )  ){
+    return false;
+
+  }
+
+  if( !( $Pages = comet_autoload( '\Comet\Admin\Comet_Pages2', "{$path}admin/class-pages2.php" ) ) ){
+    return false;
+
+  }
+
+  if( !method_exists( $Pages, 'get_page' ) ){
+    return false;
+
+  }
+  return $Pages->get_page( $slug );
+
+}
+
+function comet_get_page_response( $slug ){
+
+  return !( $page = comet_get_page( $slug ) ) || !is_callable( $page['callback'] ) ? false : json_encode( $page['callback']() );
 
 }
 ?>
