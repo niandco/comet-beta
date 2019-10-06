@@ -1,6 +1,6 @@
 import { jsonEncode, jsonDecode, stripTags, encodeChars } from '../../utils/fill.js';
 import { isNode, isString, isObject, isArray } from '../../utils/is.js';
-/*import { addQueryArgs } from '../utils/url.js';*/
+import { addQueryArgs } from '../../utils/url.js';
 
 import message from '../../utils/message.js';
 import Modal from '../../utils/modal.js';
