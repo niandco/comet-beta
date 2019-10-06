@@ -1,18 +1,28 @@
-import { escUrl, extend, jsonDecode } from '../../utils/fill.js';
-import { isObject, isString } from '../../utils/is.js';
+import { isObject, isString, isFunction } from '../../utils/is.js';
+import { escUrl, jsonDecode } from '../../utils/fill.js';
 import { ClassName } from '../../utils/className.js';
 import { getParameters } from '../../utils/url.js';
 import { __class, __default } from './classes.js';
 import Node from '../../dom/element.js';
 import Ajax from '../../utils/ajax.js';
 import Sidebar from './sidebar.js';
-import Pages from './pages.js';
+
+import mytemplates from '../templates/index.js';
+import settings from '../settings/index.js';
+import myfonts from '../fonts/index.js';
+import home from '../home/index.js';
 
 const DOCUMENT = document;
 
 const WINDOW = window;
 
-const PAGES = new Pages();
+const PAGES = {
+	home,
+	settings,
+	myfonts,
+	mytemplates
+
+};
 
 export default class Interface extends Sidebar {
 
@@ -33,132 +43,176 @@ export default class Interface extends Sidebar {
 
 	}
 
+	setPage ( slug, title ){
+		DOCUMENT.body.className = __default.combineWith( [ __default.modifier( slug )] );
+		DOCUMENT.title = 'Comet > ' + title;
+
+	}
+
 	load ( ev, ui, request ){
 		var h;
 
 		ev.preventDefault();
 
+		request.self.renderLoading();
+
 		if( request.self.page === request.page.slug ){
+			request.self.renderError();
 			return;
 
 		}
 		h = WINDOW.history;
 		h.pushState( { rq: request.page.slug }, request.page.page_title, request.page.url );
 		request.self.page = request.page.slug;
-		request.self.render( request.page );
+		request.self.renderPage( request.page );
 
 	}
 
-	render ( data ){
-		const H = WINDOW.history;
-		const FRAGMENT = DOCUMENT.createDocumentFragment();
-		const HEADER = DOCUMENT.createElement( 'header' );
-		const SECTION = DOCUMENT.createElement( 'section' );
+	renderPage ( data ){
+		const self = this;
+
+		if( !isObject( data ) || !( this.pageExists( data.slug ) ) ){
+			this.renderError();
+			return;
+
+		}
+
+		Ajax({
+			do: 'page',
+			id: data.slug
+		})
+		.done(function( response ){
+			self.onDone( data, response );
+
+		});
+
+	}
+
+	onDone ( data, response ){
 		const C = {
 			column: ClassName( __class.header.column ),
 			item: ClassName( __class.header.item )
 		};
-		var title = 'Comet > ';
-		var error = false;
 		var a = 0;
-		var in__h, in__s;
+		var P, frag, header, section, inner;
 
-		FRAGMENT.appendChild( HEADER );
-		FRAGMENT.appendChild( SECTION );
 
-		if( !isObject( data ) ){
-			error = data;
-
-			data = {
-				slug: 'error',
-				page_title: 'Error ' + error, // translate
-			};
-
-		}
-		in__h = '<div class="' + C.column.combineWith( [ C.column.modifier( 'c1' ) ] ) + '">';
-		in__h += '<a href="#" class="' + C.item.combineWith( [ __class.sidebar.toggle, 'comet-button', 'comet-button--circle', 'comet-button--has-icon' ] ) + '">';
-		in__h += '<span class="comet-button__icon cico cico-comet"></span>';
-		in__h += '</a>';
-		in__h += '</div>';
-
-		in__h += '<div class="' + C.column.combineWith( [ C.column.modifier( 'c2' ) ] ) + '">';
-		in__h += '<h1 class="' + __class.header.item + '">' + data.page_title + '</h1>';
-		in__h += '</div>';
-
-		in__h += '<div class="' + C.column.combineWith( [ C.column.modifier( 'c3' ) ] ) + '">';
-		in__h += '<div class="' + ClassName( 'comet-tooltip' ).combineWith( [ __class.tooltip.default ] ) + '">';
-		in__h += '<a href="#" class="' + C.item.combineWith( [ 'comet-button', 'comet-button--circle', 'comet-button--has-icon' ] ) + '">';
-		in__h += '<span class="comet-button__icon cico cico-question"></span>';
-		in__h += '</a>';
-
-		in__h += '<div class="comet-tooltip__main comet-tooltip__main--right">'
-		in__h += '<h4 class="' + __class.tooltip.title + '">' + __cometdata.help.title + '</h4>';
-		in__h += '<p class="' + __class.tooltip.content + '"></p>';
-		in__h += '<div class="' + __class.tooltip.buttonset + '">';
-
-		for( a; a < __cometdata.help.links.length; a++ ){
-			in__h += '<a class="' + __class.tooltip.button + '" href="' + escUrl( __cometdata.help.links[a].url ) + '" target="_blank">';
-			in__h += __cometdata.help.links[a].title;
-			in__h += '<span class="cico cico-arrow-right"></span>';
-			in__h += '</a>';
-
-		}
-		in__h += '</div>';
-		in__h += '</div>';
-		in__h += '</div>';
-		in__h += '</div>';
-
-		DOCUMENT.body.className = __default.combineWith( [ __default.modifier( this.page )] );
-		DOCUMENT.title = title + data.page_title;
-
-		HEADER.className = __class.header.default;
-		HEADER.innerHTML = in__h;
-		Node( HEADER.firstChild.firstChild ).on( 'click', this.toggle, this );
-
-		SECTION.className = __class.main;
-		SECTION.innerHTML = '<div class="' + __class.content + '"></div>';
-
-		const self = this;
-
-		if( !error ){
-			Ajax({
-				do: 'page',
-				id: data.slug
-			})
-			.done(function( response ){
-
-				if( !( response = jsonDecode( response ) ) ){
-					return;
-
-				}
-				SECTION.firstChild.appendChild( PAGES.getPage( data.slug, response ) );
-				self.setInnerContent( FRAGMENT );
-
-			});
+		if( !( response = jsonDecode( response ) ) || !( P = this.getPage( data.slug, response ) ) ){
+			this.renderError();
 			return;
 
 		}
-		SECTION.firstChild.innerHTML = '<div>Error ' + error + '</div>';
-		this.setInnerContent( FRAGMENT );
+		frag = DOCUMENT.createDocumentFragment();
+		header = DOCUMENT.createElement( 'header' );
+		section = DOCUMENT.createElement( 'section' );
+
+		frag.appendChild( header );
+		frag.appendChild( section );
+
+		inner = '<div class="' + C.column.combineWith( [ C.column.modifier( 'c1' ) ] ) + '">';
+		inner += '<a href="#" class="' + C.item.combineWith( [ __class.sidebar.toggle, 'comet-button', 'comet-button--circle', 'comet-button--has-icon' ] ) + '">';
+		inner += '<span class="comet-button__icon cico cico-comet"></span>';
+		inner += '</a>';
+		inner += '</div>';
+
+		inner += '<div class="' + C.column.combineWith( [ C.column.modifier( 'c2' ) ] ) + '">';
+		inner += '<h1 class="' + __class.header.item + '">' + data.page_title + '</h1>';
+		inner += '</div>';
+
+		inner += '<div class="' + C.column.combineWith( [ C.column.modifier( 'c3' ) ] ) + '">';
+		inner += '<div class="' + ClassName( 'comet-tooltip' ).combineWith( [ __class.tooltip.default ] ) + '">';
+		inner += '<a href="#" class="' + C.item.combineWith( [ 'comet-button', 'comet-button--circle', 'comet-button--has-icon' ] ) + '">';
+		inner += '<span class="comet-button__icon cico cico-question"></span>';
+		inner += '</a>';
+
+		inner += '<div class="comet-tooltip__main comet-tooltip__main--right">'
+		inner += '<h4 class="' + __class.tooltip.title + '">' + __cometdata.help.title + '</h4>';
+		inner += '<p class="' + __class.tooltip.content + '"></p>';
+		inner += '<div class="' + __class.tooltip.buttonset + '">';
+
+		for( a; a < __cometdata.help.links.length; a++ ){
+			inner += '<a class="' + __class.tooltip.button + '" href="' + escUrl( __cometdata.help.links[a].url ) + '" target="_blank">';
+			inner += __cometdata.help.links[a].title;
+			inner += '<span class="cico cico-arrow-right"></span>';
+			inner += '</a>';
+
+		}
+		inner += '</div>';
+		inner += '</div>';
+		inner += '</div>';
+		inner += '</div>';
+
+		header.className = __class.header.default;
+		header.innerHTML = inner;
+		Node( header.firstChild.firstChild ).on( 'click', this.toggle, this );
+
+		section.className = __class.main;
+		section.innerHTML = '<div class="' + __class.content + '"></div>';
+		section.firstChild.appendChild( P );
+		this.setPage( data.slug, data.page_title );
+		this.ui.content.innerHTML = '';
+		this.ui.content.appendChild( frag );
 
 	}
 
-	setInnerContent ( fragment ){
-		this.ui.content.innerHTML = '';
-		this.ui.content.appendChild( fragment );
+	renderError (){
+		var inner;
+
+		inner = '<div class="comet-dashboard--error__wrap">';
+		inner += '<div class="comet-dashboard--error__content">';
+		inner += '<h1>Error</h1>';
+		inner += '<p>Page not found or another error occured.</p>';
+		inner += '</div>';
+		inner += '</div>';
+		this.ui.content.innerHTML = inner;
+		this.setPage( 'error', 'Error' );
+
+	}
+
+	renderLoading (){
+		var inner;
+
+		inner = '<div class="comet-dashboard--loading__wrap">';
+		inner += '<div class="comet-dashboard--loading__content">';
+		inner += '<figure class="comet-dashboard--loading__figure">';
+		inner += '<span class="comet-dashboard--loading__spin cico cico-spin comet-spinner"></span>';
+		inner += '</figure>';
+		inner += '<h1 class="comet-dashboard--loading__aside">Please wait while loading.</h1>';
+		inner += '</div>';
+		inner += '</div>';
+		this.ui.content.innerHTML = inner;
+		this.setPage( 'loading', 'Loading' );
+
+	}
+
+
+	pageExists ( slug ){
+		return PAGES.hasOwnProperty( slug );
+
+	}
+
+	getPage ( slug, data ){
+		var Page;
+
+		if( !this.pageExists( slug ) || !isFunction( PAGES[slug] ) ){
+			return false;
+
+		}
+
+		if( !( Page = new PAGES[slug]( data ) ) || !( 'render' in Page ) ){
+			return false;
+
+		}
+		return Page.render();
 
 	}
 
 	content (){
-		var o = '';
+		this.ui.content = DOCUMENT.createElement( 'main' );
+		this.ui.content.className = __default.element( 'wrap' );
+		this.fragment.appendChild( this.ui.content );
 
-		const WRAP = DOCUMENT.createElement( 'main' );
-
-		this.fragment.appendChild( WRAP );
-		this.ui.content = WRAP;
-
-		WRAP.className = __default.element( 'wrap' );
-		WRAP.innerHTML = 'Please wait while loading';
+		this.renderLoading();
 
 	}
 
@@ -168,7 +222,7 @@ export default class Interface extends Sidebar {
 		this.page = ( current.page !== 'comet' ? 'error' : ( isString( current.rq ) ? current.rq : 'home' ) );
 		this.sidebar();
 		this.content();
-		this.render( !this.pages ? 500 : ( isObject( this.pages[this.page] ) ? this.pages[this.page] : 404 ) );
+		this.renderPage( !this.pages ? 500 : ( isObject( this.pages[this.page] ) ? this.pages[this.page] : 404 ) );
 
 		DOCUMENT.body.appendChild( this.fragment );
 

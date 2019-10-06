@@ -254,8 +254,11 @@ export default class Template {
 	}
 
 	preview( ev, ui, self ){
-		const url = isString( ui.href ) ? ( stripTags( ui.href ) ).trim() : false;
+		var url = __cometdata.admin_url;
 		var inner = '<div>';
+
+		url += 'admin.php';
+		url = addQueryArgs( { page: 'comet', preview: self.data.ID }, url );
 
 		ev.preventDefault();
 

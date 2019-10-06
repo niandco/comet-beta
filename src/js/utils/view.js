@@ -62,7 +62,7 @@ const CORE = {
 	},
 
 	initialize: function( response ){
-		const GLOBAL = GLOBAL();
+		const GLOBAL = Global();
 		const DATATYPES = [ 'post', 'settings', 'svgSets' ];
 		const DATA = parseJson( response );
 		var n = 0;

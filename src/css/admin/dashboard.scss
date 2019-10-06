@@ -7,6 +7,47 @@
 	overflow: hidden;
 	height: 100%;
 
+	%baseWrap {
+		height: calc( 100% - 40px );
+		width: calc( 100% - 40px );
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 20px;
+	}
+
+	&--loading {
+
+		&__wrap { @extend %baseWrap; }
+
+		&__content {
+			flex-basis: 500px;
+			width: 500px;
+			text-align: center;
+		}
+
+		&__figure {
+			padding: 20px;
+			display: inline-block;
+
+		}
+
+		&__spin {
+			font-size: 40px;
+			width: 40px;
+			height: 40px;
+		}
+
+		&__aside {
+			font-size: 17px;
+			text-align: center;
+
+		}
+
+	}
+
+	&--error__wrap { @extend %baseWrap; }
+
 	&__sidebar {
 		flex-basis: 250px;
 		width: 250px;
