@@ -13,7 +13,7 @@
     "gulp-eslint": ">=6.0.0",
     "gulp-sass": ">=4.0.2",
     "vinyl-named": ">=1.1.0",
-    "webpack-stream": ">=5.2.1"
+    "webpack-stream": ">=7.0.0"
   },
   "dependencies": {},
   "repository": {
